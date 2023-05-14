@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import RegiStart from '../components/roomRegiser/registerStep0/RegiStart'
 import RegisterStepOneStart from '../components/roomRegiser/registerStep1/RegisterStepOneStart'
@@ -16,13 +16,21 @@ function Register() {
     const [prevBtnDisable, setPrevBtnDisable] = useState(false)
     const [nextBtnDisable, setNextBtnDisable] = useState(false)
     const [step, setStep] = useState(0)
-    
+    const [btnState, setBtnState] = useState(
+        {
+            prevBtnIsVisible : false,
+            nextBtnIsVisible : false,
+            startBtnIsVisible : true,
+        }
+    )
     const prevStepBtnOnClickEvent = () => {
-        if(prevBtnDisable){
-
+        if(!prevBtnDisable){
+            if(step!==0){
+                setStep(step-1)
+            }
         }
     }
-        
+
     const nextStepBtnOnClickEvent = () => {
         if(!nextBtnDisable){
             if(step!==12){
@@ -30,6 +38,32 @@ function Register() {
             }
         }
     }
+
+    const startBtnOnClickEvent = () => {
+        if(step === 0 ){
+            setStep(step+1)
+
+        }
+        if(step === 12){
+            alert("저장")
+        }
+    }
+
+    useEffect(()=>{
+        if(step === 0 || step === 12){
+            setBtnState({...btnState, ...{
+                prevBtnIsVisible : false,
+                nextBtnIsVisible : false,
+                startBtnIsVisible : true,
+            }})
+        }else{
+            setBtnState({...btnState, ...{
+                prevBtnIsVisible : true,
+                nextBtnIsVisible : true,
+                startBtnIsVisible : false,
+            }})
+        }
+    },[step])
 
     return (
         <>
@@ -41,7 +75,7 @@ function Register() {
                     </span>
                 </div>
             </RegiHeader>
-            
+            step{step}
             <RegiContent>
                 {step===0?<RegiStart/>:<></>}
                 
@@ -66,21 +100,21 @@ function Register() {
             {/* 등록프로그래스바 */}
             <ProcessBarWrap>
                 <Progress>
+                    <ProgressValue step={step} ></ProgressValue>
+                </Progress>
+                {/* <Progress>
                     <ProgressValue></ProgressValue>
                 </Progress>
                 <Progress>
                     <ProgressValue></ProgressValue>
-                </Progress>
-                <Progress>
-                    <ProgressValue></ProgressValue>
-                </Progress>
+                </Progress> */}
             </ProcessBarWrap>
             {/* 버튼영역 */}
             <RegiButtons>
                 <RegiButtonsCanvars>
-                    <StepBtnPrev onClick={prevStepBtnOnClickEvent}>뒤로</StepBtnPrev>
-                    <StepBtnNext onClick={nextStepBtnOnClickEvent}>다음</StepBtnNext>
-                    <StepBtnStart>시작하기</StepBtnStart>
+                    <StepBtnPrev isVisible={btnState.prevBtnIsVisible} isDisabled={prevBtnDisable} onClick={prevStepBtnOnClickEvent}>뒤로</StepBtnPrev>
+                    <StepBtnNext isVisible={btnState.nextBtnIsVisible} isDisabled={prevBtnDisable} onClick={nextStepBtnOnClickEvent}>다음</StepBtnNext>
+                    <StepBtnStart isVisible={btnState.startBtnIsVisible} onClick={startBtnOnClickEvent}>시작하기</StepBtnStart>
                 </RegiButtonsCanvars>
             </RegiButtons> 
             </RegiFooter> 
@@ -134,7 +168,9 @@ export const ProgressValue = styled.div`
     background-color : #000000;
     border-radius: 0px;
     flex-grow: 1;
-    width: 10%;
+    
+    transition : width 1s ease;
+    width: ${(props) => ( ((100/12)*props.step))+'%'};
 `
 //버튼
 export const RegiButtonsCanvars = styled.div`
@@ -142,10 +178,7 @@ export const RegiButtonsCanvars = styled.div`
     width: 100%;
     margin-left: 1vh;
     margin-right : 1vh;
-    /* 버튼 한개일때 */
-    justify-content: flex-end;
-    /* 버튼 두개일때 */
-    /* justify-content: space-between; */
+    justify-content: space-between;
     
 `
 export const RegiButtons = styled.div`
@@ -191,6 +224,8 @@ export const StepBtnPrev = styled.button`
     background: var(---pc-g-v-g);
     transform: scale(0.96);
     }
+    visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
+
 `
 export const StepBtnNext = styled.button`
     padding-left: 32px !important;
@@ -229,12 +264,14 @@ export const StepBtnNext = styled.button`
     background: var(--bgxgx) !important;
     color: var(--f-mkcy-f) !important;
     }
+
+    visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
 `
 export const StepBtnStart = styled.button`
     padding-left: 32px !important;
     padding-right: 32px !important;
     cursor: pointer !important;
-    display: inline-block !important;
+    display: inline-block;
     margin: 0px !important;
     position: relative !important;
     text-align: center !important;
@@ -265,6 +302,7 @@ export const StepBtnStart = styled.button`
     background: var(--ihf-tp-q) !important;
     color: var(--f-mkcy-f) !important;
     }
+    display: ${(props) => (props.isVisible ? "inline-block" : "none")};
 `
 export const StepBtnEnd = styled.button`
     
