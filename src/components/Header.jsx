@@ -8,12 +8,12 @@ import SearchButton from "./SearchButton";
 function Header(props) {
     return (
     <>
-    <SearchButton>
+    <SearchButton/>
+    <Container>
     <Stheader>
       <img src={WherebnbLogo} alt="" width={100} />
       <StSidebarBtn>당신의 공간을 웨어비앤비하세요</StSidebarBtn>
       <StSearchBtnbox>
-        <StSearchText>어디든지</StSearchText>
         <StSearchTextb>언제든 일주일</StSearchTextb>
         <StSearchTextc>게스트 추가</StSearchTextc>
         <StSearchBtn>
@@ -30,18 +30,23 @@ function Header(props) {
       </StEtcBtn>
       </StTextbox>
     </Stheader>
+    </Container>
 
-    </SearchButton>
+
     </>
   );
 }
 
 export default Header;
 
+const Container = styled.div`
+  height: 160px;
+`
+
 const Stheader = styled.div`
   height: 80px;
   width: 100%;
-  border: 0.7px solid #dedede;
+  /* border: 0.7px solid #dedede; */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -49,7 +54,7 @@ const Stheader = styled.div`
 `;
 
 const StSearchBtnbox = styled.button`
-  width: 285px;
+  width: 225px;
   height: 42px;
   border-radius: 21px;
   border: none;
@@ -116,7 +121,6 @@ const StSearchText = styled.div`
 const StSearchTextb = styled.div`
   padding-inline: 11px;
   font-size: 13px;
-  border-left: 1px solid #e3e3e3;
   border-right: 1px solid #e3e3e3;
 `;
 const StSearchTextc = styled.div`
