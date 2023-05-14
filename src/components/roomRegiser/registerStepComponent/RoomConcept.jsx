@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import keywordLogo00 from "../../assets/keywordLogo00.jpeg"
-import keywordLogo01 from "../../assets/keywordLogo01.jpeg"
-import keywordLogo02 from "../../assets/keywordLogo02.jpeg"
-import keywordLogo03 from "../../assets/keywordLogo03.jpeg"
-import keywordLogo04 from "../../assets/keywordLogo04.jpeg"
-import keywordLogo05 from "../../assets/keywordLogo05.jpeg"
+import keywordLogo00 from "../../../assets/keywordLogo00.jpeg"
+import keywordLogo01 from "../../../assets/keywordLogo01.jpeg"
+import keywordLogo02 from "../../../assets/keywordLogo02.jpeg"
+import keywordLogo03 from "../../../assets/keywordLogo03.jpeg"
+import keywordLogo04 from "../../../assets/keywordLogo04.jpeg"
+import keywordLogo05 from "../../../assets/keywordLogo05.jpeg"
 import { styled } from 'styled-components';
 
 function RoomConcept(props) {

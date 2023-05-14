@@ -7,7 +7,7 @@ import { createPortal } from "react-dom";
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
-import RoomInfo from "./roomRegiser/RoomInfo";
+import RoomInfo from "../components/roomRegiser/registerStepComponent/RoomInfo";
 import { useRef } from "react";
 
 function SearchButton({ onClose }) {

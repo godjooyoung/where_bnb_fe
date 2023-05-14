@@ -1,12 +1,12 @@
 import React from 'react';
-import DragDrop from '../components/roomRegiser/DragDrop';
-import RoomLocationInput from '../components/roomRegiser/RoomLocationInput';
-import RoomInfo from '../components/roomRegiser/RoomInfo';
-import RoomRegiTitle from '../components/roomRegiser/RoomRegiTitle'
-import RoomConcept from '../components/roomRegiser/RoomConcept';
-import RoomName from '../components/roomRegiser/RoomName';
-import RoomDesc from '../components/roomRegiser/RomeDesc';
-import RoomCost from '../components/roomRegiser/RoomCost';
+import DragDrop from '../components/roomRegiser/registerStepComponent/DragDrop';
+import RoomLocationInput from '../components/roomRegiser/registerStepComponent/RoomLocationInput';
+import RoomInfo from '../components/roomRegiser/registerStepComponent/RoomInfo';
+import RoomRegiTitle from '../components/roomRegiser/registerStepComponent/RoomRegiTitle'
+import RoomConcept from '../components/roomRegiser/registerStepComponent/RoomConcept';
+import RoomName from '../components/roomRegiser/registerStepComponent/RoomName';
+import RoomDesc from '../components/roomRegiser/registerStepComponent/RomeDesc';
+import RoomCost from '../components/roomRegiser/registerStepComponent/RoomCost';
 function Test() {
     return (
         <>

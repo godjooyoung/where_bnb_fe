@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from 'styled-components';
+import RegiStart from '../components/roomRegiser/registerStep0/RegiStart'
+import RegisterStepOneStart from '../components/roomRegiser/registerStep1/RegisterStepOneStart'
+import RegisterStepTwoStart from '../components/roomRegiser/registerStep2/RegisterStepTwoStart'
+import RegisterStepThrStart from '../components/roomRegiser/registerStep3/RegisterStepThrStart'
+import LocationRegistrationStep from '../components/roomRegiser/registerStep1/LocationRegistrationStep'
+import RoomCapacitySelectionStep from '../components/roomRegiser/registerStep1/RoomCapacitySelectionStep'
+import RoomPhotoUploadStep from '../components/roomRegiser/registerStep2/RoomPhotoUploadStep'
+import NameRegistrationStep from '../components/roomRegiser/registerStep2/NameRegistrationStep'
+import DescriptionRegistrationStep from '../components/roomRegiser/registerStep2/DescriptionRegistrationStep'
+import ConceptRegistrationStep from '../components/roomRegiser/registerStep3/ConceptRegistrationStep'
+import CostRegistrationStep from '../components/roomRegiser/registerStep3/CostRegistrationStep'
+function Register() {
+    const [nextBtnDisable, setNextBtnDisable] = useState(false)
+    const [step, setStep] = useState(0)
+    
+    const prevStepBtnOnClickEvent = () => {
 
-import RoomPhotoUploadStep from '../components/roomRegiser/registerStep2/RoomPhotoUploadStep';
-function Test2(props) {
+    }    
+    const nextStepBtnOnClickEvent = () => {
+        if(!nextBtnDisable){
+            // 동작
+            setStep(step+1)
+        }
+    }
+
     return (
         <>
             {/* 등록헤더 */}
@@ -14,17 +36,35 @@ function Test2(props) {
                 </div>
             </RegiHeader>
             
-            {/* 내용 */}
             <RegiContent>
-                {/* <RegiStart/> */}
+                {step===0?<RegiStart/>:<></>}
+                
+                {step===1?<RegisterStepOneStart/>:<></>}
+                {step===2?<LocationRegistrationStep/>:<></>}
+                {step===3?<RoomCapacitySelectionStep/>:<></>}
+                
+                {step===4?<RegisterStepTwoStart/>:<></>}
+                {step===5?<RoomPhotoUploadStep/>:<></>}
+                {step===6?<NameRegistrationStep/>:<></>}
+                {step===7?<DescriptionRegistrationStep/>:<></>}
 
-                {/* <RegisterStepOwoStart/> */}
+                {step===8?<RegisterStepThrStart/>:<></>}
+                {step===9?<ConceptRegistrationStep/>:<></>}
+                {step===10?<CostRegistrationStep/>:<></>}
+                
+                {/* <RegisterStepOneStart/> */}
                 {/* <LocationRegistrationStep/> */}
                 {/* <RoomCapacitySelectionStep/> */}
                 
                 {/* <RegisterStepTwoStart/> */}
-                <RoomPhotoUploadStep/>
+                {/* <RoomPhotoUploadStep/> */}
+                {/* <NameRegistrationStep/> */}
+                {/* <DescriptionRegistrationStep/> */}
 
+                {/* <RegisterStepThrStart/> */}
+                {/* <ConceptRegistrationStep/> */}
+                {/* <CostRegistrationStep/> */}
+                
             </RegiContent>
             
             {/* 등록푸터 */}
@@ -44,8 +84,8 @@ function Test2(props) {
             {/* 버튼영역 */}
             <RegiButtons>
                 <RegiButtonsCanvars>
-                    {/* <StepBtnPrev>뒤로</StepBtnPrev> */}
-                    <StepBtnNext>다음</StepBtnNext>
+                    {/* <StepBtnPrev onClick={prevStepBtnOnClickEvent}>뒤로</StepBtnPrev> */}
+                    <StepBtnNext onClick={nextStepBtnOnClickEvent}>다음</StepBtnNext>
                     {/* <StepBtnStart>시작하기</StepBtnStart> */}
                     {/* <StepBtnEnd>시작하기</StepBtnEnd> */}
                 </RegiButtonsCanvars>
@@ -236,4 +276,4 @@ export const StepBtnStart = styled.button`
 export const StepBtnEnd = styled.button`
     
 `
-export default Test2;
+export default Register;

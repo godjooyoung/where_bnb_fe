@@ -1,27 +1,35 @@
 import React, { useState } from 'react';
-import { ReactComponent as ExclamationMark } from "../../assets/svg/exclamationMark.svg"
+import { ReactComponent as ExclamationMark } from "../../../assets/svg/exclamationMark.svg"
 import { styled } from 'styled-components';
-
-function RomeDesc(props) {
-    const [roomDesc, setRoomDesc] = useState('')
-    const roomDescOnchangeEventHandler = (e) => {
-        setRoomDesc(e.target.value)
+function RoomName(props) {
+    
+    const [roomName, setRoomName] = useState('')
+    const roomNameOnchangeEventHandler = (e) => {
+        setRoomName(e.target.value)
     }
     // 경고메세지 정규식
-    const warningMessages = ['500자까지 입력하실 수 있습니다.','숙소설명에 이모티콘을 포함하실 수 없습니다. 숙소 등록을 계속하려면 이모티콘을 삭제해주세요.']
+    const warningMessages = ['32자까지 입력하실 수 있습니다.','숙소이름에 연속된 특수문자를 입력할 수 없습니다.','보안을 위해 숙소이름에는 전화번호가 포함될 수 없습니다.','숙소이름에 이모티콘이 입력되면 안됩니다.']
     const [warningMessage, setWarningMessage] = useState('')
-    const roomDescKeyUpEventHandler = (e) => {
-        const regexOne = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g; //이모지 입력
+    const roomNameKeyUpEventHandler = (e) => {
+        const regexOne = /[!@#$%^&*(),.?":{}|<>]{2,}/g;// 특수문자 연속 입력
+        const regexTwo = /\d{10,}/g; //숫자 열자리연속 입력
+        const regexThr = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g; //이모지 입력
 
-        if(roomDesc.length > 500){
+        if(roomName.length > 32){
             setWarningMessage(warningMessages[0])
         }else{
             setWarningMessage('')
         }
-        if(regexOne.test(roomDesc)){
+        if(regexOne.test(roomName)){
             setWarningMessage(warningMessages[1])
         }
-        if(roomDesc.length === 0 ){
+        if(regexTwo.test(roomName)){
+            setWarningMessage(warningMessages[2])
+        }
+        if(regexThr.test(roomName)){
+            setWarningMessage(warningMessages[3])
+        }
+        if(roomName.length === 0 ){
             setWarningMessage('')
         }
     }
@@ -29,15 +37,15 @@ function RomeDesc(props) {
     return (
         <div>
             <div>
-                <TextareaDiv length={roomDesc.length}>
-                        <RoomNameTextarea onKeyUp={roomDescKeyUpEventHandler} onChange={roomDescOnchangeEventHandler} rows="7" autocomplete="off" value={roomDesc}></RoomNameTextarea>
+                <TextareaDiv length={roomName.length}>
+                        <RoomNameTextarea onKeyUp={roomNameKeyUpEventHandler} onChange={roomNameOnchangeEventHandler} rows="5" autocomplete="off" value={roomName}></RoomNameTextarea>
                 </TextareaDiv>
             </div>
 
             <InsertCheckerWrapDiv>
                 <TextAreaInsertCheckerDiv>
                     <span>
-                        {roomDesc.length}/500
+                        {roomName.length}/32
                     </span>
                 </TextAreaInsertCheckerDiv>
             </InsertCheckerWrapDiv>
@@ -52,7 +60,9 @@ function RomeDesc(props) {
             </TextAreaErrorMsgWrap>
         </div>
     );
+
 }
+
 
 // 텍스트에리어
 
@@ -145,5 +155,4 @@ export const ErrorSpan = styled.span`
     font-weight: var(--e-y-j-d-v-j);
 `
 
-
-export default RomeDesc;
+export default RoomName;
