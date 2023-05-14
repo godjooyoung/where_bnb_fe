@@ -4,8 +4,6 @@ import Header from "../components/Header";
 import Footer from "../components/Footer"
 import Main from "../pages/Main"
 import Login from "../pages/Login"
-import Test from "../pages/Test"
-import Test2 from "../pages/Test2"
 import Register from "../pages/Register";
 const Router = () => {
   return (
@@ -15,8 +13,6 @@ const Router = () => {
         <Routes>
           <Route path="/" element={<><Header/><Main /><Footer/></>} />
           <Route path="/login" element={<><Header/><Login /><Footer/></>} />
-          <Route path="/test" element={<><Header/><Test /><Footer/></>} />
-          <Route path="/test2" element={<Test2 />} />
           <Route path="/register" element={<Register />} />
         </Routes>
         
