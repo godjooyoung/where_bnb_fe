@@ -4,20 +4,18 @@ import Header from "../components/Header";
 import Footer from "../components/Footer"
 import Main from "../pages/Main"
 import Login from "../pages/Login"
-import Test from "../pages/Test"
-import Test2 from "../pages/Test2"
+import Register from "../pages/Register";
 const Router = () => {
   return (
     <BrowserRouter>
 
-        <Header></Header>
+        
         <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/test" element={<Test />} />
-          <Route path="/test2" element={<Test2 />} />
+          <Route path="/" element={<><Header/><Main /><Footer/></>} />
+          <Route path="/login" element={<><Header/><Login /><Footer/></>} />
+          <Route path="/register" element={<Register />} />
         </Routes>
-        <Footer></Footer>
+        
 
     </BrowserRouter>
 
