@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import WherebnbLogo from "../assets/WherebnbLogo.png";
 import { AiOutlineBell, AiOutlineMenu } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
@@ -6,33 +6,48 @@ import { styled } from "styled-components";
 import SearchButton from "./SearchButton";
 
 function Header(props) {
-    return (
+  const [search, setSearch] = useState(false);
+  console.log(search);
+  return (
     <>
-    <SearchButton/>
-    <Container>
-    <Stheader>
-      <img src={WherebnbLogo} alt="" width={100} />
-      <StSidebarBtn>당신의 공간을 웨어비앤비하세요</StSidebarBtn>
-      <StSearchBtnbox>
-        <StSearchTextb>언제든 일주일</StSearchTextb>
-        <StSearchTextc>게스트 추가</StSearchTextc>
-        <StSearchBtn>
-          <FaSearch />
-        </StSearchBtn>
-      </StSearchBtnbox>
-      <StTextbox>
-        <StText>Wherebnb님 환영합니다.</StText>
-        <StEtcBtn>
-          <AiOutlineBell />
-        </StEtcBtn>
-      <StEtcBtn>
-        <AiOutlineMenu />
-      </StEtcBtn>
-      </StTextbox>
-    </Stheader>
-    </Container>
-
-
+      <div>
+        {search && (
+          <SearchButton
+            onClose={() => {
+              setSearch(false);
+            }}
+          />
+        )}
+      </div>
+      <Container search={search}>
+        <Stheader>
+          <Stlogobox>
+            <img src={WherebnbLogo} alt="" width={100} height={17}/>
+            <StSidebarBtn>당신의 공간을 웨어비앤비하세요</StSidebarBtn>
+          </Stlogobox>
+          <StSearchBtnbox
+            search={search}
+            onClick={() => {
+              setSearch(true);
+            }}
+          >
+            <StSearchTextb>언제든 일주일</StSearchTextb>
+            <StSearchTextc>게스트 추가</StSearchTextc>
+            <StSearchBtn>
+              <FaSearch />
+            </StSearchBtn>
+          </StSearchBtnbox>
+          <StTextbox>
+            <StText>Wherebnb님 환영합니다.</StText>
+            <StEtcBtn>
+              <AiOutlineBell />
+            </StEtcBtn>
+            <StEtcBtn>
+              <AiOutlineMenu />
+            </StEtcBtn>
+          </StTextbox>
+        </Stheader>
+      </Container>
     </>
   );
 }
@@ -40,9 +55,8 @@ function Header(props) {
 export default Header;
 
 const Container = styled.div`
-  height: 160px;
-`
-
+  height: ${(props) => (props.search ? "125px" : "80px")};
+`;
 const Stheader = styled.div`
   height: 80px;
   width: 100%;
@@ -51,6 +65,7 @@ const Stheader = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 40px;
+
 `;
 
 const StSearchBtnbox = styled.button`
@@ -60,14 +75,15 @@ const StSearchBtnbox = styled.button`
   border: none;
   background-color: white;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  display: flex;
+  /* display: flex; */
   align-items: center;
   justify-content: center;
   margin-right: 190px;
   /* transform: translate(-100px); */
-  &:hover{
-    box-shadow: 0px 1.5px 5px rgba(0, 0, 0, 0.2);
+  display: ${(props) => (props.search ? "none" : "flex")};
 
+  &:hover {
+    box-shadow: 0px 1.5px 5px rgba(0, 0, 0, 0.2);
   }
 `;
 
@@ -77,13 +93,13 @@ const StEtcBtn = styled.button`
   border-radius: 18px;
   border: 1px solid lightgray;
   background-color: white;
-  &:hover{
+  &:hover {
     box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.2);
   }
 `;
 
 const StSidebarBtn = styled.button`
-    all: unset;
+  all: unset;
   font-size: 13px;
   width: 205.5px;
   height: 42px;
@@ -91,11 +107,10 @@ const StSidebarBtn = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: 21px;
-  margin-right: 100px;
   font-weight: 500;
   cursor: pointer;
 
-  &:hover{
+  &:hover {
     background-color: #f3f3f39c;
   }
 `;
@@ -129,10 +144,16 @@ const StSearchTextc = styled.div`
   color: #a8a8a8;
 `;
 const StTextbox = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    width: 280px;
-    /* transform: translateX(70px); */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 280px;
+  /* transform: translateX(70px); */
+`;
+const Stlogobox = styled.div`
+  display: flex;
+  align-items: center;
+  width: 470px;
+  gap: 50px;
 `

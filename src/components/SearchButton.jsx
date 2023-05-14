@@ -7,8 +7,10 @@ import { createPortal } from "react-dom";
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
+import RoomInfo from "./roomRegiser/RoomInfo";
+import { useRef } from "react";
 
-function SearchButton() {
+function SearchButton({ onClose }) {
   const [checkin, setCheckin] = useState(false);
   const [checkout, setCheckout] = useState(false);
   const [guest, setGuest] = useState(false);
@@ -20,28 +22,40 @@ function SearchButton() {
       key: "selection",
     },
   ]);
+  const outside = useRef();
 
   const checkinbuttonhandler = () => {
     setCheckin(true);
     setColor(true);
+    setCheckout(false);
+    setGuest(false);
   };
   const checkoutbuttonhandler = () => {
     setCheckout(true);
     setColor(true);
+    setCheckin(false);
+    setGuest(false);
   };
   const guestbuttonhandler = () => {
     setGuest(true);
     setColor(true);
+    setCheckin(false);
+    setCheckout(false);
   };
   return createPortal(
-    <ModalBG>
+    <ModalBG
+      ref={outside}
+      onClick={(event) => {
+        if (event.target === outside.current) onClose(false);
+      }}
+    >
       <Container>
         <StcontentBtn>
           <div>숙소</div>
           <div>체험</div>
           <div>온라인 체험</div>
         </StcontentBtn>
-        <StcateBtn color={color} >
+        <StcateBtn color={color}>
           <Stcheckin
             onClick={() => {
               checkinbuttonhandler();
@@ -114,9 +128,11 @@ function SearchButton() {
         <div>
           {guest ? (
             <Stguestbox>
-              <div>날짜 지정 월 단위 유연한 일정</div>
               <div>
-               
+                <RoomInfo initOptValue={1} optTitle="성인" type="counter" />
+                <RoomInfo initOptValue={1} optTitle="어린이" type="counter" />
+                <RoomInfo initOptValue={1} optTitle="유아" type="counter" />
+                <RoomInfo initOptValue={1} optTitle="반려동물" type="counter" />
               </div>
             </Stguestbox>
           ) : (
@@ -136,14 +152,14 @@ const ModalBG = styled.div`
   width: 100%;
   position: fixed;
   z-index: 999;
-  transform: translateY(160px);
+  transform: translateY(144px);
 `;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  transform: translateY(-160px);
+  transform: translateY(-144px);
 `;
 
 const StcontentBtn = styled.div`
@@ -155,7 +171,7 @@ const StcontentBtn = styled.div`
 `;
 const StcateBtn = styled.div`
   display: flex;
-  height: 66px;
+  height: 60px;
   width: 522px;
   align-items: center;
   justify-content: space-between;
@@ -184,7 +200,7 @@ const Stlocation = styled.button`
 `;
 const Stcheckin = styled.button`
   all: unset;
-  height: 66px;
+  height: 60px;
   width: 132px;
   border-radius: 33px;
   display: flex;
@@ -203,7 +219,7 @@ const Stcheckin = styled.button`
 `;
 const Stcheckout = styled.button`
   all: unset;
-  height: 66px;
+  height: 60px;
   width: 132px;
   border-radius: 33px;
   display: flex;
@@ -222,7 +238,7 @@ const Stcheckout = styled.button`
 `;
 const StGuest = styled.button`
   all: unset;
-  height: 66px;
+  height: 60px;
   width: 262px;
   border-radius: 33px;
   display: flex;
@@ -254,7 +270,7 @@ const StSearch = styled.div`
 `;
 
 const Stmapbox = styled.div`
-  margin-top: 12px;
+  margin-top: 4px;
   width: 750px;
   height: 449px;
   background-color: white;
@@ -264,7 +280,8 @@ const Stmapbox = styled.div`
 `;
 
 const Stguestbox = styled.div`
-  margin-top: 12px;
+  margin-top: 4px;
+  margin-left: 120px;
   width: 406px;
   height: 414px;
   background-color: white;
