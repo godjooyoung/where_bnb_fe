@@ -16,7 +16,15 @@ function Test2(props) {
             </RegiHader> 
 
             <ProcessBarWrap>
-                <div>프로세스바</div><div>프로세스바</div><div>프로세스바</div>
+                <Progress>
+                    <ProgressValue></ProgressValue>
+                </Progress>
+                <Progress>
+                    <ProgressValue></ProgressValue>
+                </Progress>
+                <Progress>
+                    <ProgressValue></ProgressValue>
+                </Progress>
             </ProcessBarWrap>
             <RegiFooter>
                 <button>뒤로</button>
@@ -31,12 +39,29 @@ export const RegiHader = styled.div`
     padding: 32px 48px 0px;
 `
 export const ProcessBarWrap = styled.div`
+    display: flex;
+    align-items: center;
     overflow-x: hidden;
+    height: 6px;
+    background-color: white;
+    border-radius: 0px;
+`
+export const Progress = styled.div`
+    overflow-x : hidden;
     height: 6px;
     background-color: #DDDDDD;
     border-radius: 0px;
+    flex-grow: 1;
+    margin-right: 3px;
 `
-
+export const ProgressValue = styled.div`
+    overflow-x: hidden;
+    height: 6px;
+    background-color : #000000;
+    border-radius: 0px;
+    flex-grow: 1;
+    width: 10%;
+`
 
 export const RegiFooter = styled.div`
     align-items: center;
