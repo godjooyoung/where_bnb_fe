@@ -4,9 +4,11 @@ import { AiOutlineBell, AiOutlineMenu } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
 import { styled } from "styled-components";
 import SearchButton from "./SearchButton";
+import Alarm from "./Alarm";
 
 function Header(props) {
   const [search, setSearch] = useState(false);
+  const [alarm, setAlarm] = useState(false)
   console.log(search);
   return (
     <>
@@ -15,6 +17,15 @@ function Header(props) {
           <SearchButton
             onClose={() => {
               setSearch(false);
+            }}
+          />
+        )}
+      </div>
+      <div>
+        {alarm && (
+          <Alarm
+          onAlarm={() => {
+              setAlarm(false);
             }}
           />
         )}
@@ -39,7 +50,9 @@ function Header(props) {
           </StSearchBtnbox>
           <StTextbox>
             <StText>Wherebnb님 환영합니다.</StText>
-            <StEtcBtn>
+            <StEtcBtn onClick={() => {
+              setAlarm(true);
+            }}>
               <AiOutlineBell />
             </StEtcBtn>
             <StEtcBtn>
@@ -55,12 +68,13 @@ function Header(props) {
 export default Header;
 
 const Container = styled.div`
-  height: ${(props) => (props.search ? "125px" : "80px")};
+  height: ${(props) => (props.search ? "145px" : "80px")};
+  border: 0.7px solid #dedede;
+
 `;
 const Stheader = styled.div`
   height: 80px;
   width: 100%;
-  /* border: 0.7px solid #dedede; */
   display: flex;
   align-items: center;
   justify-content: space-between;
