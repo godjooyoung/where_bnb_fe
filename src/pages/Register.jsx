@@ -12,16 +12,22 @@ import DescriptionRegistrationStep from '../components/roomRegiser/registerStep2
 import ConceptRegistrationStep from '../components/roomRegiser/registerStep3/ConceptRegistrationStep'
 import CostRegistrationStep from '../components/roomRegiser/registerStep3/CostRegistrationStep'
 function Register() {
+
+    const [prevBtnDisable, setPrevBtnDisable] = useState(false)
     const [nextBtnDisable, setNextBtnDisable] = useState(false)
     const [step, setStep] = useState(0)
     
     const prevStepBtnOnClickEvent = () => {
+        if(prevBtnDisable){
 
-    }    
+        }
+    }
+        
     const nextStepBtnOnClickEvent = () => {
         if(!nextBtnDisable){
-            // 동작
-            setStep(step+1)
+            if(step!==12){
+                setStep(step+1)
+            }
         }
     }
 
@@ -50,21 +56,9 @@ function Register() {
 
                 {step===8?<RegisterStepThrStart/>:<></>}
                 {step===9?<ConceptRegistrationStep/>:<></>}
-                {step===10?<CostRegistrationStep/>:<></>}
-                
-                {/* <RegisterStepOneStart/> */}
-                {/* <LocationRegistrationStep/> */}
-                {/* <RoomCapacitySelectionStep/> */}
-                
-                {/* <RegisterStepTwoStart/> */}
-                {/* <RoomPhotoUploadStep/> */}
-                {/* <NameRegistrationStep/> */}
-                {/* <DescriptionRegistrationStep/> */}
-
-                {/* <RegisterStepThrStart/> */}
-                {/* <ConceptRegistrationStep/> */}
-                {/* <CostRegistrationStep/> */}
-                
+                {step===10?<>달력...</>:<></>}
+                {step===11?<CostRegistrationStep/>:<></>}
+                {step===12?<div>엔딩</div>:<></>}
             </RegiContent>
             
             {/* 등록푸터 */}
@@ -84,10 +78,9 @@ function Register() {
             {/* 버튼영역 */}
             <RegiButtons>
                 <RegiButtonsCanvars>
-                    {/* <StepBtnPrev onClick={prevStepBtnOnClickEvent}>뒤로</StepBtnPrev> */}
+                    <StepBtnPrev onClick={prevStepBtnOnClickEvent}>뒤로</StepBtnPrev>
                     <StepBtnNext onClick={nextStepBtnOnClickEvent}>다음</StepBtnNext>
-                    {/* <StepBtnStart>시작하기</StepBtnStart> */}
-                    {/* <StepBtnEnd>시작하기</StepBtnEnd> */}
+                    <StepBtnStart>시작하기</StepBtnStart>
                 </RegiButtonsCanvars>
             </RegiButtons> 
             </RegiFooter> 
