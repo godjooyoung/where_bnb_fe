@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { styled } from 'styled-components';
 
-function RegisterStepOneStart() {
+function RegisterStepOneStart(props) {
+    
+    useEffect(()=>{
+        props.getStepIsDone(true)
+    },[])
+    
     return (
         <StepInfoWrap>
             <StepInfo>

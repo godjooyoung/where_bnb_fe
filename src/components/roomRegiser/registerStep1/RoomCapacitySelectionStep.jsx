@@ -1,8 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import RoomRegiTitle from '../registerStepComponent/RoomRegiTitle';
 import RoomInfo from '../registerStepComponent/RoomInfo';
 import { styled } from 'styled-components';
 function RoomCapacitySelectionStep(props) {
+    
+    useEffect(()=>{
+        props.getStepIsDone(true)
+    },[])
+
     return (
         <StepDiv>
         <StepWrapDiv>

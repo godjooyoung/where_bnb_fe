@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { DateRange } from "react-date-range";
 import ko from 'date-fns/locale/ko'

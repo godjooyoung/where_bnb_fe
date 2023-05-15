@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { styled } from 'styled-components';
 
 function RegiStart(props) {
+    useEffect(()=>{
+        props.getStepIsDone(true)
+    },[])
+
     const steps = [
     {
         title : '숙소 정보를 알려 주세요.',

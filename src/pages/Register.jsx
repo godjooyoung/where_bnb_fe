@@ -18,6 +18,8 @@ function Register() {
     const [prevBtnDisable, setPrevBtnDisable] = useState(false)
     const [nextBtnDisable, setNextBtnDisable] = useState(false)
     const [step, setStep] = useState(0)
+    
+    // 버튼 visible 여부
     const [btnState, setBtnState] = useState(
         {
             prevBtnIsVisible : false,
@@ -31,6 +33,7 @@ function Register() {
     const getStepIsDone = (x) => {
         setStepIsDone(x)
     }    
+    
     useEffect(()=>{
         console.log("!!!! 자식에서 올려줌", stepIsDone)
     },[stepIsDone])
@@ -92,21 +95,21 @@ function Register() {
             </RegiHeader>
             step{step}
             <RegiContent>
-                {step===0?<RegiStart/>:<></>}
+                {step===0?<RegiStart getStepIsDone={getStepIsDone}/>:<></>}
                 
-                {step===1?<RegisterStepOneStart/>:<></>}
+                {step===1?<RegisterStepOneStart getStepIsDone={getStepIsDone}/>:<></>}
                 {step===2?<LocationRegistrationStep getStepIsDone={getStepIsDone}/>:<></>}
-                {step===3?<RoomCapacitySelectionStep/>:<></>}
+                {step===3?<RoomCapacitySelectionStep getStepIsDone={getStepIsDone}/>:<></>}
                 
-                {step===4?<RegisterStepTwoStart/>:<></>}
-                {step===5?<RoomPhotoUploadStep/>:<></>}
-                {step===6?<NameRegistrationStep/>:<></>}
-                {step===7?<DescriptionRegistrationStep/>:<></>}
+                {step===4?<RegisterStepTwoStart getStepIsDone={getStepIsDone}/>:<></>}
+                {step===5?<RoomPhotoUploadStep getStepIsDone={getStepIsDone}/>:<></>}
+                {step===6?<NameRegistrationStep getStepIsDone={getStepIsDone}/>:<></>}
+                {step===7?<DescriptionRegistrationStep getStepIsDone={getStepIsDone}/>:<></>}
 
-                {step===8?<RegisterStepThrStart/>:<></>}
-                {step===9?<ConceptRegistrationStep/>:<></>}
-                {step===10?<RoomCalendarStep/>:<></>}
-                {step===11?<CostRegistrationStep/>:<></>}
+                {step===8?<RegisterStepThrStart getStepIsDone={getStepIsDone}/>:<></>}
+                {step===9?<ConceptRegistrationStep getStepIsDone={getStepIsDone}/>:<></>}
+                {step===10?<RoomCalendarStep getStepIsDone={getStepIsDone}/>:<></>}
+                {step===11?<CostRegistrationStep getStepIsDone={getStepIsDone}/>:<></>}
                 {step===12?<RegiEnd/>:<></>}
             </RegiContent>
             
