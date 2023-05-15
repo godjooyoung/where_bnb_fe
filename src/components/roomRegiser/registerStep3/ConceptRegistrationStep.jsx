@@ -7,7 +7,7 @@ function ConceptRegistrationStep(props) {
     return (
         <StepDiv>
         <StepWrapDiv>
-        <RoomRegiTitle title="이제 숙소에 대해 설명해주세요." alert="숙소의 특징이 잘 드러나는 문구를 최대 2개까지 선택하실 수 있습니다. 선택한 문구로 숙소설명을 작성하실 수 있도록 도와드릴게요."/>
+        <RoomRegiTitle title="이제 숙소에 대해 설명해주세요." alert="숙소의 특징이 잘 드러나는 문구를 최대 2개까지 선택하실 수 있습니다."/>
                 <div style={{width:'100%', height:'15px'}}></div>
             {/* <DragDrop/> */}
             <RoomConcept/>

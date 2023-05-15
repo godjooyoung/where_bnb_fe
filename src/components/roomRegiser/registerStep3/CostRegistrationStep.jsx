@@ -7,7 +7,7 @@ function CostRegistrationStep(props) {
     return (
         <StepDiv>
         <StepWrapDiv>
-        <RoomRegiTitle title="이제 요금을 설정하세요." alert="언제든지 변경하실 수 있습니다."/>
+        <RoomRegiTitle title="마지막 단계입니다! 이제 요금을 설정하세요." alert="언제든지 변경하실 수 있습니다."/>
         <div style={{width:'100%', height:'15px'}}></div>
         <RoomCost/>
         </StepWrapDiv>

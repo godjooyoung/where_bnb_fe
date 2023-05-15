@@ -5,6 +5,7 @@ import Footer from "../components/Footer"
 import Main from "../pages/Main"
 import Login from "../pages/Login"
 import Register from "../pages/Register";
+import Test from "../pages/Test"
 const Router = () => {
   return (
     <BrowserRouter>
@@ -14,6 +15,7 @@ const Router = () => {
           <Route path="/" element={<><Header/><Main /><Footer/></>} />
           <Route path="/login" element={<><Header/><Login /><Footer/></>} />
           <Route path="/register" element={<Register />} />
+          <Route path="/test" element={<><Header/><Test /><Footer/></>} />
         </Routes>
         
 

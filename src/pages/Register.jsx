@@ -11,6 +11,7 @@ import NameRegistrationStep from '../components/roomRegiser/registerStep2/NameRe
 import DescriptionRegistrationStep from '../components/roomRegiser/registerStep2/DescriptionRegistrationStep'
 import ConceptRegistrationStep from '../components/roomRegiser/registerStep3/ConceptRegistrationStep'
 import CostRegistrationStep from '../components/roomRegiser/registerStep3/CostRegistrationStep'
+import RegiEnd from '../components/roomRegiser/registerStep4/RegiEnd'
 function Register() {
 
     const [prevBtnDisable, setPrevBtnDisable] = useState(false)
@@ -66,7 +67,7 @@ function Register() {
     },[step])
 
     return (
-        <>
+        <div>
             {/* 등록헤더 */}
             <RegiHeader>
                 <div>
@@ -92,7 +93,7 @@ function Register() {
                 {step===9?<ConceptRegistrationStep/>:<></>}
                 {step===10?<>달력...</>:<></>}
                 {step===11?<CostRegistrationStep/>:<></>}
-                {step===12?<div>엔딩</div>:<></>}
+                {step===12?<RegiEnd/>:<></>}
             </RegiContent>
             
             {/* 등록푸터 */}
@@ -118,7 +119,7 @@ function Register() {
                 </RegiButtonsCanvars>
             </RegiButtons> 
             </RegiFooter> 
-        </>
+        </div>
     );
 }
 //헤더
