@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ReactComponent as ExclamationMark } from "../../../assets/svg/exclamationMark.svg"
 import { styled } from 'styled-components';
 
@@ -8,29 +8,38 @@ function RomeDesc(props) {
         setRoomDesc(e.target.value)
     }
     // 경고메세지 정규식
-    const warningMessages = ['500자까지 입력하실 수 있습니다.','숙소설명에 이모티콘을 포함하실 수 없습니다. 숙소 등록을 계속하려면 이모티콘을 삭제해주세요.']
+    const warningMessages = ['500자까지 입력하실 수 있습니다.', '숙소설명에 이모티콘을 포함하실 수 없습니다. 숙소 등록을 계속하려면 이모티콘을 삭제해주세요.']
     const [warningMessage, setWarningMessage] = useState('')
     const roomDescKeyUpEventHandler = (e) => {
         const regexOne = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g; //이모지 입력
 
-        if(roomDesc.length > 500){
+        if (roomDesc.length > 500) {
             setWarningMessage(warningMessages[0])
-        }else{
+        } else {
             setWarningMessage('')
         }
-        if(regexOne.test(roomDesc)){
+        if (regexOne.test(roomDesc)) {
             setWarningMessage(warningMessages[1])
         }
-        if(roomDesc.length === 0 ){
+        if (roomDesc.length === 0) {
             setWarningMessage('')
         }
     }
+
+    // 폼의 값이 변경되면 완료/미완 여부를 부모로 올린다.
+    useEffect(() => {
+        if (roomDesc.length === 0) {
+            props.getFormIsDone(false)
+        } else {
+            props.getFormIsDone(true)
+        }
+    }, [roomDesc])
 
     return (
         <div>
             <div>
                 <TextareaDiv length={roomDesc.length}>
-                        <RoomNameTextarea onKeyUp={roomDescKeyUpEventHandler} onChange={roomDescOnchangeEventHandler} rows="7" autocomplete="off" value={roomDesc}></RoomNameTextarea>
+                    <RoomNameTextarea onKeyUp={roomDescKeyUpEventHandler} onChange={roomDescOnchangeEventHandler} rows="7" autocomplete="off" value={roomDesc}></RoomNameTextarea>
                 </TextareaDiv>
             </div>
 
@@ -45,7 +54,7 @@ function RomeDesc(props) {
             <TextAreaErrorMsgWrap isVisible={warningMessage}>
                 <TextAreaErrorMsg>
                     <ErrorSpan>
-                        <ExclamationMark color={'#c13515'}/>
+                        <ExclamationMark color={'#c13515'} />
                     </ErrorSpan>
                     {warningMessage}
                 </TextAreaErrorMsg>
@@ -122,7 +131,7 @@ export const TextAreaErrorMsgWrap = styled.div`
     visibility: initial; 
     visibility: hidden;
     visibility : ${(props) => {
-        return props.isVisible? 'initial' : 'hidden'
+        return props.isVisible ? 'initial' : 'hidden'
     }};
     margin-top: 16px;
     height: 0px;

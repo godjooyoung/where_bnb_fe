@@ -45,6 +45,15 @@ function RoomConcept(props) {
         setSelectedCnt(selectedCount)
     },[keywords])
 
+    // 폼의 값이 변경되면 완료/미완 여부를 부모로 올린다.
+    useEffect(() => {
+        if (selectedCnt === 0) {
+            props.getFormIsDone(false)
+        } else {
+            props.getFormIsDone(true)
+        }
+    }, [selectedCnt])
+
     return (
         <>
             <Concepts>

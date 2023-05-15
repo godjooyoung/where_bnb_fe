@@ -14,16 +14,26 @@ function RoomCalendarStep(props) {
             startDate: new Date(),
             endDate: null,
             key: "selection",
-            
+
         },
     ]);
 
     // 선택된 일자를 받아오는 함수
-    const dateSeletedHandler = (date)=>{
-        console.log("넘기는값",format(date.selection.startDate, 'yyyy-MM-dd'))
-        console.log("넘기는값",format(date.selection.endDate, 'yyyy-MM-dd'))
+    const dateSeletedHandler = (date) => {
+        console.log("넘기는값", format(date.selection.startDate, 'yyyy-MM-dd'))
+        console.log("넘기는값", format(date.selection.endDate, 'yyyy-MM-dd'))
         setState([date.selection])
     }
+
+    // 폼 입력이 완료되면 상태값을 부모로 올린다.
+    useEffect(() => {
+        if(state[0].endDate){
+            props.getStepIsDone(true)
+        }else{
+            props.getStepIsDone(false)
+        }
+    }, [state])
+
     return (
         <StepDiv>
             <StepWrapDiv>
@@ -40,8 +50,8 @@ function RoomCalendarStep(props) {
                         direction="horizontal"
                         onChange={dateSeletedHandler}
                         dateDisplayFormat={'yyyy-MM-dd'} // 날짜 포맷값
-                        showSelectionPreview = {false} // 상단 선택된 날짜 표현 안하기
-                        showDateDisplay = {false} //선택된 날짜 표시 안함
+                        showSelectionPreview={false} // 상단 선택된 날짜 표현 안하기
+                        showDateDisplay={false} //선택된 날짜 표시 안함
                     />
                 </div>
 

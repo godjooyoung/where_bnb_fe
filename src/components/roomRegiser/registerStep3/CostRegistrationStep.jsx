@@ -1,9 +1,12 @@
-import React, {useEffect}  from 'react';
+import React, {useState, useEffect}  from 'react';
 import { styled } from 'styled-components';
 import RoomRegiTitle from '../registerStepComponent/RoomRegiTitle';
 import RoomCost from '../registerStepComponent/RoomCost'
 
 function CostRegistrationStep(props) {
+    useEffect(() => {
+        props.getStepIsDone(true)
+    })
     return (
         <StepDiv>
         <StepWrapDiv>
