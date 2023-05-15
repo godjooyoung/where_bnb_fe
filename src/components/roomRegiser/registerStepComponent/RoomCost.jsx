@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 function RoomCost(props) {
     // 초기값
@@ -15,6 +15,10 @@ function RoomCost(props) {
     const plusBtnOnclickEventHandler = () => {
         setOptValue(optValue + initOptValue)
     }
+    
+    useEffect(()=>{
+        props.getPrice(optValue)
+    },[optValue])
 
 
     return (

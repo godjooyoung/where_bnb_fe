@@ -14,12 +14,22 @@ function DescriptionRegistrationStep(props) {
         props.getStepIsDone(formIsDone)
     }, [formIsDone])
 
+    // 폼 입력이 이루어지면 입력된 데이터를 부모로 올려준다.
+    const [description, setDescription] = useState('')
+    const getDescription = (x) => {
+        setDescription(x)
+    }
+    useEffect(() => {
+        props.getRegiData({ description: description })
+    }, [description])
+
+
     return (
         <StepDiv>
             <StepWrapDiv>
                 <RoomRegiTitle title="숙소 설명 작성하기" alert="숙소의 특징과 장점을 알려주세요." />
                 <div style={{ width: '100%', height: '15px' }}></div>
-                <RoomDesc getFormIsDone={getFormIsDone}/>
+                <RoomDesc getFormIsDone={getFormIsDone} getDescription={getDescription}/>
             </StepWrapDiv>
         </StepDiv>
     );

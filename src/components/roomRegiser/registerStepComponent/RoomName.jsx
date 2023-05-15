@@ -38,8 +38,10 @@ function RoomName(props) {
     useEffect(() => {
         if (roomName.length === 0) {
             props.getFormIsDone(false)
+            props.getRoomName(null)
         } else {
             props.getFormIsDone(true)
+            props.getRoomName(roomName)
         }
     }, [roomName])
 

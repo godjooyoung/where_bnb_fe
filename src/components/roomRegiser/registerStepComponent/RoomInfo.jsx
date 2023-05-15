@@ -3,26 +3,48 @@ import { styled } from 'styled-components';
 
 function RoomInfo(props) {
     
+    // 데이터명
+    const dataName = props.dataName
+    
     // 초기값
     const [initOptValue, setInitOptValue] = useState(props.initOptValue)
-    // 옵션값
-    const [optValue, setOptValue] = useState(props.initOptValue)
     
+    // 변경되는 옵션값
+    const [optValue, setOptValue] = useState(props.initOptValue)
+
     // counter :: 카운터 관련 내부 스테이트
     const [isDisable, setIsDisable] = useState(true)
-    
+
     // 스위치 관련 내부 스테이트
     const [isWith, setIsWith] = useState(initOptValue) //동반여부
 
-    // counter :: 초기값과 변경된 옵션값이 같아지면 최소값이므로 더이상 수정할 수 없다.
     useEffect(() => {
         if (optValue === initOptValue) {
             setIsDisable(true)
         }
-        if(props.type ==='switch'){
+        if (props.type === 'switch') {
             setOptValue(isWith)
         }
     }, [optValue, isWith])
+
+    const [returnObj, setReturnObj] = useState({})
+    
+    const makeObj = ()=>{
+        setReturnObj({...returnObj, [dataName]:optValue})
+    }
+
+
+    //폼 입력이 이루어지면 입력된 데이터를 부모로 올려준다.
+    useEffect(() => {
+        makeObj()
+    }, [optValue])
+
+
+    useEffect(()=>{
+        // returnObj = {bednum :8}
+        props.getCapacityformData(returnObj)
+    },[returnObj])
+
 
     const minusBtnOnclickEvnetHandler = () => {
         setOptValue(optValue - initOptValue)
@@ -48,36 +70,36 @@ function RoomInfo(props) {
                         <OptControllWrap>
                             <OptControll type={props.type}>
                                 {props.type === 'counter' ?
-                                <>
-                                <OptBtn type="button" disabled={isDisable} onClick={minusBtnOnclickEvnetHandler}>
-                                    <OptControlInnerSpan disabled={isDisable}>
-                                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style={{ display: 'block', fill: 'none', height: '12px', width: '12px', stroke: 'currentcolor', strokeWidth: '5.33333', overflow: 'visible' }}><path d="m2 16h28"></path>
-                                        </svg>
-                                    </OptControlInnerSpan>
-                                </OptBtn>
-                                <OptValueDiv>
-                                    <span>
-                                        {optValue}
-                                    </span>
-                                </OptValueDiv>
-                                <OptBtn type="button" onClick={plusBtnOnclickEventHandler}>
-                                    <OptControlInnerSpan>
-                                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style={{ display: 'block', fill: 'none', height: '12px', width: '12px', stroke: 'currentcolor', strokeWidth: '5.33333', overflow: 'visible' }}><path d="m2 16h28m-14-14v28"></path>
-                                        </svg>
-                                    </OptControlInnerSpan>
-                                </OptBtn>
-                                </>
-                                :
-                                <div>
-                                    <OptSwitch isWith={isWith} type="button" onClick={switchBtnOnClickEvnentHandler}>
-                                        <OptSwitchCircle isWith={isWith}>
-                                            {isWith ?
-                                                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false" style={{ display: 'block', fill: 'none', height: '12px', width: '12px', stroke: 'currentcolor', strokeWidth: '5.33333', overflow: 'visible' }}>
-                                                    <path fill="none" d="m4 16.5 8 8 16-16"></path>
-                                                </svg> : <></>}
-                                        </OptSwitchCircle>
-                                    </OptSwitch>
-                                </div>
+                                    <>
+                                        <OptBtn type="button" disabled={isDisable} onClick={minusBtnOnclickEvnetHandler}>
+                                            <OptControlInnerSpan disabled={isDisable}>
+                                                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style={{ display: 'block', fill: 'none', height: '12px', width: '12px', stroke: 'currentcolor', strokeWidth: '5.33333', overflow: 'visible' }}><path d="m2 16h28"></path>
+                                                </svg>
+                                            </OptControlInnerSpan>
+                                        </OptBtn>
+                                        <OptValueDiv>
+                                            <span>
+                                                {optValue}
+                                            </span>
+                                        </OptValueDiv>
+                                        <OptBtn type="button" onClick={plusBtnOnclickEventHandler}>
+                                            <OptControlInnerSpan>
+                                                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style={{ display: 'block', fill: 'none', height: '12px', width: '12px', stroke: 'currentcolor', strokeWidth: '5.33333', overflow: 'visible' }}><path d="m2 16h28m-14-14v28"></path>
+                                                </svg>
+                                            </OptControlInnerSpan>
+                                        </OptBtn>
+                                    </>
+                                    :
+                                    <div>
+                                        <OptSwitch isWith={isWith} type="button" onClick={switchBtnOnClickEvnentHandler}>
+                                            <OptSwitchCircle isWith={isWith}>
+                                                {isWith ?
+                                                    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false" style={{ display: 'block', fill: 'none', height: '12px', width: '12px', stroke: 'currentcolor', strokeWidth: '5.33333', overflow: 'visible' }}>
+                                                        <path fill="none" d="m4 16.5 8 8 16-16"></path>
+                                                    </svg> : <></>}
+                                            </OptSwitchCircle>
+                                        </OptSwitch>
+                                    </div>
                                 }
                             </OptControll>
                         </OptControllWrap>
@@ -155,7 +177,7 @@ export const OptControll = styled.div`
     font-family: var(--e-ls-qkw);
     
     justify-content : ${(props) => {
-        return props.type==='counter' ? 'space-between' : 'center'
+        return props.type === 'counter' ? 'space-between' : 'center'
     }};
 `
 

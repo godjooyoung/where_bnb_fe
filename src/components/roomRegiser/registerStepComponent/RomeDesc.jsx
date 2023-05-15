@@ -30,8 +30,10 @@ function RomeDesc(props) {
     useEffect(() => {
         if (roomDesc.length === 0) {
             props.getFormIsDone(false)
+            props.getDescription(null)
         } else {
             props.getFormIsDone(true)
+            props.getDescription(roomDesc)
         }
     }, [roomDesc])
 

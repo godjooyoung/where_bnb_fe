@@ -18,7 +18,36 @@ function Register() {
     const [prevBtnDisable, setPrevBtnDisable] = useState(false)
     const [nextBtnDisable, setNextBtnDisable] = useState(false)
     const [step, setStep] = useState(0)
+    const [regiData, setRegiData] = useState({
+        image : [],
+        roomRequestDto : {
+            "roomName" : null,
+            "description" : null,
+            "location" : null,
+            "keyword1" : null,
+            "keyword2" : null,
+            "guestNum" : 1,
+            "bedroomNum" : 1,
+            "bedNum" : 1,
+            "bathrooomNum" : 0.5,
+            "infant" : false,
+            "pet" : false,
+            "startDate" : null,
+            "endDate" : null,
+            "price" : 1000
+        }
+    })
+    const getRegiData = (x) => {
+        // x = {location : '입력값'}
+        console.log("XXXXX...", x)
+        setRegiData({...regiData , roomRequestDto:{...regiData.roomRequestDto, ...x}})
+    }    
+    //테스트
+    useEffect(()=>{
+        console.log("데이터 테스트", regiData)
+    },[regiData])
     
+
     // 버튼 visible 여부
     const [btnState, setBtnState] = useState(
         {
@@ -98,18 +127,18 @@ function Register() {
                 {step===0?<RegiStart getStepIsDone={getStepIsDone}/>:<></>}
                 
                 {step===1?<RegisterStepOneStart getStepIsDone={getStepIsDone}/>:<></>}
-                {step===2?<LocationRegistrationStep getStepIsDone={getStepIsDone}/>:<></>}
-                {step===3?<RoomCapacitySelectionStep getStepIsDone={getStepIsDone}/>:<></>}
+                {step===2?<LocationRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData}/>:<></>}
+                {step===3?<RoomCapacitySelectionStep getStepIsDone={getStepIsDone} getRegiData={getRegiData}/>:<></>}
                 
                 {step===4?<RegisterStepTwoStart getStepIsDone={getStepIsDone}/>:<></>}
                 {step===5?<RoomPhotoUploadStep getStepIsDone={getStepIsDone}/>:<></>}
-                {step===6?<NameRegistrationStep getStepIsDone={getStepIsDone}/>:<></>}
-                {step===7?<DescriptionRegistrationStep getStepIsDone={getStepIsDone}/>:<></>}
+                {step===6?<NameRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData}/>:<></>}
+                {step===7?<DescriptionRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData}/>:<></>}
 
                 {step===8?<RegisterStepThrStart getStepIsDone={getStepIsDone}/>:<></>}
-                {step===9?<ConceptRegistrationStep getStepIsDone={getStepIsDone}/>:<></>}
-                {step===10?<RoomCalendarStep getStepIsDone={getStepIsDone}/>:<></>}
-                {step===11?<CostRegistrationStep getStepIsDone={getStepIsDone}/>:<></>}
+                {step===9?<ConceptRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData}/>:<></>}
+                {step===10?<RoomCalendarStep getStepIsDone={getStepIsDone} getRegiData={getRegiData}/>:<></>}
+                {step===11?<CostRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData}/>:<></>}
                 {step===12?<RegiEnd/>:<></>}
             </RegiContent>
             

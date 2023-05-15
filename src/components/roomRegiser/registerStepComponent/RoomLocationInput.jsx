@@ -9,6 +9,7 @@ function RoomLocationInput(props) {
     // 주소 입력 이벤트
     const iptOnChangeEventHandler = (e) => {
         setAddr(e.target.value)
+        
     }
 
     // clearIcon클릭 시 이벤트
@@ -21,9 +22,12 @@ function RoomLocationInput(props) {
     useEffect(() => {
         if (addr.length) {
             setShowClearIcon(true)
+            props.getLocation(addr)
         } else {
             setShowClearIcon(false)
+            props.getLocation(null)
         }
+
     }, [addr])
 
     // 폼의 값이 변경되면 완료/미완 여부를 부모로 올린다.
