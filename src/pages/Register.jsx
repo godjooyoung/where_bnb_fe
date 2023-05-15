@@ -38,15 +38,27 @@ function Register() {
         }
     })
     const getRegiData = (x) => {
-        // x = {location : '입력값'}
-        console.log("XXXXX...", x)
         setRegiData({...regiData , roomRequestDto:{...regiData.roomRequestDto, ...x}})
-    }    
-    //테스트
-    useEffect(()=>{
-        console.log("데이터 테스트", regiData)
-    },[regiData])
-    
+    }
+    const formData = new FormData();
+    const getRegiDataForm = (files)=>{
+        console.log("XXXX폼데이터", files)
+        Array.from(files).forEach((file) => {
+            formData.append(`image`, file);
+        });
+    }
+    useEffect(() => {
+        for (const key in regiData.roomRequestDto) {
+            const value = regiData.roomRequestDto[key];
+            formData.append(key, value)
+        }
+    }, [regiData])
+
+    // useEffect(()=>{
+    //     for (const [key, value] of formData.entries()) {
+    //         console.log("데이터 테스트!!",key, value);
+    //     }
+    // },[regiData])
 
     // 버튼 visible 여부
     const [btnState, setBtnState] = useState(
@@ -63,9 +75,9 @@ function Register() {
         setStepIsDone(x)
     }    
     
-    useEffect(()=>{
-        console.log("!!!! 자식에서 올려줌", stepIsDone)
-    },[stepIsDone])
+    // useEffect(()=>{
+    //     console.log("!!!! 자식에서 올려줌", stepIsDone)
+    // },[stepIsDone])
 
     // 이전 버튼 클릭
     const prevStepBtnOnClickEvent = () => {
@@ -92,6 +104,7 @@ function Register() {
 
         }
         if(step === 12){
+            // 서버 통신
             alert("저장")
         }
     }
@@ -131,7 +144,7 @@ function Register() {
                 {step===3?<RoomCapacitySelectionStep getStepIsDone={getStepIsDone} getRegiData={getRegiData}/>:<></>}
                 
                 {step===4?<RegisterStepTwoStart getStepIsDone={getStepIsDone}/>:<></>}
-                {step===5?<RoomPhotoUploadStep getStepIsDone={getStepIsDone}/>:<></>}
+                {step===5?<RoomPhotoUploadStep getStepIsDone={getStepIsDone} getRegiDataForm={getRegiDataForm}/>:<></>}
                 {step===6?<NameRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData}/>:<></>}
                 {step===7?<DescriptionRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData}/>:<></>}
 

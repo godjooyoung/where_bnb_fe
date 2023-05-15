@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { ReactComponent as DragPhoto } from "../../../assets/svg/dragPhoto.svg"
 
@@ -6,19 +6,37 @@ function DragDrop(props) {
     const [dragActive, setDragActive] = useState(false)
     const inputRef = useRef();
 
+    const [isDone, setIsDone] = useState(false)
+    const formData = new FormData();
+
     const handleFile = (files) => {
         alert("#### num of files," + files.length)
-        // 파일 길이 체크 로직
-        // 최소 다섯개
-        // 이미지 파일로 한정 짓는 로직
+        if(files.length > 4){
+            setIsDone(true)
+            props.getImage(files);
+        }else{
+            setIsDone(false)
+        }
+
+        
     }
+    // 완료여부
+    useEffect(()=>{
+        props.getFormIsDone(isDone)
+    },[isDone])
+
+
+    useEffect(()=>{
+        // 부모컴포넌트의 set 함수로 올려주기 위한 함수
+        console.log("드래그드랍 ", formData)
+    },[formData])
+
 
     const handleDrag = (e) => {
         e.preventDefault();
         e.stopPropagation();
         if (e.type === 'dragenter' || e.type === 'dragover') {
             setDragActive(true)
-            console.log("#### dragActive", dragActive)
         } else if (e.type === 'dragleave') {
             setDragActive(false)
         }
