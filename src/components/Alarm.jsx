@@ -27,7 +27,7 @@ function Alarm({ onAlarm }) {
 
 let subscribeUrl = `${process.env.REACT_APP_SERVER_URL}/sub`;
 
-
+ let data = null
 if(getCookie("token")){
     console.log("제발 들어와라.....");
     let eventSource = new EventSource(subscribeUrl + "?token=" + getCookie("token"));
