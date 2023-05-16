@@ -30,14 +30,14 @@ function RoomCalendarStep(props) {
         if(state[0].endDate){
             props.getStepIsDone(true)
             props.getRegiData({ 
-                startDate: format(state[0].startDate, 'yyyy-MM-dd'),
-                endDate : format(state[0].endDate, 'yyyy-MM-dd'),
+                checkInDate: format(state[0].startDate, 'yyyy-MM-dd'),
+                checkOutDate : format(state[0].endDate, 'yyyy-MM-dd'),
             })
         }else{
             props.getStepIsDone(false)
             props.getRegiData({ 
-                startDate: null,
-                endDate : null,
+                checkInDate: null,
+                checkOutDate : null,
             })
         }
     }, [state])

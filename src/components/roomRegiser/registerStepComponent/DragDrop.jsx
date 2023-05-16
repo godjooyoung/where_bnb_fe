@@ -10,7 +10,6 @@ function DragDrop(props) {
     const formData = new FormData();
 
     const handleFile = (files) => {
-        alert("#### num of files," + files.length)
         if(files.length > 4){
             setIsDone(true)
             props.getImage(files);
@@ -24,13 +23,6 @@ function DragDrop(props) {
     useEffect(()=>{
         props.getFormIsDone(isDone)
     },[isDone])
-
-
-    useEffect(()=>{
-        // 부모컴포넌트의 set 함수로 올려주기 위한 함수
-        console.log("드래그드랍 ", formData)
-    },[formData])
-
 
     const handleDrag = (e) => {
         e.preventDefault();
