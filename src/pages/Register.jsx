@@ -42,23 +42,23 @@ function Register() {
         setRegiData({ ...regiData, roomRequestDto: { ...regiData.roomRequestDto, ...x } })
     }
     const formData = new FormData();
+
     const getRegiDataForm = (files) => {
+        const fileList = Array.from(files)
+        console.log(">>>>>>>>>>>>>>>>>",fileList)
+        setRegiData({...regiData, imageFile:fileList})
         Array.from(files).forEach((file) => {
             formData.append(`imageFile`, file);
         });
     }
-    useEffect(() => {
-        for (const key in regiData.roomRequestDto) {
-            const value = regiData.roomRequestDto[key];
-            formData.append(key, value)
-        }
-    }, [regiData])
-
-    // useEffect(()=>{
-    //     for (const [key, value] of formData.entries()) {
-    //         console.log("데이터 테스트!!",key, value);
+    // useEffect(() => {
+    //     for (const key in regiData.roomRequestDto) {
+    //         const value = regiData.roomRequestDto[key];
+    //         formData.append(key, value)
     //     }
-    // },[regiData])
+    // }, [regiData])
+
+    
 
     // 버튼 visible 여부
     const [btnState, setBtnState] = useState(
@@ -105,6 +105,15 @@ function Register() {
 
     // api call
     const roomReigisterMutateCall = () => {
+        for (const key in regiData.roomRequestDto) {
+            const value = regiData.roomRequestDto[key];
+            formData.append(key, value);
+        }
+        formData.append('images', regiData.imageFile)
+
+        for (const [key, value] of formData.entries()) {
+            console.log("데이터 테스트!!",key, value);
+        }
         roomReigisterMutate.mutate(formData);
     };
 
@@ -116,7 +125,6 @@ function Register() {
         }
         if (step === 12) {
             // 서버 통신
-            alert("저장")
             roomReigisterMutateCall()
 
         }

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
 import { setCookie } from "../cookie/Cookie"
+import { styled } from "styled-components";
 const OAuth2RedirectHandler = (props) => {
   // 인가코드
   let code = new URL(window.location.href).searchParams.get("code");
@@ -32,6 +33,21 @@ const OAuth2RedirectHandler = (props) => {
       }
     })();
   }, []);
+
+  const Container = styled.div`
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+  `
+  return(
+    <Container>
+      <div>로그인 중입니다</div>
+    </Container>
+  )
+
   // 토큰 보내기
   // useEffect(() => {
   //   if (!token) return; // 토큰이 없으면 실행되지 않음
@@ -69,35 +85,6 @@ const OAuth2RedirectHandler = (props) => {
   // };
   
 
-  // const fetchKakaoLogin = () => {
-  //   if (code) {
-  //     kakaoLogin(code, navigate);
-  //   }
-  // };
-
-  // const { isLoading, isError, data } = useQuery("KakaoLogin", fetchKakaoLogin, {
-  //   enabled: !!code,
-  //   onSuccess: (response) => {
-  //     const accessToken = response.data.accessToken;
-  //     console.log(accessToken)
-  //     localStorage.setItem("token", accessToken);
-  //     navigate("/");
-  //   },
-  // });
-
-  // console.log(data)
-
-  // if(isLoading){
-  //   return <div>로딩중 입니다....</div>;
-  // }
-
-  // if (isError) {
-  //   return <div>인증 실패! 다시 시도해주세요.</div>;
-  // }
-
-  // if (data) {
-  //   navigate("/");
-  //   return null; // 필요한 관련 반환 값을 넣으세요
-  // }
+  
 };
 export default OAuth2RedirectHandler;

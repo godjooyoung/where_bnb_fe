@@ -4,6 +4,8 @@ import { useRef, useEffect } from "react";
 import { BiBell } from "react-icons/bi";
 import { useQuery } from "react-query";
 import { getNotice } from "../api/notice";
+import instance from '../api/apiConfig';
+import { getCookie } from '../cookie/Cookie';
 
 function Alarm({ onAlarm }) {
   const divRef = useRef();
@@ -21,17 +23,19 @@ function Alarm({ onAlarm }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  const { isLoading, isError, data } = useQuery("Notice", getNotice);
 
-  if (isLoading) {
-    return <p>로딩중입니다....!</p>;
-  }
 
-  if (isError) {
-    return <p>오류가 발생하였습니다...!</p>;
-  }
-  console.log(data);
+let subscribeUrl = `${process.env.REACT_APP_SERVER_URL}/sub`;
 
+
+if(getCookie("token")){
+    console.log("제발 들어와라.....");
+    let eventSource = new EventSource(subscribeUrl + "?token=" + getCookie("token"));
+    eventSource.addEventListener("notifyLike", function(event) {
+        let message = event.data;
+        alert(message);
+    })
+}
   return (
     <StAlarm ref={divRef}>
       <Sttitle>알림</Sttitle>

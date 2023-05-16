@@ -10,7 +10,7 @@ function DragDrop(props) {
     const formData = new FormData();
 
     const handleFile = (files) => {
-        if(files.length > 4){
+        if(files.length > 0){
             setIsDone(true)
             props.getImage(files);
         }else{

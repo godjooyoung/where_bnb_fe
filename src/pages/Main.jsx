@@ -169,7 +169,7 @@ function Main() {
         },
 
     ])
-
+    
     // 시간 계산
     const timeCalculater = (createdAt) => {
         // const ZONE = 9 * 60 * 60 * 1000; // 9시간
@@ -186,7 +186,15 @@ function Main() {
             return ''
         }
     }
-
+    const alarmTestBtnOnClickHandler = async(id) =>{
+        await instance.post(`/room/like/${id}`, {},
+            {
+                headers : {
+                    Authorization : `Bearer ${getCookie("token")}`
+                },
+            },
+        )
+    }
     // if (isLoading) {
     //     return <p>로딩중입니다....!</p>;
     // }
