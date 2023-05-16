@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
-
+import { setCookie } from "../cookie/Cookie"
 const OAuth2RedirectHandler = (props) => {
   // 인가코드
   let code = new URL(window.location.href).searchParams.get("code");
@@ -19,9 +19,12 @@ const OAuth2RedirectHandler = (props) => {
         const res = await axios.get(
           `${process.env.REACT_APP_SERVER_URL}/login?code=${code}`
         );
+        console.log(res.data)
         const token = res.headers.authorization;
+        setCookie("token", token);       
+        setCookie("userName", res.data.data);        
+ 
         window.localStorage.setItem("token", token);
-        setToken(token); // 상태 업데이트
         navigate("/");
       } catch (e) {
         console.error(e);
