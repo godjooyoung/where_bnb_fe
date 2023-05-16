@@ -11,7 +11,7 @@ function Optionbox({ onOption }) {
     navigator('/register')
   }
   const LoginButtonHandler = () => {
-    navigator('/login')
+    navigator('/loginpage')
   }
 
   const handleClickOutside = (event) => {

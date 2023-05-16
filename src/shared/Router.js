@@ -6,6 +6,7 @@ import Main from "../pages/Main"
 import Login from "../pages/Login"
 import Register from "../pages/Register";
 import Test from "../pages/Test"
+import Kakao from "../components/Kakao"
 const Router = () => {
   return (
     <BrowserRouter>
@@ -13,9 +14,10 @@ const Router = () => {
         
         <Routes>
           <Route path="/" element={<><Header/><Main /><Footer/></>} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/loginpage" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/test" element={<><Header/><Test /><Footer/></>} />
+          <Route path="/login" element={<Kakao/>}/>
         </Routes>
         
 
