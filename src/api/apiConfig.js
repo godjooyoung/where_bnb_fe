@@ -13,3 +13,14 @@ const multi = axios.create({
     "Content-Type": "multipart/form-data",
   },
 });
+
+const api = axios.create({
+  baseURL: "http://localhost:3000",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+
+export {instance, multi }
+export default api
