@@ -1,44 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ReactComponent as ExclamationMark } from "../../../assets/svg/exclamationMark.svg"
 import { styled } from 'styled-components';
 function RoomName(props) {
-    
+
     const [roomName, setRoomName] = useState('')
     const roomNameOnchangeEventHandler = (e) => {
         setRoomName(e.target.value)
     }
     // 경고메세지 정규식
-    const warningMessages = ['32자까지 입력하실 수 있습니다.','숙소이름에 연속된 특수문자를 입력할 수 없습니다.','보안을 위해 숙소이름에는 전화번호가 포함될 수 없습니다.','숙소이름에 이모티콘이 입력되면 안됩니다.']
+    const warningMessages = ['32자까지 입력하실 수 있습니다.', '숙소이름에 연속된 특수문자를 입력할 수 없습니다.', '보안을 위해 숙소이름에는 전화번호가 포함될 수 없습니다.', '숙소이름에 이모티콘이 입력되면 안됩니다.']
     const [warningMessage, setWarningMessage] = useState('')
     const roomNameKeyUpEventHandler = (e) => {
         const regexOne = /[!@#$%^&*(),.?":{}|<>]{2,}/g;// 특수문자 연속 입력
         const regexTwo = /\d{10,}/g; //숫자 열자리연속 입력
         const regexThr = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g; //이모지 입력
 
-        if(roomName.length > 32){
+        if (roomName.length > 32) {
             setWarningMessage(warningMessages[0])
-        }else{
+        } else {
             setWarningMessage('')
         }
-        if(regexOne.test(roomName)){
+        if (regexOne.test(roomName)) {
             setWarningMessage(warningMessages[1])
         }
-        if(regexTwo.test(roomName)){
+        if (regexTwo.test(roomName)) {
             setWarningMessage(warningMessages[2])
         }
-        if(regexThr.test(roomName)){
+        if (regexThr.test(roomName)) {
             setWarningMessage(warningMessages[3])
         }
-        if(roomName.length === 0 ){
+        if (roomName.length === 0) {
             setWarningMessage('')
         }
     }
+
+    // 폼의 값이 변경되면 완료/미완 여부를 부모로 올린다.
+    useEffect(() => {
+        if (roomName.length === 0) {
+            props.getFormIsDone(false)
+            props.getRoomName(null)
+        } else {
+            props.getFormIsDone(true)
+            props.getRoomName(roomName)
+        }
+    }, [roomName])
 
     return (
         <div>
             <div>
                 <TextareaDiv length={roomName.length}>
-                        <RoomNameTextarea onKeyUp={roomNameKeyUpEventHandler} onChange={roomNameOnchangeEventHandler} rows="5" autocomplete="off" value={roomName}></RoomNameTextarea>
+                    <RoomNameTextarea onKeyUp={roomNameKeyUpEventHandler} onChange={roomNameOnchangeEventHandler} rows="5" autocomplete="off" value={roomName}></RoomNameTextarea>
                 </TextareaDiv>
             </div>
 
@@ -53,7 +64,7 @@ function RoomName(props) {
             <TextAreaErrorMsgWrap isVisible={warningMessage}>
                 <TextAreaErrorMsg>
                     <ErrorSpan>
-                        <ExclamationMark color={'#c13515'}/>
+                        <ExclamationMark color={'#c13515'} />
                     </ErrorSpan>
                     {warningMessage}
                 </TextAreaErrorMsg>
@@ -132,7 +143,7 @@ export const TextAreaErrorMsgWrap = styled.div`
     visibility: initial; 
     visibility: hidden;
     visibility : ${(props) => {
-        return props.isVisible? 'initial' : 'hidden'
+        return props.isVisible ? 'initial' : 'hidden'
     }};
     margin-top: 16px;
     height: 0px;

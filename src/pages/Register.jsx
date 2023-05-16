@@ -10,6 +10,7 @@ import RoomPhotoUploadStep from '../components/roomRegiser/registerStep2/RoomPho
 import NameRegistrationStep from '../components/roomRegiser/registerStep2/NameRegistrationStep'
 import DescriptionRegistrationStep from '../components/roomRegiser/registerStep2/DescriptionRegistrationStep'
 import ConceptRegistrationStep from '../components/roomRegiser/registerStep3/ConceptRegistrationStep'
+import RoomCalendarStep from '../components/roomRegiser/registerStep3/RoomCalendarStep'
 import CostRegistrationStep from '../components/roomRegiser/registerStep3/CostRegistrationStep'
 import RegiEnd from '../components/roomRegiser/registerStep4/RegiEnd'
 function Register() {
@@ -17,6 +18,49 @@ function Register() {
     const [prevBtnDisable, setPrevBtnDisable] = useState(false)
     const [nextBtnDisable, setNextBtnDisable] = useState(false)
     const [step, setStep] = useState(0)
+    const [regiData, setRegiData] = useState({
+        image : [],
+        roomRequestDto : {
+            "roomName" : null,
+            "description" : null,
+            "location" : null,
+            "keyword1" : null,
+            "keyword2" : null,
+            "guestNum" : 1,
+            "bedroomNum" : 1,
+            "bedNum" : 1,
+            "bathrooomNum" : 0.5,
+            "infant" : false,
+            "pet" : false,
+            "startDate" : null,
+            "endDate" : null,
+            "price" : 1000
+        }
+    })
+    const getRegiData = (x) => {
+        setRegiData({...regiData , roomRequestDto:{...regiData.roomRequestDto, ...x}})
+    }
+    const formData = new FormData();
+    const getRegiDataForm = (files)=>{
+        console.log("XXXX폼데이터", files)
+        Array.from(files).forEach((file) => {
+            formData.append(`image`, file);
+        });
+    }
+    useEffect(() => {
+        for (const key in regiData.roomRequestDto) {
+            const value = regiData.roomRequestDto[key];
+            formData.append(key, value)
+        }
+    }, [regiData])
+
+    // useEffect(()=>{
+    //     for (const [key, value] of formData.entries()) {
+    //         console.log("데이터 테스트!!",key, value);
+    //     }
+    // },[regiData])
+
+    // 버튼 visible 여부
     const [btnState, setBtnState] = useState(
         {
             prevBtnIsVisible : false,
@@ -24,6 +68,18 @@ function Register() {
             startBtnIsVisible : true,
         }
     )
+
+    // 단계 완료 여부
+    const [stepIsDone, setStepIsDone] = useState(false)
+    const getStepIsDone = (x) => {
+        setStepIsDone(x)
+    }    
+    
+    // useEffect(()=>{
+    //     console.log("!!!! 자식에서 올려줌", stepIsDone)
+    // },[stepIsDone])
+
+    // 이전 버튼 클릭
     const prevStepBtnOnClickEvent = () => {
         if(!prevBtnDisable){
             if(step!==0){
@@ -32,20 +88,23 @@ function Register() {
         }
     }
 
+    // 다음 버튼 클릭
     const nextStepBtnOnClickEvent = () => {
-        if(!nextBtnDisable){
+        if(!nextBtnDisable && stepIsDone){
             if(step!==12){
                 setStep(step+1)
             }
         }
     }
 
+    // 시작하기 버튼 클릭
     const startBtnOnClickEvent = () => {
         if(step === 0 ){
             setStep(step+1)
 
         }
         if(step === 12){
+            // 서버 통신
             alert("저장")
         }
     }
@@ -76,23 +135,22 @@ function Register() {
                     </span>
                 </div>
             </RegiHeader>
-            step{step}
             <RegiContent>
-                {step===0?<RegiStart/>:<></>}
+                {step===0?<RegiStart getStepIsDone={getStepIsDone}/>:<></>}
                 
-                {step===1?<RegisterStepOneStart/>:<></>}
-                {step===2?<LocationRegistrationStep/>:<></>}
-                {step===3?<RoomCapacitySelectionStep/>:<></>}
+                {step===1?<RegisterStepOneStart getStepIsDone={getStepIsDone}/>:<></>}
+                {step===2?<LocationRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData}/>:<></>}
+                {step===3?<RoomCapacitySelectionStep getStepIsDone={getStepIsDone} getRegiData={getRegiData}/>:<></>}
                 
-                {step===4?<RegisterStepTwoStart/>:<></>}
-                {step===5?<RoomPhotoUploadStep/>:<></>}
-                {step===6?<NameRegistrationStep/>:<></>}
-                {step===7?<DescriptionRegistrationStep/>:<></>}
+                {step===4?<RegisterStepTwoStart getStepIsDone={getStepIsDone}/>:<></>}
+                {step===5?<RoomPhotoUploadStep getStepIsDone={getStepIsDone} getRegiDataForm={getRegiDataForm}/>:<></>}
+                {step===6?<NameRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData}/>:<></>}
+                {step===7?<DescriptionRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData}/>:<></>}
 
-                {step===8?<RegisterStepThrStart/>:<></>}
-                {step===9?<ConceptRegistrationStep/>:<></>}
-                {step===10?<>달력...</>:<></>}
-                {step===11?<CostRegistrationStep/>:<></>}
+                {step===8?<RegisterStepThrStart getStepIsDone={getStepIsDone}/>:<></>}
+                {step===9?<ConceptRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData}/>:<></>}
+                {step===10?<RoomCalendarStep getStepIsDone={getStepIsDone} getRegiData={getRegiData}/>:<></>}
+                {step===11?<CostRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData}/>:<></>}
                 {step===12?<RegiEnd/>:<></>}
             </RegiContent>
             
@@ -103,18 +161,12 @@ function Register() {
                 <Progress>
                     <ProgressValue step={step} ></ProgressValue>
                 </Progress>
-                {/* <Progress>
-                    <ProgressValue></ProgressValue>
-                </Progress>
-                <Progress>
-                    <ProgressValue></ProgressValue>
-                </Progress> */}
             </ProcessBarWrap>
             {/* 버튼영역 */}
             <RegiButtons>
                 <RegiButtonsCanvars>
-                    <StepBtnPrev isVisible={btnState.prevBtnIsVisible} isDisabled={prevBtnDisable} onClick={prevStepBtnOnClickEvent}>뒤로</StepBtnPrev>
-                    <StepBtnNext isVisible={btnState.nextBtnIsVisible} isDisabled={prevBtnDisable} onClick={nextStepBtnOnClickEvent}>다음</StepBtnNext>
+                    <StepBtnPrev isVisible={btnState.prevBtnIsVisible} onClick={prevStepBtnOnClickEvent}>뒤로</StepBtnPrev>
+                    <StepBtnNext stepIsDone={stepIsDone} isVisible={btnState.nextBtnIsVisible} onClick={nextStepBtnOnClickEvent}>다음</StepBtnNext>
                     <StepBtnStart isVisible={btnState.startBtnIsVisible} onClick={startBtnOnClickEvent}>시작하기</StepBtnStart>
                 </RegiButtonsCanvars>
             </RegiButtons> 
@@ -228,6 +280,7 @@ export const StepBtnPrev = styled.button`
     visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
 
 `
+// 다음 버튼
 export const StepBtnNext = styled.button`
     padding-left: 32px !important;
     padding-right: 32px !important;
@@ -247,26 +300,41 @@ export const StepBtnNext = styled.button`
     outline: none !important;
     padding: 14px 28px !important;
     transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s !important;
-    -webkit-tap-highlight-color: transparent !important;
     border: none !important;
     background: var(--f-k-smk-x) !important;
     color: var(--f-mkcy-f) !important;
     contain: paint !important;
 
     &:hover {
-    border: none !important;
-    background: var(--bgxgx) !important;
-    color: var(--f-mkcy-f) !important;
+    /* background: var(--bgxgx) !important; */
+    background : ${(props) => (
+        props.stepIsDone ? 
+        "var(--bgxgx) !important" :
+        "var(--j-qkgmf) !important"
+    )};
     }
 
     &:active {
     transform: scale(0.96) !important;
-    border: none !important;
     background: var(--bgxgx) !important;
-    color: var(--f-mkcy-f) !important;
+    background : ${(props) => (
+        props.stepIsDone ? 
+        "var(--bgxgx) !important" :
+        "var(--j-qkgmf) !important"
+    )};
+    transform : ${(props) => (
+        props.stepIsDone ? 
+        "scale(0.96) !important" :
+        "none !important"
+    )};
     }
 
     visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
+    
+    background : ${(props) => (
+        props.stepIsDone ? "var(--f-k-smk-x) !important" : "var(--j-qkgmf) !important"
+    )};
+
 `
 export const StepBtnStart = styled.button`
     padding-left: 32px !important;

@@ -18,6 +18,9 @@ function RoomConcept(props) {
     ])
 
     const [selectedCnt, setSelectedCnt] = useState(0)
+    // 중복을 피하기 위해 Set 사용.
+    const mySet = new Set([]);
+    const [selectedKeyword, setSelectedKeyword] = useState(mySet)
 
     const keywordBtnOnClickEvent = (idx, seletedYn) =>{
         const updatedKeywords = keywords.map((keyword, index) => {
@@ -38,13 +41,35 @@ function RoomConcept(props) {
     useEffect(()=>{
         const selectedCount = keywords.reduce((acc, keyword) => {
             if (keyword.isSelected) {
+                setSelectedKeyword(mySet.add(keyword.desc))
                 return acc + 1;
             }
             return acc;
         }, 0);
         setSelectedCnt(selectedCount)
-    },[keywords])
+    },[keywords, selectedCnt])
 
+    // 폼의 값이 변경되면 완료/미완 여부를 부모로 올린다.
+    useEffect(() => {
+        if (selectedCnt === 0) {
+            props.getFormIsDone(false)
+            
+        } else {
+            props.getFormIsDone(true)
+            
+        }
+    }, [selectedCnt])
+    
+    useEffect(()=>{
+        if(selectedCnt === 0){
+            props.getKeywords({keyword1:null, keyword2:null})
+        }else if(selectedCnt === 1){
+            props.getKeywords({keyword1:Array.from(selectedKeyword)[0], keyword2:null})
+        }
+        else{
+            props.getKeywords({keyword1:Array.from(selectedKeyword)[0], keyword2:Array.from(selectedKeyword)[1]})
+        }
+    },[selectedKeyword])
     return (
         <>
             <Concepts>
