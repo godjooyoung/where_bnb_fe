@@ -15,9 +15,13 @@ function Header(props) {
   const [option, setOption] = useState(false)
   const navigator = useNavigate()
   const RegisterButtonHandler = () => {
-    navigator('/register')
+    if(getCookie('token')){
+      navigator('/register')
+    }else{
+      alert('로그인을 해주세요!')
+    }
   }
-  console.log(getCookie('token'))
+  const userName = getCookie('userName')
 
   return (
     <>
@@ -67,7 +71,14 @@ function Header(props) {
             </StSearchBtn>
           </StSearchBtnbox>
           <StTextbox>
-            <StText>Wherebnb님 환영합니다.</StText>
+            <StText>
+              {userName?(
+                `${userName} 님 환영합니다.`
+              )
+              :'로그인을 해주세요'
+              }
+
+              </StText>
             <StEtcBtn onClick={() => {
               setAlarm(true);
             }}>

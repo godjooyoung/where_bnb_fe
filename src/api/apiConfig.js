@@ -9,7 +9,7 @@ const instance = axios.create({
 });
 
 const api = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "http://54.197.12.68:8081/",
   headers: {
     "Content-Type": "application/json",
   },
