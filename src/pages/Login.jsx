@@ -3,16 +3,12 @@ import styled from "styled-components";
 import logo from "../assets/WherebnbLogo.png"
 import { useNavigate } from "react-router-dom";
 import loginimg from "../assets/kakao_login_large_wide.png"
-import { getCookie, setCookie } from "../api/cookis";
-
 function Login() {
   const navigate = useNavigate()
   
   const LoginButtonHandler = () => {
-        debugger
-            window.location.assign(`https://kauth.kakao.com/oauth/authorize?client_id=8047e89d739d21f2f220a5e8df94ddd0&redirect_uri=${process.env.REACT_APP_SERVER_URL}/login&response_type=code`) 
+            window.location.assign(`https://kauth.kakao.com/oauth/authorize?client_id=8047e89d739d21f2f220a5e8df94ddd0&redirect_uri=${process.env.REACT_APP_CLIENT_URL}/login&response_type=code`) 
     }
-
   return (
     <StLayout>
       <StLoginBox>

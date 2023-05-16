@@ -7,6 +7,7 @@ import SearchButton from "./SearchButton";
 import Alarm from "./Alarm";
 import { useNavigate } from "react-router-dom";
 import Optionbox from "./Optionbox";
+import { getCookie } from "../cookie/Cookie";
 
 function Header(props) {
   const [search, setSearch] = useState(false);
@@ -16,6 +17,8 @@ function Header(props) {
   const RegisterButtonHandler = () => {
     navigator('/register')
   }
+  console.log(getCookie('token'))
+
   return (
     <>
       <div>
