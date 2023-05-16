@@ -135,7 +135,6 @@ function Register() {
                     </span>
                 </div>
             </RegiHeader>
-            step{step}
             <RegiContent>
                 {step===0?<RegiStart getStepIsDone={getStepIsDone}/>:<></>}
                 
