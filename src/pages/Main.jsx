@@ -8,6 +8,8 @@ import keywordLogo05 from "../assets/keywordLogo05.jpeg"
 import { styled } from 'styled-components';
 import { useQuery } from "react-query";
 import { getMainList } from "../api/main";
+import { getCookie } from '../cookie/Cookie';
+import { instance } from '../api/apiConfig';
 
 function Main() {
     //  "최고의 전망", "해변 바로 앞", "캠핑장", "도시", "레저", "한적한 분위기"
