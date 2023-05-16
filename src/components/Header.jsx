@@ -2,14 +2,20 @@ import React, { useState } from "react";
 import WherebnbLogo from "../assets/WherebnbLogo.png";
 import { AiOutlineBell, AiOutlineMenu } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
-import { styled } from "styled-components";
+import { keyframes, styled } from "styled-components";
 import SearchButton from "./SearchButton";
 import Alarm from "./Alarm";
+import { useNavigate } from "react-router-dom";
+import Optionbox from "./Optionbox";
 
 function Header(props) {
   const [search, setSearch] = useState(false);
   const [alarm, setAlarm] = useState(false)
-  console.log(search);
+  const [option, setOption] = useState(false)
+  const navigator = useNavigate()
+  const RegisterButtonHandler = () => {
+    navigator('/register')
+  }
   return (
     <>
       <div>
@@ -30,11 +36,20 @@ function Header(props) {
           />
         )}
       </div>
+      <div>
+        {option && (
+          <Optionbox
+          onOption={() => {
+            setOption(false);
+            }}
+          />
+        )}
+      </div>
       <Container search={search}>
         <Stheader>
           <Stlogobox>
             <img src={WherebnbLogo} alt="" width={100} height={17}/>
-            <StSidebarBtn>당신의 공간을 웨어비앤비하세요</StSidebarBtn>
+            <StSidebarBtn onClick={() => {RegisterButtonHandler()}}>당신의 공간을 웨어비앤비하세요</StSidebarBtn>
           </Stlogobox>
           <StSearchBtnbox
             search={search}
@@ -55,7 +70,9 @@ function Header(props) {
             }}>
               <AiOutlineBell />
             </StEtcBtn>
-            <StEtcBtn>
+            <StEtcBtn onClick={() => {
+              setOption(true);
+            }}>
               <AiOutlineMenu />
             </StEtcBtn>
           </StTextbox>
@@ -70,7 +87,6 @@ export default Header;
 const Container = styled.div`
   height: ${(props) => (props.search ? "145px" : "80px")};
   border: 0.7px solid #dedede;
-
 `;
 const Stheader = styled.div`
   height: 80px;

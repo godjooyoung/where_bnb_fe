@@ -2,6 +2,8 @@ import React from "react";
 import { styled } from "styled-components";
 import { useRef, useEffect } from "react";
 import { BiBell } from "react-icons/bi";
+import { useQuery } from "react-query";
+import { getNotice } from "../api/notice";
 
 function Alarm({ onAlarm }) {
   const divRef = useRef();
@@ -19,12 +21,35 @@ function Alarm({ onAlarm }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  const { isLoading, isError, data } = useQuery("Notice", getNotice);
+
+  if (isLoading) {
+    return <p>로딩중입니다....!</p>;
+  }
+
+  if (isError) {
+    return <p>오류가 발생하였습니다...!</p>;
+  }
+  console.log(data);
 
   return (
     <StAlarm ref={divRef}>
       <Sttitle>알림</Sttitle>
-      {/* 비어있을때 */}
-      {/* <StAlarmbox>
+      <StAlarmboxB>
+      {data ? (
+        data.map((item) => {
+          return (
+              <Stlikebox>
+                <Stlikeboxtext>
+                  {item.userName} 님이 내 '{item.roomName}'
+                </Stlikeboxtext>
+                <Stlikeboxtext>게시글에 즐겨찾기 하셨습니다.</Stlikeboxtext>
+                <Stlikeboxtime>{item.createdAt}</Stlikeboxtime>
+              </Stlikebox>
+          );
+        })
+        ) : (
+            <StAlarmbox>
           <div>
             <BiBell fontSize={30} />
           </div>
@@ -33,24 +58,8 @@ function Alarm({ onAlarm }) {
             <div>(현재는) 알림이 없습니다.새로운 소식이 있으면</div>
             <div>알려드리겠습니다</div>
           </Stsubtext>
-        </StAlarmbox> */}
-      {/* 비어있을때 */}
-      <StAlarmboxB>
-        <Stlikebox>
-          <Stlikeboxtext>(유저명) 님이 내 (숙소명)을 </Stlikeboxtext>
-          <Stlikeboxtext>즐겨찾기 하셨습니다.</Stlikeboxtext>
-          <Stlikeboxtime>PM 4:28</Stlikeboxtime>
-        </Stlikebox>
-        <Stlikebox>
-          <Stlikeboxtext>(유저명) 님이 내 (숙소명)을 </Stlikeboxtext>
-          <Stlikeboxtext>즐겨찾기 하셨습니다.</Stlikeboxtext>
-          <Stlikeboxtime>PM 4:28</Stlikeboxtime>
-        </Stlikebox>
-           <Stlikebox>
-          <Stlikeboxtext>(유저명) 님이 내 (숙소명)을 </Stlikeboxtext>
-          <Stlikeboxtext>즐겨찾기 하셨습니다.</Stlikeboxtext>
-          <Stlikeboxtime>PM 4:28</Stlikeboxtime>
-        </Stlikebox>
+        </StAlarmbox>
+      )}
       </StAlarmboxB>
     </StAlarm>
   );
@@ -95,7 +104,7 @@ const Stsubtext = styled.div`
   font-weight: 400;
 `;
 const StAlarmboxB = styled.div`
-  font-size: 13px;
+  font-size: 12px;
   height: 520px;
 `;
 const Stlikebox = styled.div`
@@ -107,6 +116,7 @@ const Stlikebox = styled.div`
   flex-direction: column;
   justify-content: center;
   margin-bottom: 10px;
+  cursor: pointer;
 `;
 const Stlikeboxtext = styled.div`
   font-weight: 500;
