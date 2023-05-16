@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import keywordLogo00 from "../assets/keywordLogo00.jpeg"
 import keywordLogo01 from "../assets/keywordLogo01.jpeg"
 import keywordLogo02 from "..//assets/keywordLogo02.jpeg"
@@ -6,12 +6,11 @@ import keywordLogo03 from "..//assets/keywordLogo03.jpeg"
 import keywordLogo04 from "../assets/keywordLogo04.jpeg"
 import keywordLogo05 from "../assets/keywordLogo05.jpeg"
 import { styled } from 'styled-components';
-
-
-
+import { useQuery } from "react-query";
+import { getMainList } from "../api/main";
 
 function Main() {
-    //  “최고의 전망”, “해변 바로 앞”, “캠핑장”, “도시”, “레저”, “한적한 분위기”
+    //  "최고의 전망", "해변 바로 앞", "캠핑장", "도시", "레저", "한적한 분위기"
     const [keywords, setKeywords] = useState([
         { url: keywordLogo00, desc: '한적한 분위기', isSelected: false },
         { url: keywordLogo01, desc: '최고의 전망', isSelected: false },
@@ -20,6 +19,175 @@ function Main() {
         { url: keywordLogo04, desc: '도시', isSelected: false },
         { url: keywordLogo05, desc: '레저', isSelected: false }
     ])
+
+    // const { isLoading, isError, data } = useQuery("MainList", getMainList);
+    const [datas, setDatas] = useState([
+        {
+            image: ["https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-854745696847346650/original/44fe37d5-d874-4338-b5d8-a1c8df2aef7a.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200l",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-854745696847346650/original/44fe37d5-d874-4338-b5d8-a1c8df2aef7a.jpeg?im_w=1200"],
+            location: "서울특별시 강서구",
+            price: 40000,
+            startDate: '2023-05-16',
+            endDate: '2023-05-30',
+            createdAt: '2023-05-16 15:00',
+        },
+        {
+            image: [
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200"
+            ],
+            location: "서울특별시 마포구",
+            price: 39000,
+            startDate: '2023-05-16',
+            endDate: '2023-05-30',
+            createdAt: '2023-05-16 10:00',
+        },
+        {
+            image: [
+                "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200"
+            ],
+            location: "대구광역시 수성구 범어동",
+            price: 46000,
+            startDate: '2023-05-14',
+            endDate: '2023-05-30',
+            createdAt: '2023-05-14 10:00',
+        },
+        {
+            image: [
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200"
+            ],
+            location: "대구광역시 수성구 범어동",
+            price: 90000,
+            startDate: '2023-05-14',
+            endDate: '2023-05-30',
+            createdAt: '2023-05-14 10:00',
+        },
+        {
+            image: [
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200"
+            ],
+            location: "대구광역시 수성구 범어동",
+            price: 80000,
+            startDate: '2023-05-14',
+            endDate: '2023-05-30',
+            createdAt: '2023-05-14 10:00',
+        },
+        {
+            image: [
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200"
+            ],
+            location: "대구광역시 수성구 범어동",
+            price: 80000,
+            startDate: '2023-05-14',
+            endDate: '2023-05-30',
+            createdAt: '2023-05-14 10:00',
+        },
+        {
+            image: [
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200"
+            ],
+            location: "대구광역시 수성구 범어동",
+            price: 80000,
+            startDate: '2023-05-14',
+            endDate: '2023-05-30',
+            createdAt: '2023-05-14 10:00',
+        },
+        {
+            image: ["https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-854745696847346650/original/44fe37d5-d874-4338-b5d8-a1c8df2aef7a.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200l",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-854745696847346650/original/44fe37d5-d874-4338-b5d8-a1c8df2aef7a.jpeg?im_w=1200"],
+            location: "대구광역시 수성구 범어동",
+            price: 80000,
+            startDate: '2023-05-14',
+            endDate: '2023-05-30',
+            createdAt: '2023-05-14 10:00',
+        },
+        {
+            image: [
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200"
+            ],
+            location: "대구광역시 수성구 범어동",
+            price: 80000,
+            startDate: '2023-05-14',
+            endDate: '2023-05-30',
+            createdAt: '2023-05-14 10:00',
+        },
+        {
+            image: [
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-854745696847346650/original/44fe37d5-d874-4338-b5d8-a1c8df2aef7a.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200l",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
+                "https://a0.muscache.com/im/pictures/miso/Hosting-854745696847346650/original/44fe37d5-d874-4338-b5d8-a1c8df2aef7a.jpeg?im_w=1200"],
+            location: "대구광역시 수성구 범어동",
+            price: 80000,
+            startDate: '2023-05-14',
+            endDate: '2023-05-30',
+            createdAt: '2023-05-14 10:00',
+        },
+
+    ])
+
+    // 시간 계산
+    const timeCalculater = (createdAt) => {
+        // const ZONE = 9 * 60 * 60 * 1000; // 9시간
+        // 현재시간
+        const currentDate = new Date()
+        const createdDate = new Date(createdAt)
+
+        if (
+            (createdDate.getFullYear() === currentDate.getFullYear()) &&
+            (createdDate.getDate() === currentDate.getDate())
+        ) {
+            return 'New'
+        } else {
+            return ''
+        }
+    }
+
+    // if (isLoading) {
+    //     return <p>로딩중입니다....!</p>;
+    // }
+
+    // if (isError) {
+    //     return <p>오류가 발생하였습니다...!</p>;
+    // }
+    // if(data){
+    //     console.log("####### Main.jsx", data)
+    // }
+
     return (
         <>
             <div>
@@ -33,131 +201,31 @@ function Main() {
 
             <MainDiv>
                 <GridDiv>
-                    <GridItemDiv>
-                        <GridItemTextWrap>
-                            <GridItemTextTitle>
-                                숙소제목
-                            </GridItemTextTitle>
-                            <GridItemTextConcept>
-                                친근한, 바다와 인접한
-                            </GridItemTextConcept>
-                            <GridItemTextBookable>
-                                6월 11일 -16일
-                            </GridItemTextBookable>
-                            <GridItemTextCost>
-                                ₩199,200/박
-                            </GridItemTextCost>
-                        </GridItemTextWrap>
-
-                        <GridItemImgWrap>
-                            <GridItemImgCanvars>
-                                <GridItemImgPresentation>
-                                    <GridItemImg src="https://a0.muscache.com/im/pictures/prohost-api/Hosting-553863823287705078/original/f2369864-c9eb-4222-a73a-018e55254aed.jpeg?im_w=720" art="test" />
-                                </GridItemImgPresentation>
-                            </GridItemImgCanvars>
-                        </GridItemImgWrap>
-                    </GridItemDiv>
-
-                    <GridItemDiv>
-                        <GridItemTextWrap>
-                            <GridItemTextTitle>
-                                숙소제목2
-                            </GridItemTextTitle>
-                            <GridItemTextConcept>
-                                친근한, 바다와 인접한
-                            </GridItemTextConcept>
-                            <GridItemTextBookable>
-                                6월 11일 -16일
-                            </GridItemTextBookable>
-                            <GridItemTextCost>
-                                ₩199,200/박
-                            </GridItemTextCost>
-                        </GridItemTextWrap>
-
-                        <GridItemImgWrap>
-                            <GridItemImgCanvars>
-                                <GridItemImgPresentation>
-                                    <GridItemImg src="https://a0.muscache.com/im/pictures/prohost-api/Hosting-553863823287705078/original/f2369864-c9eb-4222-a73a-018e55254aed.jpeg?im_w=720" art="test" />
-                                </GridItemImgPresentation>
-                            </GridItemImgCanvars>
-                        </GridItemImgWrap>
-                    </GridItemDiv>
-
-                    <GridItemDiv>
-                        <GridItemTextWrap>
-                            <GridItemTextTitle>
-                                숙소제목3
-                            </GridItemTextTitle>
-                            <GridItemTextConcept>
-                                친근한, 바다와 인접한
-                            </GridItemTextConcept>
-                            <GridItemTextBookable>
-                                6월 11일 -16일
-                            </GridItemTextBookable>
-                            <GridItemTextCost>
-                                ₩199,200/박
-                            </GridItemTextCost>
-                        </GridItemTextWrap>
-
-                        <GridItemImgWrap>
-                            <GridItemImgCanvars>
-                                <GridItemImgPresentation>
-                                    <GridItemImg src="https://a0.muscache.com/im/pictures/prohost-api/Hosting-553863823287705078/original/f2369864-c9eb-4222-a73a-018e55254aed.jpeg?im_w=720" art="test" />
-                                </GridItemImgPresentation>
-                            </GridItemImgCanvars>
-                        </GridItemImgWrap>
-                    </GridItemDiv>
-
-                    <GridItemDiv>
-                        <GridItemTextWrap>
-                            <GridItemTextTitle>
-                                숙소제목4
-                            </GridItemTextTitle>
-                            <GridItemTextConcept>
-                                친근한, 바다와 인접한
-                            </GridItemTextConcept>
-                            <GridItemTextBookable>
-                                6월 11일 -16일
-                            </GridItemTextBookable>
-                            <GridItemTextCost>
-                                ₩199,200/박
-                            </GridItemTextCost>
-                        </GridItemTextWrap>
-
-                        <GridItemImgWrap>
-                            <GridItemImgCanvars>
-                                <GridItemImgPresentation>
-                                    <GridItemImg src="https://a0.muscache.com/im/pictures/prohost-api/Hosting-553863823287705078/original/f2369864-c9eb-4222-a73a-018e55254aed.jpeg?im_w=720" art="test" />
-                                </GridItemImgPresentation>
-                            </GridItemImgCanvars>
-                        </GridItemImgWrap>
-                    </GridItemDiv>
-
-                    <GridItemDiv>
-                        <GridItemTextWrap>
-                            <GridItemTextTitle>
-                                숙소제목5
-                            </GridItemTextTitle>
-                            <GridItemTextConcept>
-                                친근한, 바다와 인접한
-                            </GridItemTextConcept>
-                            <GridItemTextBookable>
-                                6월 11일 -16일
-                            </GridItemTextBookable>
-                            <GridItemTextCost>
-                                ₩199,200/박
-                            </GridItemTextCost>
-                        </GridItemTextWrap>
-
-                        <GridItemImgWrap>
-                            <GridItemImgCanvars>
-                                <GridItemImgPresentation>
-                                    <GridItemImg src="https://a0.muscache.com/im/pictures/prohost-api/Hosting-553863823287705078/original/f2369864-c9eb-4222-a73a-018e55254aed.jpeg?im_w=720" art="test" />
-                                </GridItemImgPresentation>
-                            </GridItemImgCanvars>
-                        </GridItemImgWrap>
-                    </GridItemDiv>
-
+                    {datas && datas.length > 0 ? (
+                        datas.map((item, idx) => (
+                            <GridItemDiv key={idx}>
+                                <GridItemTextWrap>
+                                    <GridItemTextTitle>
+                                        {timeCalculater(item.createdAt)}
+                                    </GridItemTextTitle>
+                                    <GridItemTextConcept>{item.location}</GridItemTextConcept>
+                                    <GridItemTextBookable>
+                                        {item.startDate}~{item.endDate}
+                                    </GridItemTextBookable>
+                                    <GridItemTextCost>₩{item.price}/박</GridItemTextCost>
+                                </GridItemTextWrap>
+                                <GridItemImgWrap>
+                                    <GridItemImgCanvars>
+                                        <GridItemImgPresentation>
+                                            <GridItemImg src={item.image[0]} alt="test" />
+                                        </GridItemImgPresentation>
+                                    </GridItemImgCanvars>
+                                </GridItemImgWrap>
+                            </GridItemDiv>
+                        ))
+                    ) : (
+                        <p>데이터없음</p>
+                    )}
                 </GridDiv>
             </MainDiv>
         </>
@@ -165,17 +233,19 @@ function Main() {
 }
 
 export const MainDiv = styled.div`
+    background: white;
+    bottom: 0;
+    display: grid;
+    position: relative;
+    height: 80vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin: 0 auto;
     padding-inline-start: 80px;
     padding-inline-end: 80px;
-    margin-block-start: var(--jhzm-v-t);
-    margin-block-end: var(--f-fw-z-a-i);
-    background: var(--f-mkcy-f);
     margin-block-start: 16px;
-    max-width: var(--page-shell-max-content-width,1760px);
-    contain: paint layout;
-    bottom: 0;
-    width: calc(100% - var(--scrollbar-gutter,0%));
-    display: grid;
+    
+
 `
 
 export const GridDiv = styled.div`
@@ -183,8 +253,9 @@ export const GridDiv = styled.div`
     // 브라우저 호환성
     grid-gap: 40px 24px;
     gap: 40px 24px;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-auto-rows: minmax(100px);
+    grid-template-columns: repeat( auto-fill, minmax(270px, 1fr));
+    grid-auto-rows: minmax(240px, 1fr);
+    padding : 0 auto;
 `
 
 export const GridItemWrap = styled.div`
@@ -204,7 +275,7 @@ export const GridItemWrap = styled.div`
 `
 export const GridItemDiv = styled.div`
     display: flex;
-    flex-direction: var(--card-layout_flex-direction, column-reverse);
+    flex-direction: column-reverse;
 `
 
 export const GridItemTextWrap = styled.div`
@@ -250,7 +321,6 @@ export const GridItemImgPresentation = styled.div`
     min-height: 250px;
     background-position: 50% 50%;
     background-repeat: no-repeat;
-    background-image: url("https://a0.muscache.com/im/pictures/prohost-api/Ho…2369864-c9eb-4222-a73a-018e55254aed.jpeg?im_w=720");
 `
 
 export const GridItemImg = styled.img`
