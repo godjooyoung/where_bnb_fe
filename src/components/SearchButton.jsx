@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import { styled } from "styled-components";
+import { styled ,keyframes} from "styled-components";
 import { FaSearch } from "react-icons/fa";
 // 6-8번 ,98-107번 복사해서 가져가시면 됩니다!
 // yarn add react-date-range 다운도!
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
-import RoomInfo from "./roomRegiser/RoomInfo";
+import RoomInfo from "../components/roomRegiser/registerStepComponent/RoomInfo";
 import { useRef } from "react";
-import { CiCalendar } from "react-icons/ci";
+import Monthbox from "./Monthbox";
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import ko from "date-fns/locale/ko";
+import { format } from "date-fns";
 
 function SearchButton({ onClose }) {
   const [checkin, setCheckin] = useState(false);
@@ -17,9 +20,9 @@ function SearchButton({ onClose }) {
   const [color, setColor] = useState(false);
   const [clickdate, setClickdate] = useState(true);
   const [clickrange, setClickrange] = useState(false);
-  const [weekend, setWeekend] = useState(false);
   const [week, setWeek] = useState(false);
   const [month, setMonth] = useState(false);
+  const [selectedMonths, setSelectedMonths] = useState({});
   const [state, setState] = useState([
     {
       startDate: new Date(),
@@ -28,6 +31,26 @@ function SearchButton({ onClose }) {
     },
   ]);
   const outside = useRef();
+
+  const boxListRef = useRef();
+
+  const scrollLeft = () => {
+    boxListRef.current.scrollBy({
+      top: 0,
+      left: -100,
+      behavior: "smooth",
+    });
+  };
+
+  const scrollRight = () => {
+    boxListRef.current.scrollBy({
+      top: 0,
+      left: 100,
+      behavior: "smooth",
+    });
+  };
+
+  const months = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
   const checkinbuttonhandler = () => {
     setCheckin(!checkin);
@@ -47,21 +70,23 @@ function SearchButton({ onClose }) {
     setCheckin(false);
     setCheckout(false);
   };
-  const weekendbuttonhandler = () => {
-    setWeekend(true);
-    setWeek(false);
-    setMonth(false);
-  };
+
   const weekbuttonhandler = () => {
     setWeek(true);
-    setWeekend(false);
     setMonth(false);
   };
   const monthbuttonhandler = () => {
     setMonth(true);
     setWeek(false);
-    setWeekend(false);
   };
+
+  const onMonthClick = (month) => {
+    setSelectedMonths((prevState) => ({
+      ...prevState,
+      [month]: !prevState[month],
+    }));
+  };
+
   return (
     <ModalBG
       ref={outside}
@@ -76,7 +101,7 @@ function SearchButton({ onClose }) {
           <div>온라인 체험</div>
         </StcontentBtn>
         <StcateBtn color={color}>
-          <Stcheckin
+          <Stcheckin checkin={checkin}
             onClick={() => {
               checkinbuttonhandler();
             }}
@@ -86,7 +111,7 @@ function SearchButton({ onClose }) {
               <div>날짜 추가</div>
             </div>
           </Stcheckin>
-          <Stcheckout
+          <Stcheckout checkout={checkout}
             onClick={() => {
               checkoutbuttonhandler();
             }}
@@ -96,7 +121,7 @@ function SearchButton({ onClose }) {
               <div>날짜 추가</div>
             </div>
           </Stcheckout>
-          <StGuest
+          <StGuest guest={guest}
             onClick={() => {
               guestbuttonhandler();
             }}
@@ -143,6 +168,9 @@ function SearchButton({ onClose }) {
                     ranges={state}
                     months={2}
                     direction="horizontal"
+                    showDateDisplay={false} //선택된 날짜 표시 안함
+                    locale={ko}
+                    dateDisplayFormat={"yyyy-MM-dd"}
                   />
                 </div>
               ) : (
@@ -152,14 +180,6 @@ function SearchButton({ onClose }) {
                 <Stdaterange>
                   <div>숙박 기간을 선택하세요.</div>
                   <Stselect>
-                    <StselectbtnB
-                      weekend={weekend}
-                      onClick={() => {
-                        weekendbuttonhandler();
-                      }}
-                    >
-                      주말
-                    </StselectbtnB>
                     <Stselectbtn
                       week={week}
                       onClick={() => {
@@ -178,28 +198,30 @@ function SearchButton({ onClose }) {
                     </StselectbtnC>
                   </Stselect>
                   <div>여행 날짜를 선택하세요.</div>
-                  <StmonthboxList>
-                    <Stmonthbox>
-                      <div>
-                        <CiCalendar fontSize={40} />
-                      </div>
-                      <div>5월</div>
-                      <Styeartext>2023</Styeartext>
-                    </Stmonthbox>
-                    <Stmonthbox>
-                      <div>
-                        <CiCalendar fontSize={40} />
-                      </div>
-                      <div>6월</div>
-                      <Styeartext>2023</Styeartext>
-                    </Stmonthbox><Stmonthbox>
-                      <div>
-                        <CiCalendar fontSize={40} />
-                      </div>
-                      <div>7월</div>
-                      <Styeartext>2023</Styeartext>
-                    </Stmonthbox>
-                  </StmonthboxList>
+                  <MonthSlide>
+                    <StButton onClick={scrollLeft} style={{ left: -20 }}>
+                      <IoIosArrowBack />
+                    </StButton>
+                    <StMonthboxList ref={boxListRef}>
+                      {months.map((month, index) => (
+                        <StSlideContainer
+                          key={index}
+                          onClick={() => {
+                            onMonthClick(month);
+                          }}
+                        >
+                          <Monthbox selected={selectedMonths[month]}>
+                            {month >= 13
+                              ? `${month - 12}`
+                              : `${month}`}
+                          </Monthbox>
+                        </StSlideContainer>
+                      ))}
+                    </StMonthboxList>
+                    <StButton onClick={scrollRight} style={{ right: -20 }}>
+                      <IoIosArrowForward />
+                    </StButton>
+                  </MonthSlide>
                 </Stdaterange>
               ) : (
                 ""
@@ -210,7 +232,7 @@ function SearchButton({ onClose }) {
           )}
         </div>
         <div>
-        {checkout ? (
+          {checkout ? (
             <Stmapbox clickdate={clickdate}>
               <Daycheckbox>
                 <Daycheckboxinner
@@ -241,6 +263,9 @@ function SearchButton({ onClose }) {
                     ranges={state}
                     months={2}
                     direction="horizontal"
+                    showDateDisplay={false} //선택된 날짜 표시 안함
+                    locale={ko}
+                    dateDisplayFormat={"yyyy-MM-dd"}
                   />
                 </div>
               ) : (
@@ -250,14 +275,6 @@ function SearchButton({ onClose }) {
                 <Stdaterange>
                   <div>숙박 기간을 선택하세요.</div>
                   <Stselect>
-                    <StselectbtnB
-                      weekend={weekend}
-                      onClick={() => {
-                        weekendbuttonhandler();
-                      }}
-                    >
-                      주말
-                    </StselectbtnB>
                     <Stselectbtn
                       week={week}
                       onClick={() => {
@@ -276,28 +293,30 @@ function SearchButton({ onClose }) {
                     </StselectbtnC>
                   </Stselect>
                   <div>여행 날짜를 선택하세요.</div>
-                  <StmonthboxList>
-                    <Stmonthbox>
-                      <div>
-                        <CiCalendar fontSize={40} />
-                      </div>
-                      <div>5월</div>
-                      <Styeartext>2023</Styeartext>
-                    </Stmonthbox>
-                    <Stmonthbox>
-                      <div>
-                        <CiCalendar fontSize={40} />
-                      </div>
-                      <div>6월</div>
-                      <Styeartext>2023</Styeartext>
-                    </Stmonthbox><Stmonthbox>
-                      <div>
-                        <CiCalendar fontSize={40} />
-                      </div>
-                      <div>7월</div>
-                      <Styeartext>2023</Styeartext>
-                    </Stmonthbox>
-                  </StmonthboxList>
+                  <MonthSlide>
+                    <StButton onClick={scrollLeft} style={{ left: -20 }}>
+                      <IoIosArrowBack />
+                    </StButton>
+                    <StMonthboxList ref={boxListRef}>
+                      {months.map((month, index) => (
+                        <StSlideContainer
+                          key={index}
+                          onClick={() => {
+                            onMonthClick(month);
+                          }}
+                        >
+                          <Monthbox selected={selectedMonths[month]}>
+                            {month >= 13
+                              ? `${month - 12}`
+                              : `${month}`}
+                          </Monthbox>
+                        </StSlideContainer>
+                      ))}
+                    </StMonthboxList>
+                    <StButton onClick={scrollRight} style={{ right: -20 }}>
+                      <IoIosArrowForward />
+                    </StButton>
+                  </MonthSlide>
                 </Stdaterange>
               ) : (
                 ""
@@ -333,7 +352,7 @@ const ModalBG = styled.div`
   width: 100%;
   position: fixed;
   z-index: 999;
-  transform: translateY(144px);
+  transform: translateY(145px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -343,7 +362,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  transform: translateY(-144px);
+  transform: translateY(-145px);
   width: 100px;
 `;
 
@@ -377,14 +396,13 @@ const Stcheckin = styled.button`
   font-size: 13px;
   z-index: 999;
   gap: 3px;
+  cursor: pointer;
   &:hover {
-    background-color: #d8d8d8;
+    background-color: ${(props) => (props.checkin ? "none" : "#d8d8d8")};
   }
-  &:focus {
-    background-color: white;
-    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
-  }
-`;
+    background-color: ${(props) => (props.checkin ? "white" : "none")};
+    box-shadow: ${(props) => (props.checkin ? "0px 3px 10px rgba(0, 0, 0, 0.2);" : "none")};
+  `
 const Stcheckout = styled.button`
   all: unset;
   height: 60px;
@@ -397,12 +415,11 @@ const Stcheckout = styled.button`
   font-size: 13px;
   gap: 3px;
   &:hover {
-    background-color: #d8d8d8;
+    background-color: ${(props) => (props.checkout ? "none" : "#d8d8d8")};
   }
-  &:focus {
-    background-color: white;
-    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
-  }
+  
+    background-color: ${(props) => (props.checkout ? "white" : "none")};
+    box-shadow: ${(props) => (props.checkout ? "0px 3px 10px rgba(0, 0, 0, 0.2);" : "none")};
 `;
 const StGuest = styled.button`
   all: unset;
@@ -418,12 +435,11 @@ const StGuest = styled.button`
   font-size: 13px;
   gap: 4px;
   &:hover {
-    background-color: #d8d8d8;
+    background-color: ${(props) => (props.guest ? "none" : "#d8d8d8")};
   }
-  &:focus {
-    background-color: white;
-    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
-  }
+  
+    background-color: ${(props) => (props.guest ? "white" : "none")};
+    box-shadow: ${(props) => (props.guest ? "0px 3px 10px rgba(0, 0, 0, 0.2);" : "none")};
 `;
 const StSearch = styled.div`
   display: flex;
@@ -440,7 +456,7 @@ const StSearch = styled.div`
 const Stmapbox = styled.div`
   margin-top: 4px;
   width: 750px;
-  height: ${(props) => (props.clickdate ? "480px" : "440px")};
+  height: ${(props) => (props.clickdate ? "450px" : "440px")};
   background-color: white;
   border-radius: 33px;
   padding: 30px 28px 0 44px;
@@ -461,7 +477,6 @@ const Stguestbox = styled.div`
   padding: 30px 28px 0 44px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
   z-index: 888;
-
 `;
 const Daycheckbox = styled.div`
   background-color: #d8d8d88b;
@@ -519,28 +534,11 @@ const Stselectbtn = styled.button`
     props.week ? "1.5px solid black" : "1px solid lightgray;"};
   font-size: 13px;
   cursor: pointer;
-  &:hover{
-    border: ${(props) =>
-    props.week ? "" : "1px solid gray;"};
+  &:hover {
+    border: ${(props) => (props.week ? "" : "1px solid gray;")};
   }
 `;
-const StselectbtnB = styled.button`
-  all: unset;
-  font-size: 13px;
-  width: 60px;
-  height: 41px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 22px;
-  border: ${(props) =>
-    props.weekend ? "1.5px solid black" : "1px solid lightgray;"};
-  cursor: pointer;
-  &:hover{
-    border: ${(props) =>
-    props.weekend ? "" : "1px solid gray;"};
-  }
-`;
+
 const StselectbtnC = styled.button`
   all: unset;
   font-size: 13px;
@@ -553,29 +551,45 @@ const StselectbtnC = styled.button`
   border: ${(props) =>
     props.month ? "1.5px solid black" : "1px solid lightgray;"};
   cursor: pointer;
-  &:hover{
-    border: ${(props) =>
-    props.month ? "" : "1px solid gray;"};
+  &:hover {
+    border: ${(props) => (props.month ? "" : "1px solid gray;")};
   }
 `;
-const Stmonthbox = styled.button`
-  border: 1px solid lightgray;
-  width: 120px;
-  height: 130px;
-  border-radius: 14px;
+
+const StMonthboxList = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  font-size: 14px;
+  gap: 10px;
+  overflow: hidden;
+  position: relative;
+  width: 700px;
+  height: 130px;
+  scroll-snap-type: x mandatory;
 `;
-const Styeartext = styled.div`
-  font-size: 12px;
-  font-weight: 400;
+const StSlideContainer = styled.div`
+  display: flex;
+  width: 120px;
+  scroll-snap-align: start;
+  scroll-behavior: smooth;
+  flex-shrink: 0;
 `;
 
-const StmonthboxList = styled.div`
-display: flex;
-gap: 10px;
+const StButton = styled.button`
+  background-color: white;
+  border: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 1;
+`;
+const MonthSlide = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  position: relative;
 `;

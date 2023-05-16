@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { styled } from 'styled-components';
-import { ReactComponent as DragPhoto } from "../../assets/svg/dragPhoto.svg"
+import { ReactComponent as DragPhoto } from "../../../assets/svg/dragPhoto.svg"
+
 function DragDrop(props) {
     const [dragActive, setDragActive] = useState(false)
     const inputRef = useRef();
