@@ -17,6 +17,7 @@ const api = axios.create({
 const multipartInstance = axios.create({
   baseURL: "http://54.197.12.68:8081/",
   headers: {
+    // 토큰
     "Content-Type": "multipart/form-data",
   },
 });

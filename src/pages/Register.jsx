@@ -20,7 +20,7 @@ function Register() {
     const [nextBtnDisable, setNextBtnDisable] = useState(false)
     const [step, setStep] = useState(0)
     const [regiData, setRegiData] = useState({
-        image: [],
+        imageFile: [],
         roomRequestDto: {
             "roomName": null,
             "description": null,
@@ -31,10 +31,10 @@ function Register() {
             "bedroomNum": 1,
             "bedNum": 1,
             "bathrooomNum": 0.5,
-            "infant": false,
-            "pet": false,
-            "startDate": null,
-            "endDate": null,
+            "infantExist": false,
+            "petExist": false,
+            "checkInDate": null,
+            "checkOutDate": null,
             "price": 1000
         }
     })
@@ -43,9 +43,8 @@ function Register() {
     }
     const formData = new FormData();
     const getRegiDataForm = (files) => {
-        console.log("XXXX폼데이터", files)
         Array.from(files).forEach((file) => {
-            formData.append(`image`, file);
+            formData.append(`imageFile`, file);
         });
     }
     useEffect(() => {
@@ -76,10 +75,6 @@ function Register() {
         setStepIsDone(x)
     }
 
-    // useEffect(()=>{
-    //     console.log("!!!! 자식에서 올려줌", stepIsDone)
-    // },[stepIsDone])
-
     // 이전 버튼 클릭
     const prevStepBtnOnClickEvent = () => {
         if (!prevBtnDisable) {
@@ -98,7 +93,7 @@ function Register() {
         }
     }
 
-    // 서버에 요청 (로그인)
+    // 서버에 요청
     const roomReigisterMutate = useMutation(roomRegister, {
         onSuccess: (response) => {
             console.log("성공")

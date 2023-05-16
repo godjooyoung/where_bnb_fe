@@ -23,19 +23,21 @@ function Main() {
     // const { isLoading, isError, data } = useQuery("MainList", getMainList);
     const [datas, setDatas] = useState([
         {
-            image: ["https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+            roomId : "1",
+            imageFile: ["https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-854745696847346650/original/44fe37d5-d874-4338-b5d8-a1c8df2aef7a.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200l",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-854745696847346650/original/44fe37d5-d874-4338-b5d8-a1c8df2aef7a.jpeg?im_w=1200"],
             location: "서울특별시 강서구",
             price: 40000,
-            startDate: '2023-05-16',
-            endDate: '2023-05-30',
+            checkInDate: '2023-05-16',
+            checkOutDate: '2023-05-30',
             createdAt: '2023-05-16 15:00',
         },
         {
-            image: [
+            roomId : "2",
+            imageFile: [
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
@@ -44,12 +46,13 @@ function Main() {
             ],
             location: "서울특별시 마포구",
             price: 39000,
-            startDate: '2023-05-16',
-            endDate: '2023-05-30',
+            checkInDate: '2023-05-16',
+            checkOutDate: '2023-05-30',
             createdAt: '2023-05-16 10:00',
         },
         {
-            image: [
+            roomId : "3",
+            imageFile: [
                 "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
@@ -58,12 +61,13 @@ function Main() {
             ],
             location: "대구광역시 수성구 범어동",
             price: 46000,
-            startDate: '2023-05-14',
-            endDate: '2023-05-30',
+            checkInDate: '2023-05-14',
+            checkOutDate: '2023-05-30',
             createdAt: '2023-05-14 10:00',
         },
         {
-            image: [
+            roomId : "4",
+            imageFile: [
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
@@ -72,12 +76,13 @@ function Main() {
             ],
             location: "대구광역시 수성구 범어동",
             price: 90000,
-            startDate: '2023-05-14',
-            endDate: '2023-05-30',
+            checkInDate: '2023-05-14',
+            checkOutDate: '2023-05-30',
             createdAt: '2023-05-14 10:00',
         },
         {
-            image: [
+            roomId : "5",
+            imageFile: [
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
@@ -86,12 +91,13 @@ function Main() {
             ],
             location: "대구광역시 수성구 범어동",
             price: 80000,
-            startDate: '2023-05-14',
-            endDate: '2023-05-30',
+            checkInDate: '2023-05-14',
+            checkOutDate: '2023-05-30',
             createdAt: '2023-05-14 10:00',
         },
         {
-            image: [
+            roomId : "6",
+            imageFile: [
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
@@ -100,12 +106,13 @@ function Main() {
             ],
             location: "대구광역시 수성구 범어동",
             price: 80000,
-            startDate: '2023-05-14',
-            endDate: '2023-05-30',
+            checkInDate: '2023-05-14',
+            checkOutDate: '2023-05-30',
             createdAt: '2023-05-14 10:00',
         },
         {
-            image: [
+            roomId : "7",
+            imageFile: [
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
@@ -114,24 +121,26 @@ function Main() {
             ],
             location: "대구광역시 수성구 범어동",
             price: 80000,
-            startDate: '2023-05-14',
-            endDate: '2023-05-30',
+            checkInDate: '2023-05-14',
+            checkOutDate: '2023-05-30',
             createdAt: '2023-05-14 10:00',
         },
         {
-            image: ["https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
+            roomId : "8",
+            imageFile: ["https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-854745696847346650/original/44fe37d5-d874-4338-b5d8-a1c8df2aef7a.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200l",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-854745696847346650/original/44fe37d5-d874-4338-b5d8-a1c8df2aef7a.jpeg?im_w=1200"],
             location: "대구광역시 수성구 범어동",
             price: 80000,
-            startDate: '2023-05-14',
-            endDate: '2023-05-30',
+            checkInDate: '2023-05-14',
+            checkOutDate: '2023-05-30',
             createdAt: '2023-05-14 10:00',
         },
         {
-            image: [
+            roomId : "9",
+            imageFile: [
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
@@ -140,12 +149,13 @@ function Main() {
             ],
             location: "대구광역시 수성구 범어동",
             price: 80000,
-            startDate: '2023-05-14',
-            endDate: '2023-05-30',
+            checkInDate: '2023-05-14',
+            checkOutDate: '2023-05-30',
             createdAt: '2023-05-14 10:00',
         },
         {
-            image: [
+            roomId : "10",
+            imageFile: [
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-854745696847346650/original/44fe37d5-d874-4338-b5d8-a1c8df2aef7a.jpeg?im_w=1200",
                 "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200l",
@@ -153,8 +163,8 @@ function Main() {
                 "https://a0.muscache.com/im/pictures/miso/Hosting-854745696847346650/original/44fe37d5-d874-4338-b5d8-a1c8df2aef7a.jpeg?im_w=1200"],
             location: "대구광역시 수성구 범어동",
             price: 80000,
-            startDate: '2023-05-14',
-            endDate: '2023-05-30',
+            checkInDate: '2023-05-14',
+            checkOutDate: '2023-05-30',
             createdAt: '2023-05-14 10:00',
         },
 
@@ -203,21 +213,21 @@ function Main() {
                 <GridDiv>
                     {datas && datas.length > 0 ? (
                         datas.map((item, idx) => (
-                            <GridItemDiv key={idx}>
+                            <GridItemDiv key={item.roomId}>
                                 <GridItemTextWrap>
                                     <GridItemTextTitle>
                                         {timeCalculater(item.createdAt)}
                                     </GridItemTextTitle>
                                     <GridItemTextConcept>{item.location}</GridItemTextConcept>
                                     <GridItemTextBookable>
-                                        {item.startDate}~{item.endDate}
+                                        {item.checkInDate}~{item.checkOutDate}
                                     </GridItemTextBookable>
                                     <GridItemTextCost>₩{item.price}/박</GridItemTextCost>
                                 </GridItemTextWrap>
                                 <GridItemImgWrap>
                                     <GridItemImgCanvars>
                                         <GridItemImgPresentation>
-                                            <GridItemImg src={item.image[0]} alt="test" />
+                                            <GridItemImg src={item.imageFile[0]} alt="test" />
                                         </GridItemImgPresentation>
                                     </GridItemImgCanvars>
                                 </GridItemImgWrap>

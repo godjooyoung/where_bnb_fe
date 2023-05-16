@@ -14,8 +14,8 @@ function RoomCapacitySelectionStep(props) {
         bedNum : 1,
         bedroomNum :1,
         guestNum : 1,
-        infant : false,
-        pet : false
+        infantExist : false,
+        petExist : false
     })
     const getCapacityformData = (x) => {
         setRoomRequestDto({...roomRequestDto, ...x})
@@ -34,8 +34,8 @@ function RoomCapacitySelectionStep(props) {
             <RoomInfo initOptValue={1} optTitle="침실" type="counter" dataName="bedroomNum" getCapacityformData={getCapacityformData}/>
             <RoomInfo initOptValue={1} optTitle="침대" type="counter" dataName="bedNum" getCapacityformData={getCapacityformData}/>
             <RoomInfo initOptValue={0.5} optTitle="욕실" type="counter" dataName="bathrooomNum" getCapacityformData={getCapacityformData}/>
-            <RoomInfo initOptValue={false} optTitle="유아 동반가능" type="switch" dataName="infant" getCapacityformData={getCapacityformData}/>
-            <RoomInfo initOptValue={false} optTitle="애견 동반가능" type="switch" dataName="pet" getCapacityformData={getCapacityformData}/>
+            <RoomInfo initOptValue={false} optTitle="유아 동반가능" type="switch" dataName="infantExist" getCapacityformData={getCapacityformData}/>
+            <RoomInfo initOptValue={false} optTitle="애견 동반가능" type="switch" dataName="petExist" getCapacityformData={getCapacityformData}/>
         </StepWrapDiv>
         </StepDiv>
     );
