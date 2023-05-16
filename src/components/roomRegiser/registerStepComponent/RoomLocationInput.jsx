@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
-function RoomLocationInput() {
+function RoomLocationInput(props) {
     // 내부
     const [addr, setAddr] = useState('')
     const [showClearIcon, setShowClearIcon] = useState(false)
@@ -9,6 +9,7 @@ function RoomLocationInput() {
     // 주소 입력 이벤트
     const iptOnChangeEventHandler = (e) => {
         setAddr(e.target.value)
+        
     }
 
     // clearIcon클릭 시 이벤트
@@ -21,12 +22,22 @@ function RoomLocationInput() {
     useEffect(() => {
         if (addr.length) {
             setShowClearIcon(true)
+            props.getLocation(addr)
         } else {
             setShowClearIcon(false)
+            props.getLocation(null)
         }
+
     }, [addr])
 
-
+    // 폼의 값이 변경되면 완료/미완 여부를 부모로 올린다.
+    useEffect(()=>{
+        if(addr.length === 0){
+            props.getFormIsDone(false)
+        }else{
+            props.getFormIsDone(true)
+        }
+    },[addr])
 
     return (
         <>
@@ -71,7 +82,7 @@ export const LocationInputWrapDiv = styled.div`
     align-items: center;
     padding: 12px 12px 12px 16px;
     border-radius: 78px;
-    box-shadow: none;
+    box-shadow: 4px 5px 10px -4px gray;
     &:hover{
         box-shadow: inset 0 0 0 2px #222222;
     }
