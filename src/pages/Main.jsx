@@ -16,6 +16,7 @@ import { ElectricScooterSharp } from '@mui/icons-material';
 import UrlContext from '../../src/components/UrlContext';
 import axios from 'axios';
 import { SearchContext } from '../providers/SearchContext'
+import { useDataStore } from '../context/DataStore';
 
 function Main() {
     // 전역, 검색결과
@@ -191,8 +192,8 @@ function Main() {
             setSearchKeyword(keyword)
         }
     }
-    const { filterData } = useContext(UrlContext);
-    console.log(filterData)
+
+
     // 시간 계산
     const timeCalculater = (createdAt) => {
         // const ZONE = 9 * 60 * 60 * 1000; // 9시간
@@ -232,7 +233,7 @@ function Main() {
     }
 
     let subscribeUrl = `${process.env.REACT_APP_SERVER_URL}/sub`;
-
+    const {setData} = useDataStore()
 
     if(getCookie("token")){
         if(!chk){        
@@ -240,10 +241,10 @@ function Main() {
         let eventSource = new EventSource(subscribeUrl + "?token=" + getCookie("token").split(" ")[1]);
         eventSource.addEventListener("notifyLike", function(event) {
         let message = event.data;
-        let data = JSON.parse(message)
-        console.log(data)
+        let eventData = JSON.parse(message)
+        console.log(eventData)
         alert(message);
-        console.log(message)
+        setData(eventData)
         })
         setChk(true)
         }

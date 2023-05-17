@@ -207,10 +207,8 @@ function SearchButton({ onClose }) {
         'Authorization': token,
         'Content-Type': 'application/json',
         // 다른 헤더 필드도 추가할 수 있습니다.
-      }
-    }
-
-    );
+      }});
+    onClose(false);
     const getfilter = response.data
     console.log(getfilter)
     
