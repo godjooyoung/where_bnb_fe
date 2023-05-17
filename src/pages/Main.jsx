@@ -232,8 +232,8 @@ function Main() {
         })
         setChk(true)
         }
-
     }
+    
     if (isLoadingMain) {
         return <p>로딩중입니다....!</p>;
     }
