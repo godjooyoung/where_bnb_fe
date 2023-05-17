@@ -47,9 +47,9 @@ function Register() {
         const fileList = Array.from(files)
         console.log(">>>>>>>>>>>>>>>>>",fileList)
         setRegiData({...regiData, imageFile:fileList})
-        Array.from(files).forEach((file) => {
-            formData.append(`imageFile`, file);
-        });
+        // Array.from(files).forEach((file) => {
+        //     formData.append(`imageFile`, file);
+        // });
     }
     // useEffect(() => {
     //     for (const key in regiData.roomRequestDto) {
@@ -109,8 +109,11 @@ function Register() {
             const value = regiData.roomRequestDto[key];
             formData.append(key, value);
         }
-        formData.append('images', regiData.imageFile)
 
+        regiData.imageFile.map((image)=>{
+            formData.append('images', image)
+        })
+        
         for (const [key, value] of formData.entries()) {
             console.log("데이터 테스트!!",key, value);
         }
@@ -161,18 +164,23 @@ function Register() {
                     </span>
                 </div>
             </RegiHeader>
-            <RegiContent>
-                {step === 0 ? <RegiStart getStepIsDone={getStepIsDone} /> : <></>}
 
+            
+            <RegiContent>
+            
+            {/* <form action="http://54.197.12.68:8081/room" method="post" enctype="multipart/form-data">
+                <input type="file" name="images"/>
+                <button type="submit">제출하기</button>
+            </form> */}
+
+                {step === 0 ? <RegiStart getStepIsDone={getStepIsDone} /> : <></>}
                 {step === 1 ? <RegisterStepOneStart getStepIsDone={getStepIsDone} /> : <></>}
                 {step === 2 ? <LocationRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData} /> : <></>}
                 {step === 3 ? <RoomCapacitySelectionStep getStepIsDone={getStepIsDone} getRegiData={getRegiData} /> : <></>}
-
                 {step === 4 ? <RegisterStepTwoStart getStepIsDone={getStepIsDone} /> : <></>}
                 {step === 5 ? <RoomPhotoUploadStep getStepIsDone={getStepIsDone} getRegiDataForm={getRegiDataForm} /> : <></>}
                 {step === 6 ? <NameRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData} /> : <></>}
                 {step === 7 ? <DescriptionRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData} /> : <></>}
-
                 {step === 8 ? <RegisterStepThrStart getStepIsDone={getStepIsDone} /> : <></>}
                 {step === 9 ? <ConceptRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData} /> : <></>}
                 {step === 10 ? <RoomCalendarStep getStepIsDone={getStepIsDone} getRegiData={getRegiData} /> : <></>}

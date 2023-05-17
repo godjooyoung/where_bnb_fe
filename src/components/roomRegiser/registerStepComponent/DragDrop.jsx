@@ -7,7 +7,7 @@ function DragDrop(props) {
     const inputRef = useRef();
 
     const [isDone, setIsDone] = useState(false)
-    const formData = new FormData();
+    const [preview, setPriview] = useState(null)
 
     const handleFile = (files) => {
         if(files.length > 0){
@@ -15,10 +15,9 @@ function DragDrop(props) {
             props.getImage(files);
         }else{
             setIsDone(false)
-        }
-
-        
+        }        
     }
+
     // 완료여부
     useEffect(()=>{
         props.getFormIsDone(isDone)
@@ -45,6 +44,23 @@ function DragDrop(props) {
 
     const handleChange = (e) => {
         e.preventDefault()
+        
+        //////////////
+        const reader = new FileReader();
+        const file = e.target.files[0];
+        if (e.target.files) { 
+            reader.onloadend = () => {
+                setPriview(reader.result)
+            };   
+            reader.readAsDataURL(file)
+            
+        } else {
+            console.log("##미리보기없음",reader.result);
+            setPriview(null)
+        }
+        //////////////
+
+
         if (e.target.files && e.target.files[0]) {
             handleFile(e.target.files);
         }
@@ -77,6 +93,7 @@ function DragDrop(props) {
             </FormWrapDiv>
             </UploadDiv>
             </DragWrap>
+            <img src={preview}></img>
         </DragPositonDiv>
         </>
     );
