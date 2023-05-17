@@ -8,7 +8,7 @@ import keywordLogo04 from "../assets/keywordLogo04.jpeg"
 import keywordLogo05 from "../assets/keywordLogo05.jpeg"
 import { styled } from 'styled-components';
 import { useQuery, useQueryClient } from "react-query";
-import { getMainList, getMainListUser, getMainListKeyword, getMainListUserKeyword } from "../api/main";
+import { getMainList, getMainListUser, getMainListKeyword, getMainListUserKeyword, getMainListUserLike } from "../api/main";
 import { getCookie } from '../cookie/Cookie';
 import { instance, tokenInstance } from '../api/apiConfig';
 import { AiFillHeart } from 'react-icons/ai'
@@ -50,7 +50,6 @@ function Main() {
         const checkSearchKeyword =() =>{
             if(searchKeyword){
                 setIsKeyword(true)
-                console.log("선택키워드 53",searchKeyword)
             }else{
                 setIsKeyword(false)
             }
@@ -78,6 +77,10 @@ function Main() {
         enabled: (isLogIn && isKeyword), // isLogIn, isKeyword 값에 따라 쿼리 활성화 또는 비활성화
     })
 
+    const mainLikeUserQuery = useQuery("MainLikeListUser", getMainListUserLike, {
+        enabled: isLogIn, // isLogIn 값에 따라 쿼리 활성화 또는 비활성화
+    });
+
     // 쿼리 결과 담는 스테이트
     const [datas, setDatas] = useState([])
 
@@ -86,24 +89,30 @@ function Main() {
     const { isLoading: isLoadingMainUser, isError: isErrorMainUser, data: dataMainUser } = mainUserQuery;
     const { isLoading: isLoadingMainKeyword, isError: isErrorMainKeyword, data: dataMainKeyword } = mainKeywordQuery;
     const { isLoading: isLoadingMainKeywordUser, isError: isErrorMainKeywordUser, data: dataMainKeywordUser } = mainKeywordUserQuery;
+    const { isLoading: isLoadingMainLikeListUser, isError: isErrorMainLikeListUser, data: dataMainLikeListUser } = mainLikeUserQuery;
 
     // 로그인 유뮤ㅡ 키워드 검색 유무에 따라서 데이이터를 재 요청해서 조회한다.
     useEffect(() => {
         if(isLogIn){
-
             if(searchKeyword){
-                queryClient.cancelQueries({ queryKey: ['MainList', 'MainListUser', 'MainKeywordList'] })
-                queryClient.invalidateQueries("MainKeywordListUser");
+                if(searchKeyword === '위시 리스트'){
+                    queryClient.cancelQueries({ queryKey: ['MainList', 'MainListUser', 'MainKeywordList', 'MainKeywordListUser'] })
+                    queryClient.invalidateQueries("MainLikeListUser");
+                }else{
+                    queryClient.cancelQueries({ queryKey: ['MainList', 'MainListUser', 'MainKeywordList', 'MainLikeListUser'] })
+                    queryClient.invalidateQueries("MainKeywordListUser");
+                }
+                
             }else{
-                queryClient.cancelQueries({ queryKey: ['MainList', 'MainKeywordListUser', 'MainKeywordList'] })
+                queryClient.cancelQueries({ queryKey: ['MainList', 'MainKeywordListUser', 'MainKeywordList', 'MainLikeListUser'] })
                 queryClient.invalidateQueries("MainListUser");
             }
         }else{
             if(searchKeyword){
-                queryClient.cancelQueries({ queryKey: ['MainList', 'MainListUser', 'MainKeywordListUser'] })
+                queryClient.cancelQueries({ queryKey: ['MainList', 'MainListUser', 'MainKeywordListUser', 'MainLikeListUser'] })
                 queryClient.invalidateQueries("MainKeywordList");
             }else{
-                queryClient.cancelQueries({ queryKey: ['MainListUser', 'MainKeywordListUser', 'MainKeywordList'] })
+                queryClient.cancelQueries({ queryKey: ['MainListUser', 'MainKeywordListUser', 'MainKeywordList', 'MainLikeListUser'] })
                 queryClient.invalidateQueries("MainList");
             }
             
@@ -119,12 +128,19 @@ function Main() {
         console.log("dataMain",dataMain)
         console.log("dataMainKeyword",dataMainKeyword)
         console.log("dataMainKeywordUser",dataMainKeywordUser)
-
+        console.log("dataMainLikeListUser",dataMainLikeListUser)
         if(isLogIn){
             if(isKeyword){
-                if(dataMainKeywordUser){
-                    setDatas([...dataMainKeywordUser])
+                if(searchKeyword === '위시 리스트'){
+                    if(dataMainLikeListUser){
+                        setDatas([...dataMainLikeListUser])
+                    }
+                }else{
+                    if(dataMainKeywordUser){
+                        setDatas([...dataMainKeywordUser])
+                    }
                 }
+                
             }else{
                 if(dataMainUser){
                     setDatas([...dataMainUser])
@@ -141,7 +157,7 @@ function Main() {
                 }              
             }            
         }
-    },[dataMain, dataMainUser, dataMainKeyword, dataMainKeywordUser])
+    },[dataMain, dataMainUser, dataMainKeyword, dataMainKeywordUser, dataMainLikeListUser])
 
     useEffect(() => {
         if (searchKeyword) {
@@ -151,7 +167,7 @@ function Main() {
     
     const keywordsClickEventHandeler = (keyword)=>{
         if(keyword === keywords[0].desc){
-
+            setSearchKeyword(keyword)
         }else{
             console.log("키워드 변경,", keyword)
             setSearchKeyword(keyword)
@@ -223,10 +239,30 @@ function Main() {
         return <p>오류가 발생하였습니다...!</p>;
     }
 
+    if (isLoadingMainKeyword) {
+        return <p>로딩중입니다....!</p>;
+    }
+
+    if (isErrorMainKeyword) {
+        return <p>오류가 발생하였습니다...!</p>;
+    }
+
+    if (isLoadingMainKeywordUser) {
+        return <p>로딩중입니다....!</p>;
+    }
+
+    if (isErrorMainKeywordUser) {
+        return <p>오류가 발생하였습니다...!</p>;
+    }
+
     return (
         <>
             <ConceptContainer>
                 {keywords.map((keyword, idx)=>{
+                    if (!isLogIn && idx === 0) {
+                        // 로그인 상태가 아니면서 첫 번째 요소인 경우에는 렌더링하지 않음
+                        return null;
+                    }
                     return (
                     <ConceptWrapDiv onClick={()=>{keywordsClickEventHandeler(keyword.desc)}}>
                         <ConceptImgDiv>

@@ -24,6 +24,12 @@ const getMainListUserKeyword = async (keywordQueryParams) => {
     return response.data.data
 }
 
+const getMainListUserLike = async () => {
+    const response = await tokenInstance.get('/room/like')
+    return response.data.data
+}
 
 
-export {getMainList, getMainListKeyword, getMainListUser, getMainListUserKeyword}
+
+
+export {getMainList, getMainListKeyword, getMainListUser, getMainListUserKeyword, getMainListUserLike}
