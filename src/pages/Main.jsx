@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import wishListLogo from "../assets/wishListLogo.png"
 import keywordLogo00 from "../assets/keywordLogo00.jpeg"
 import keywordLogo01 from "../assets/keywordLogo01.jpeg"
@@ -13,6 +13,8 @@ import { getCookie } from '../cookie/Cookie';
 import { instance, tokenInstance } from '../api/apiConfig';
 import { AiFillHeart } from 'react-icons/ai'
 import { ElectricScooterSharp } from '@mui/icons-material';
+import UrlContext from '../../src/components/UrlContext';
+import axios from 'axios';
 
 function Main() {
     const [keywords, setKeywords] = useState([
@@ -173,6 +175,8 @@ function Main() {
             setSearchKeyword(keyword)
         }
     }
+    const { filterData } = useContext(UrlContext);
+    console.log(filterData)
     // 시간 계산
     const timeCalculater = (createdAt) => {
         // const ZONE = 9 * 60 * 60 * 1000; // 9시간
@@ -202,7 +206,7 @@ function Main() {
         await instance.put(`/room/like/${id}`, {},
             {
                 headers : {
-                    Authorization : `Bearer ${getCookie("token")}`
+                    Authorization : `${getCookie("token")}`
                 },},)
 
         setClickheart((prevState) => ({
@@ -216,9 +220,11 @@ function Main() {
 
     if(getCookie("token")){
         console.log("제발 들어와라.....");
-        let eventSource = new EventSource(subscribeUrl + "?token=" + getCookie("token"));
+        let eventSource = new EventSource(subscribeUrl + "?token=" + getCookie("token").split(" ")[1]);
         eventSource.addEventListener("notifyLike", function(event) {
         let message = event.data;
+        let data = JSON.parse(message)
+        console.log(data)
         alert(message);
         console.log(message)
     })
