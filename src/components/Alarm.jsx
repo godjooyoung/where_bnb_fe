@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "styled-components";
 import { useRef, useEffect } from "react";
 import { BiBell } from "react-icons/bi";
@@ -6,10 +6,11 @@ import { useQuery } from "react-query";
 import { getNotice } from "../api/notice";
 import instance from '../api/apiConfig';
 import { getCookie } from '../cookie/Cookie';
+import { useDataStore } from "../context/DataStore";
 
 function Alarm({ onAlarm }) {
   const divRef = useRef();
-
+  const [alarms, setAlarms] = useState([])
   const handleClickOutside = (event) => {
     if (divRef.current && !divRef.current.contains(event.target)) {
       onAlarm(false);
@@ -22,34 +23,26 @@ function Alarm({ onAlarm }) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+}, []);
+const data = useDataStore()
+useEffect(() => {
+      setAlarms([...alarms,data])
 
-
-// let subscribeUrl = `${process.env.REACT_APP_SERVER_URL}/sub`;
-
- let data = null
-// if(getCookie("token")){
-//     console.log("제발 들어와라.....");
-//     let eventSource = new EventSource(subscribeUrl + "?token=" + getCookie("token"));
-//     eventSource.addEventListener("notifyLike", function(event) {
-//         let message = event.data;
-//         alert(message);
-//         console.log(message)
-//     })
-// }
+  },[data])
+  console.log(alarms)
   return (
     <StAlarm ref={divRef}>
       <Sttitle>알림</Sttitle>
       <StAlarmboxB>
-      {data ? (
-        data.map((item) => {
+      {!alarms ? (
+        alarms.map((item) => {
           return (
               <Stlikebox>
                 <Stlikeboxtext>
-                  {item.userName} 님이 내 '{item.roomName}'
+                  {item.data.userName} 님이 내 '{item.data.roomName}'
                 </Stlikeboxtext>
                 <Stlikeboxtext>게시글에 즐겨찾기 하셨습니다.</Stlikeboxtext>
-                <Stlikeboxtime>{item.createdAt}</Stlikeboxtime>
+                <Stlikeboxtime>{item.data.createdAt}</Stlikeboxtime>
               </Stlikebox>
           );
         })
