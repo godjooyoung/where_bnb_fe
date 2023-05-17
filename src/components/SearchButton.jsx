@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { styled, keyframes } from "styled-components";
+import React, { useState, useContext } from "react";
+import { styled } from "styled-components";
 import { FaSearch } from "react-icons/fa";
 // 6-8번 ,98-107번 복사해서 가져가시면 됩니다!
 // yarn add react-date-range 다운도!
@@ -12,12 +12,14 @@ import Monthbox from "./Monthbox";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import ko from "date-fns/locale/ko";
 import { format } from "date-fns";
-import UrlContext from '../../src/components/UrlContext';
-import { useContext } from "react";
 import axios from "axios";
 import { getCookie } from "../cookie/Cookie";
+import { SearchContext } from '../providers/SearchContext'
 
 function SearchButton({ onClose }) {
+  /**전역 */
+  const { updateSearchResults } = useContext(SearchContext);
+
   const [checkin, setCheckin] = useState(false);
   const [checkout, setCheckout] = useState(false);
   const [guest, setGuest] = useState(false);
@@ -197,20 +199,22 @@ function SearchButton({ onClose }) {
     })
   };
 
+
+  //  /////////////// 검색 이벤트 시작
   const SearchbuttonHandler = async () => {
-
-
     const response = await axios.get(`${url}`, {
       headers: {
         'Authorization': token,
         'Content-Type': 'application/json',
         // 다른 헤더 필드도 추가할 수 있습니다.
-      }
-    }
-
-    );
+      }});
+    onClose(false);
     const getfilter = response.data
     console.log(getfilter)
+    
+    /** 전역 */
+    updateSearchResults(getfilter.data)
+    
     // const { setgetfilter } = useContext(UrlContext);
     
 
@@ -220,8 +224,14 @@ function SearchButton({ onClose }) {
     //   setgetfilter(getfilter); 
     // }, [getfilter]);
   };
+  
+  //  /////////////// 검색 이벤트 끝 
+
 
   return (
+    <>
+    
+
     <ModalBG
       ref={outside}
       onClick={(event) => {
@@ -500,6 +510,7 @@ function SearchButton({ onClose }) {
         </div>
       </Container>
     </ModalBG>
+    </>
   );
 }
 

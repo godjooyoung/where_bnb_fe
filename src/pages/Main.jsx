@@ -15,8 +15,17 @@ import { AiFillHeart } from 'react-icons/ai'
 import { ElectricScooterSharp } from '@mui/icons-material';
 import UrlContext from '../../src/components/UrlContext';
 import axios from 'axios';
+import { SearchContext } from '../providers/SearchContext'
+import { useDataStore } from '../context/DataStore';
 
 function Main() {
+    // 전역, 검색결과
+    const { searchResults } = useContext(SearchContext);
+    const [displayResults, setDisplayResults] = useState([]);
+    
+
+    // 한번만 SSE 연결을 하기위한 플래그 값
+    const [chk, setChk] = useState(false)
     const [keywords, setKeywords] = useState([
         { url: wishListLogo, desc : '위시 리스트'},
         { url: keywordLogo00, desc: '한적한 분위기'},
@@ -56,7 +65,8 @@ function Main() {
                 setIsKeyword(false)
             }
         }
-        checkSearchKeyword() 
+        checkSearchKeyword()
+        
     }, []);
 
     // 쿼리 설정
@@ -121,6 +131,11 @@ function Main() {
         }
     }, [searchKeyword]);
 
+    useEffect(() => {
+        setDisplayResults(searchResults); // Context의 업데이트를 감지하여 결과를 가져옴
+        setDatas(searchResults)
+    }, [searchResults]);
+
     // 로그인 유무, 키워드 검색 유무에 따라 대치되는 데이터가 달라진다.
     useEffect(()=>{
         console.log("로그인유무",isLogIn)
@@ -131,6 +146,7 @@ function Main() {
         console.log("dataMainKeyword",dataMainKeyword)
         console.log("dataMainKeywordUser",dataMainKeywordUser)
         console.log("dataMainLikeListUser",dataMainLikeListUser)
+        console.log("searchResults", searchResults)
         if(isLogIn){
             if(isKeyword){
                 if(searchKeyword === '위시 리스트'){
@@ -148,6 +164,7 @@ function Main() {
                     setDatas([...dataMainUser])
                 }
             }
+            
         }else{
             if(isKeyword){
                 if(dataMainKeyword){
@@ -175,8 +192,8 @@ function Main() {
             setSearchKeyword(keyword)
         }
     }
-    const { filterData } = useContext(UrlContext);
-    console.log(filterData)
+
+
     // 시간 계산
     const timeCalculater = (createdAt) => {
         // const ZONE = 9 * 60 * 60 * 1000; // 9시간
@@ -216,19 +233,23 @@ function Main() {
     }
 
     let subscribeUrl = `${process.env.REACT_APP_SERVER_URL}/sub`;
-
+    const {setData} = useDataStore()
 
     if(getCookie("token")){
+        if(!chk){        
         console.log("제발 들어와라.....");
         let eventSource = new EventSource(subscribeUrl + "?token=" + getCookie("token").split(" ")[1]);
         eventSource.addEventListener("notifyLike", function(event) {
         let message = event.data;
-        let data = JSON.parse(message)
-        console.log(data)
+        let eventData = JSON.parse(message)
+        console.log(eventData)
         alert(message);
-        console.log(message)
-    })
-}
+        setData(eventData)
+        })
+        setChk(true)
+        }
+    }
+    
     if (isLoadingMain) {
         return <p>로딩중입니다....!</p>;
     }
