@@ -65,12 +65,14 @@ function Main() {
     const mainUserQuery = useQuery("MainListUser", getMainListUser, {
         enabled: isLogIn, // isLogIn 값에 따라 쿼리 활성화 또는 비활성화
     });
-    const mainKeywordQuery = useQuery("MainKeywordList", 
+
+    
+    const mainKeywordQuery = useQuery(["MainKeywordList", searchKeyword], 
     () => getMainListKeyword({ keyword: searchKeyword }),
     {
         enabled: (!isLogIn && isKeyword), // isLogIn, isKeyword 값에 따라 쿼리 활성화 또는 비활성화
     })
-    const mainKeywordUserQuery = useQuery("MainKeywordListUser", 
+    const mainKeywordUserQuery = useQuery(["MainKeywordListUser", searchKeyword], 
     () => getMainListUserKeyword({ keyword: searchKeyword }),
     {
         enabled: (isLogIn && isKeyword), // isLogIn, isKeyword 값에 따라 쿼리 활성화 또는 비활성화
@@ -88,6 +90,7 @@ function Main() {
     // 로그인 유뮤ㅡ 키워드 검색 유무에 따라서 데이이터를 재 요청해서 조회한다.
     useEffect(() => {
         if(isLogIn){
+
             if(searchKeyword){
                 queryClient.cancelQueries({ queryKey: ['MainList', 'MainListUser', 'MainKeywordList'] })
                 queryClient.invalidateQueries("MainKeywordListUser");
