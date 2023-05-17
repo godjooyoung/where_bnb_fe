@@ -34,6 +34,7 @@ if(getCookie("token")){
     eventSource.addEventListener("notifyLike", function(event) {
         let message = event.data;
         alert(message);
+        console.log(message)
     })
 }
   return (

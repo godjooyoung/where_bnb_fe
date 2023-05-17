@@ -10,6 +10,7 @@ import { useQuery } from "react-query";
 import { getMainList } from "../api/main";
 import { getCookie } from '../cookie/Cookie';
 import { instance } from '../api/apiConfig';
+import {AiFillHeart} from 'react-icons/ai'
 
 function Main() {
     //  "최고의 전망", "해변 바로 앞", "캠핑장", "도시", "레저", "한적한 분위기"
@@ -21,7 +22,7 @@ function Main() {
         { url: keywordLogo04, desc: '도시', isSelected: false },
         { url: keywordLogo05, desc: '레저', isSelected: false }
     ])
-
+    const [clickheart,setClickheart] = useState(false)
     // const { isLoading, isError, data } = useQuery("MainList", getMainList);
     const [datas, setDatas] = useState([
         {
@@ -196,6 +197,12 @@ function Main() {
                 },
             },
         )
+
+        setClickheart((prevState) => ({
+            ...prevState,
+            [id]: !prevState[id],
+          }));
+
     }
     // if (isLoading) {
     //     return <p>로딩중입니다....!</p>;
@@ -237,6 +244,7 @@ function Main() {
                                 <GridItemImgWrap>
                                     <GridItemImgCanvars>
                                         <GridItemImgPresentation>
+                                            <HeartIcon clickheart={clickheart[item.roomId]} onClick={() => {alarmTestBtnOnClickHandler(item.roomId)}}/>
                                             <GridItemImg src={item.imageFile[0]} alt="test" />
                                         </GridItemImgPresentation>
                                     </GridItemImgCanvars>
@@ -341,6 +349,7 @@ export const GridItemImgPresentation = styled.div`
     min-height: 250px;
     background-position: 50% 50%;
     background-repeat: no-repeat;
+    position: relative;
 `
 
 export const GridItemImg = styled.img`
@@ -353,4 +362,13 @@ export const GridItemImg = styled.img`
     object-fit: cover;
     object-position: var(--dls-liteimage-object-position);
 `
+const HeartIcon = styled(AiFillHeart)`
+  position: absolute;
+  z-index: 1;
+  top: 10px; // 원하는 위치로 조절 (예: 10px)
+  right: 10px; // 원하는 위치로 조절 (예: 10px)
+  font-size: 25px;
+    color: ${(props) => (props.clickheart ? "red" : "gray")};
+    opacity: ${(props) => (props.clickheart ? "1" : "0.5")};
+`;
 export default Main;
