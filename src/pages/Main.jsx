@@ -17,6 +17,7 @@ import UrlContext from '../../src/components/UrlContext';
 import axios from 'axios';
 
 function Main() {
+    const [chk, setChk] = useState(false)
     const [keywords, setKeywords] = useState([
         { url: wishListLogo, desc : '위시 리스트'},
         { url: keywordLogo00, desc: '한적한 분위기'},
@@ -219,6 +220,7 @@ function Main() {
 
 
     if(getCookie("token")){
+        if(!chk){        
         console.log("제발 들어와라.....");
         let eventSource = new EventSource(subscribeUrl + "?token=" + getCookie("token").split(" ")[1]);
         eventSource.addEventListener("notifyLike", function(event) {
@@ -227,8 +229,11 @@ function Main() {
         console.log(data)
         alert(message);
         console.log(message)
-    })
-}
+        })
+        setChk(true)
+        }
+    }
+    
     if (isLoadingMain) {
         return <p>로딩중입니다....!</p>;
     }
