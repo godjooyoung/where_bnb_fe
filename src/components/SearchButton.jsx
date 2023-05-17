@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { styled ,keyframes} from "styled-components";
+import { styled, keyframes } from "styled-components";
 import { FaSearch } from "react-icons/fa";
 // 6-8번 ,98-107번 복사해서 가져가시면 됩니다!
 // yarn add react-date-range 다운도!
@@ -22,6 +22,13 @@ function SearchButton({ onClose }) {
   const [clickrange, setClickrange] = useState(false);
   const [week, setWeek] = useState(false);
   const [month, setMonth] = useState(false);
+  const [filterdata, setFilterdata] = useState({
+    guestNum: "",
+    infantExist: false,
+    petExist: false,
+    checkInDate: "",
+    checkOutDate: "",
+  });
   const [selectedMonths, setSelectedMonths] = useState({});
   const [state, setState] = useState([
     {
@@ -30,6 +37,22 @@ function SearchButton({ onClose }) {
       key: "selection",
     },
   ]);
+
+  const dateSeletedHandler = (date) => {
+    const startDate = format(date.selection.startDate, "yyyy-MM-dd");
+    const endDate = format(date.selection.endDate, "yyyy-MM-dd");
+    setState([date.selection]);
+
+    setFilterdata([
+      {
+        checkInDate: startDate,
+        checkOutDate: endDate,
+        key: "selection",
+      },
+    ]);
+  };
+
+  console.log(filterdata);
   const outside = useRef();
 
   const boxListRef = useRef();
@@ -88,8 +111,18 @@ function SearchButton({ onClose }) {
   };
 
   const getCapacityformData = (x) => {
-    console.log('######', x)
-  }
+    console.log(typeof x.adult)
+    setFilterdata({
+      ...filterdata,
+      guestNum: x.adult + x.kids,
+      infantExist: x.baby,
+      petExist: x.dog,
+    })
+  };
+
+  const SearchbuttonHandler = () => {
+    onClose(false);
+  };
 
   return (
     <ModalBG
@@ -105,7 +138,8 @@ function SearchButton({ onClose }) {
           <div>온라인 체험</div>
         </StcontentBtn>
         <StcateBtn color={color}>
-          <Stcheckin checkin={checkin}
+          <Stcheckin
+            checkin={checkin}
             onClick={() => {
               checkinbuttonhandler();
             }}
@@ -115,7 +149,8 @@ function SearchButton({ onClose }) {
               <div>날짜 추가</div>
             </div>
           </Stcheckin>
-          <Stcheckout checkout={checkout}
+          <Stcheckout
+            checkout={checkout}
             onClick={() => {
               checkoutbuttonhandler();
             }}
@@ -125,7 +160,8 @@ function SearchButton({ onClose }) {
               <div>날짜 추가</div>
             </div>
           </Stcheckout>
-          <StGuest guest={guest}
+          <StGuest
+            guest={guest}
             onClick={() => {
               guestbuttonhandler();
             }}
@@ -134,7 +170,11 @@ function SearchButton({ onClose }) {
               <div>여행자</div>
               <div>게스트 추가</div>
             </div>
-            <StSearch>
+            <StSearch
+              onClick={() => {
+                SearchbuttonHandler();
+              }}
+            >
               <FaSearch />
               <div>검색</div>
             </StSearch>
@@ -167,7 +207,7 @@ function SearchButton({ onClose }) {
                 <div>
                   <DateRange
                     editableDateInputs={true}
-                    onChange={(item) => setState([item.selection])}
+                    onChange={dateSeletedHandler}
                     moveRangeOnFirstSelection={false}
                     ranges={state}
                     months={2}
@@ -215,9 +255,7 @@ function SearchButton({ onClose }) {
                           }}
                         >
                           <Monthbox selected={selectedMonths[month]}>
-                            {month >= 13
-                              ? `${month - 12}`
-                              : `${month}`}
+                            {month >= 13 ? `${month - 12}` : `${month}`}
                           </Monthbox>
                         </StSlideContainer>
                       ))}
@@ -262,7 +300,7 @@ function SearchButton({ onClose }) {
                 <div>
                   <DateRange
                     editableDateInputs={true}
-                    onChange={(item) => setState([item.selection])}
+                    onChange={dateSeletedHandler}
                     moveRangeOnFirstSelection={false}
                     ranges={state}
                     months={2}
@@ -310,9 +348,7 @@ function SearchButton({ onClose }) {
                           }}
                         >
                           <Monthbox selected={selectedMonths[month]}>
-                            {month >= 13
-                              ? `${month - 12}`
-                              : `${month}`}
+                            {month >= 13 ? `${month - 12}` : `${month}`}
                           </Monthbox>
                         </StSlideContainer>
                       ))}
@@ -334,10 +370,34 @@ function SearchButton({ onClose }) {
           {guest ? (
             <Stguestbox>
               <div>
-                <RoomInfo initOptValue={1} optTitle="성인" type="counter" dataName="test" getCapacityformData={getCapacityformData} />
-                <RoomInfo initOptValue={1} optTitle="어린이" type="counter" dataName="test" getCapacityformData={getCapacityformData}/>
-                <RoomInfo initOptValue={1} optTitle="유아" type="counter" dataName="test" getCapacityformData={getCapacityformData}/>
-                <RoomInfo initOptValue={1} optTitle="반려동물" type="counter" dataName="test" getCapacityformData={getCapacityformData}/>
+                <RoomInfo
+                  initOptValue={1}
+                  optTitle="성인"
+                  type="counter"
+                  dataName="adult"
+                  getCapacityformData={getCapacityformData}
+                />
+                <RoomInfo
+                  initOptValue={1}
+                  optTitle="어린이"
+                  type="counter"
+                  dataName="kids"
+                  getCapacityformData={getCapacityformData}
+                />
+                <RoomInfo
+                  initOptValue={1}
+                  optTitle="유아"
+                  type="switch"
+                  dataName="baby"
+                  getCapacityformData={getCapacityformData}
+                />
+                <RoomInfo
+                  initOptValue={1}
+                  optTitle="반려동물"
+                  type="switch"
+                  dataName="dog"
+                  getCapacityformData={getCapacityformData}
+                />
               </div>
             </Stguestbox>
           ) : (
@@ -404,9 +464,10 @@ const Stcheckin = styled.button`
   &:hover {
     background-color: ${(props) => (props.checkin ? "none" : "#d8d8d8")};
   }
-    background-color: ${(props) => (props.checkin ? "white" : "none")};
-    box-shadow: ${(props) => (props.checkin ? "0px 3px 10px rgba(0, 0, 0, 0.2);" : "none")};
-  `
+  background-color: ${(props) => (props.checkin ? "white" : "none")};
+  box-shadow: ${(props) =>
+    props.checkin ? "0px 3px 10px rgba(0, 0, 0, 0.2);" : "none"};
+`;
 const Stcheckout = styled.button`
   all: unset;
   height: 60px;
@@ -421,9 +482,10 @@ const Stcheckout = styled.button`
   &:hover {
     background-color: ${(props) => (props.checkout ? "none" : "#d8d8d8")};
   }
-  
-    background-color: ${(props) => (props.checkout ? "white" : "none")};
-    box-shadow: ${(props) => (props.checkout ? "0px 3px 10px rgba(0, 0, 0, 0.2);" : "none")};
+
+  background-color: ${(props) => (props.checkout ? "white" : "none")};
+  box-shadow: ${(props) =>
+    props.checkout ? "0px 3px 10px rgba(0, 0, 0, 0.2);" : "none"};
 `;
 const StGuest = styled.button`
   all: unset;
@@ -441,11 +503,13 @@ const StGuest = styled.button`
   &:hover {
     background-color: ${(props) => (props.guest ? "none" : "#d8d8d8")};
   }
-  
-    background-color: ${(props) => (props.guest ? "white" : "none")};
-    box-shadow: ${(props) => (props.guest ? "0px 3px 10px rgba(0, 0, 0, 0.2);" : "none")};
+
+  background-color: ${(props) => (props.guest ? "white" : "none")};
+  box-shadow: ${(props) =>
+    props.guest ? "0px 3px 10px rgba(0, 0, 0, 0.2);" : "none"};
 `;
-const StSearch = styled.div`
+const StSearch = styled.button`
+  border: none;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -455,6 +519,7 @@ const StSearch = styled.div`
   background-color: #e00b41;
   gap: 10px;
   color: white;
+  cursor: pointer;
 `;
 
 const Stmapbox = styled.div`
