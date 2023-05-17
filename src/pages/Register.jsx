@@ -15,7 +15,10 @@ import CostRegistrationStep from '../components/roomRegiser/registerStep3/CostRe
 import RegiEnd from '../components/roomRegiser/registerStep4/RegiEnd'
 import { roomRegister } from "../api/room"
 import { useQuery, useMutation } from "react-query";
+import { useNavigate } from 'react-router-dom';
+import RegiConfrim from '../components/roomRegiser/registerStep4/RegiConfrim';
 function Register() {
+    const navigate = useNavigate()
     const [prevBtnDisable, setPrevBtnDisable] = useState(false)
     const [nextBtnDisable, setNextBtnDisable] = useState(false)
     const [step, setStep] = useState(0)
@@ -47,18 +50,7 @@ function Register() {
         const fileList = Array.from(files)
         console.log(">>>>>>>>>>>>>>>>>",fileList)
         setRegiData({...regiData, imageFile:fileList})
-        // Array.from(files).forEach((file) => {
-        //     formData.append(`imageFile`, file);
-        // });
     }
-    // useEffect(() => {
-    //     for (const key in regiData.roomRequestDto) {
-    //         const value = regiData.roomRequestDto[key];
-    //         formData.append(key, value)
-    //     }
-    // }, [regiData])
-
-    
 
     // 버튼 visible 여부
     const [btnState, setBtnState] = useState(
@@ -87,7 +79,7 @@ function Register() {
     // 다음 버튼 클릭
     const nextStepBtnOnClickEvent = () => {
         if (!nextBtnDisable && stepIsDone) {
-            if (step !== 12) {
+            if (step !== 13) {
                 setStep(step + 1)
             }
         }
@@ -96,10 +88,15 @@ function Register() {
     // 서버에 요청
     const roomReigisterMutate = useMutation(roomRegister, {
         onSuccess: (response) => {
-            console.log("성공")
+            console.log("성공,", response)
+            if(response.status === 'OK'){
+                alert(response.message)
+                navigate("/")
+            }
         },
-        onError: (error) => {
-            console.log("실패")
+        onError: (error) => {            
+            alert('숙소 등록을 실패했습니다.')
+            navigate("/")
         },
     });
 
@@ -126,7 +123,7 @@ function Register() {
             setStep(step + 1)
 
         }
-        if (step === 12) {
+        if (step === 13) {
             // 서버 통신
             roomReigisterMutateCall()
 
@@ -135,7 +132,7 @@ function Register() {
 
 
     useEffect(() => {
-        if (step === 0 || step === 12) {
+        if (step === 0 || step === 13) {
             setBtnState({
                 ...btnState, ...{
                     prevBtnIsVisible: false,
@@ -167,12 +164,6 @@ function Register() {
 
             
             <RegiContent>
-            
-            {/* <form action="http://54.197.12.68:8081/room" method="post" enctype="multipart/form-data">
-                <input type="file" name="images"/>
-                <button type="submit">제출하기</button>
-            </form> */}
-
                 {step === 0 ? <RegiStart getStepIsDone={getStepIsDone} /> : <></>}
                 {step === 1 ? <RegisterStepOneStart getStepIsDone={getStepIsDone} /> : <></>}
                 {step === 2 ? <LocationRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData} /> : <></>}
@@ -185,7 +176,8 @@ function Register() {
                 {step === 9 ? <ConceptRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData} /> : <></>}
                 {step === 10 ? <RoomCalendarStep getStepIsDone={getStepIsDone} getRegiData={getRegiData} /> : <></>}
                 {step === 11 ? <CostRegistrationStep getStepIsDone={getStepIsDone} getRegiData={getRegiData} /> : <></>}
-                {step === 12 ? <RegiEnd /> : <></>}
+                {step === 12 ? <RegiConfrim regiData={regiData}/> : <></>}
+                {step === 13 ? <RegiEnd /> : <></>}
             </RegiContent>
 
             {/* 등록푸터 */}
@@ -257,7 +249,7 @@ export const ProgressValue = styled.div`
     flex-grow: 1;
     
     transition : width 1s ease;
-    width: ${(props) => (((100 / 12) * props.step)) + '%'};
+    width: ${(props) => (((100 / 13) * props.step)) + '%'};
 `
 //버튼
 export const RegiButtonsCanvars = styled.div`

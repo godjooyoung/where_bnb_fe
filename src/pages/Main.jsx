@@ -23,155 +23,7 @@ function Main() {
         { url: keywordLogo05, desc: '레저', isSelected: false }
     ])
     const [clickheart,setClickheart] = useState(false)
-    // const { isLoading, isError, data } = useQuery("MainList", getMainList);
-    const [datas, setDatas] = useState([
-        {
-            roomId : "1",
-            imageFile: ["https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-854745696847346650/original/44fe37d5-d874-4338-b5d8-a1c8df2aef7a.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200l",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-854745696847346650/original/44fe37d5-d874-4338-b5d8-a1c8df2aef7a.jpeg?im_w=1200"],
-            location: "서울특별시 강서구",
-            price: 40000,
-            checkInDate: '2023-05-16',
-            checkOutDate: '2023-05-30',
-            createdAt: '2023-05-16 15:00',
-        },
-        {
-            roomId : "2",
-            imageFile: [
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200"
-            ],
-            location: "서울특별시 마포구",
-            price: 39000,
-            checkInDate: '2023-05-16',
-            checkOutDate: '2023-05-30',
-            createdAt: '2023-05-16 10:00',
-        },
-        {
-            roomId : "3",
-            imageFile: [
-                "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200"
-            ],
-            location: "대구광역시 수성구 범어동",
-            price: 46000,
-            checkInDate: '2023-05-14',
-            checkOutDate: '2023-05-30',
-            createdAt: '2023-05-14 10:00',
-        },
-        {
-            roomId : "4",
-            imageFile: [
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200"
-            ],
-            location: "대구광역시 수성구 범어동",
-            price: 90000,
-            checkInDate: '2023-05-14',
-            checkOutDate: '2023-05-30',
-            createdAt: '2023-05-14 10:00',
-        },
-        {
-            roomId : "5",
-            imageFile: [
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200"
-            ],
-            location: "대구광역시 수성구 범어동",
-            price: 80000,
-            checkInDate: '2023-05-14',
-            checkOutDate: '2023-05-30',
-            createdAt: '2023-05-14 10:00',
-        },
-        {
-            roomId : "6",
-            imageFile: [
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200"
-            ],
-            location: "대구광역시 수성구 범어동",
-            price: 80000,
-            checkInDate: '2023-05-14',
-            checkOutDate: '2023-05-30',
-            createdAt: '2023-05-14 10:00',
-        },
-        {
-            roomId : "7",
-            imageFile: [
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200"
-            ],
-            location: "대구광역시 수성구 범어동",
-            price: 80000,
-            checkInDate: '2023-05-14',
-            checkOutDate: '2023-05-30',
-            createdAt: '2023-05-14 10:00',
-        },
-        {
-            roomId : "8",
-            imageFile: ["https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-854745696847346650/original/44fe37d5-d874-4338-b5d8-a1c8df2aef7a.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200l",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-854745696847346650/original/44fe37d5-d874-4338-b5d8-a1c8df2aef7a.jpeg?im_w=1200"],
-            location: "대구광역시 수성구 범어동",
-            price: 80000,
-            checkInDate: '2023-05-14',
-            checkOutDate: '2023-05-30',
-            createdAt: '2023-05-14 10:00',
-        },
-        {
-            roomId : "9",
-            imageFile: [
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200"
-            ],
-            location: "대구광역시 수성구 범어동",
-            price: 80000,
-            checkInDate: '2023-05-14',
-            checkOutDate: '2023-05-30',
-            createdAt: '2023-05-14 10:00',
-        },
-        {
-            roomId : "10",
-            imageFile: [
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-854745696847346650/original/44fe37d5-d874-4338-b5d8-a1c8df2aef7a.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-845746412116984685/original/dc3a2dbe-f7ec-4df3-bb77-aef66b06cc69.jpeg?im_w=1200l",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-881215581530887635/original/e4d70003-b580-40f0-80de-653fe2943caf.jpeg?im_w=1200",
-                "https://a0.muscache.com/im/pictures/miso/Hosting-854745696847346650/original/44fe37d5-d874-4338-b5d8-a1c8df2aef7a.jpeg?im_w=1200"],
-            location: "대구광역시 수성구 범어동",
-            price: 80000,
-            checkInDate: '2023-05-14',
-            checkOutDate: '2023-05-30',
-            createdAt: '2023-05-14 10:00',
-        },
-
-    ])
+    const { isLoading, isError, data } = useQuery("MainList", getMainList);
     
     // 시간 계산
     const timeCalculater = (createdAt) => {
@@ -189,31 +41,43 @@ function Main() {
             return ''
         }
     }
+
+
     const alarmTestBtnOnClickHandler = async(id) =>{
-        await instance.post(`/room/like/${id}`, {},
+        await instance.put(`/room/like/${id}`, {},
             {
                 headers : {
                     Authorization : `Bearer ${getCookie("token")}`
-                },
-            },
-        )
+                },},)
 
         setClickheart((prevState) => ({
             ...prevState,
             [id]: !prevState[id],
-          }));
-
+        }));
     }
-    // if (isLoading) {
-    //     return <p>로딩중입니다....!</p>;
-    // }
 
-    // if (isError) {
-    //     return <p>오류가 발생하였습니다...!</p>;
-    // }
-    // if(data){
-    //     console.log("####### Main.jsx", data)
-    // }
+    let subscribeUrl = `${process.env.REACT_APP_SERVER_URL}/sub`;
+
+
+    if(getCookie("token")){
+        console.log("제발 들어와라.....");
+        let eventSource = new EventSource(subscribeUrl + "?token=" + getCookie("token"));
+        eventSource.addEventListener("notifyLike", function(event) {
+        let message = event.data;
+        alert(message);
+        console.log(message)
+    })
+}
+    if (isLoading) {
+        return <p>로딩중입니다....!</p>;
+    }
+
+    if (isError) {
+        return <p>오류가 발생하였습니다...!</p>;
+    }
+    if(data){
+        console.log("####### Main.jsx", data)
+    }
 
     return (
         <>
@@ -228,8 +92,8 @@ function Main() {
 
             <MainDiv>
                 <GridDiv>
-                    {datas && datas.length > 0 ? (
-                        datas.map((item, idx) => (
+                    {data && data.length > 0 ? (
+                        data.map((item, idx) => (
                             <GridItemDiv key={item.roomId}>
                                 <GridItemTextWrap>
                                     <GridItemTextTitle>
@@ -245,7 +109,7 @@ function Main() {
                                     <GridItemImgCanvars>
                                         <GridItemImgPresentation>
                                             <HeartIcon clickheart={clickheart[item.roomId]} onClick={() => {alarmTestBtnOnClickHandler(item.roomId)}}/>
-                                            <GridItemImg src={item.imageFile[0]} alt="test" />
+                                            <GridItemImg src={item.imageFile[0].imageUrl} alt="test" />
                                         </GridItemImgPresentation>
                                     </GridItemImgCanvars>
                                 </GridItemImgWrap>
@@ -263,7 +127,6 @@ function Main() {
 export const MainDiv = styled.div`
     background: white;
     bottom: 0;
-    display: grid;
     position: relative;
     height: 80vh;
     overflow-x: hidden;
