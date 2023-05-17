@@ -190,20 +190,30 @@ function Main() {
         }
     }
     const alarmTestBtnOnClickHandler = async(id) =>{
-        await instance.post(`/room/like/${id}`, {},
+        await instance.put(`/room/like/${id}`, {},
             {
                 headers : {
                     Authorization : `Bearer ${getCookie("token")}`
-                },
-            },
-        )
+                },},)
 
         setClickheart((prevState) => ({
             ...prevState,
             [id]: !prevState[id],
           }));
-
     }
+
+    let subscribeUrl = `${process.env.REACT_APP_SERVER_URL}/sub`;
+
+
+    if(getCookie("token")){
+        console.log("제발 들어와라.....");
+        let eventSource = new EventSource(subscribeUrl + "?token=" + getCookie("token"));
+        eventSource.addEventListener("notifyLike", function(event) {
+        let message = event.data;
+        alert(message);
+        console.log(message)
+    })
+}
     // if (isLoading) {
     //     return <p>로딩중입니다....!</p>;
     // }
