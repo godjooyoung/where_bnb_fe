@@ -5,14 +5,17 @@ import { QueryClient } from "react-query";
 import { QueryClientProvider } from "react-query";
 import { CookiesProvider } from "react-cookie";
 import axios from "axios";
+import { UrlProvider } from './components/UrlContext';
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 axios.defaults.withcredentials = true;
 root.render(
+    <UrlProvider>
     <CookiesProvider>
         <QueryClientProvider client={queryClient}>
             <App />
         </QueryClientProvider>
     </CookiesProvider>
+    </UrlProvider>
 );
