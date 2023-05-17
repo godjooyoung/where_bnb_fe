@@ -87,6 +87,10 @@ function SearchButton({ onClose }) {
     }));
   };
 
+  const getCapacityformData = (x) => {
+    console.log('######', x)
+  }
+
   return (
     <ModalBG
       ref={outside}
@@ -330,10 +334,10 @@ function SearchButton({ onClose }) {
           {guest ? (
             <Stguestbox>
               <div>
-                <RoomInfo initOptValue={1} optTitle="성인" type="counter" />
-                <RoomInfo initOptValue={1} optTitle="어린이" type="counter" />
-                <RoomInfo initOptValue={1} optTitle="유아" type="counter" />
-                <RoomInfo initOptValue={1} optTitle="반려동물" type="counter" />
+                <RoomInfo initOptValue={1} optTitle="성인" type="counter" dataName="test" getCapacityformData={getCapacityformData} />
+                <RoomInfo initOptValue={1} optTitle="어린이" type="counter" dataName="test" getCapacityformData={getCapacityformData}/>
+                <RoomInfo initOptValue={1} optTitle="유아" type="counter" dataName="test" getCapacityformData={getCapacityformData}/>
+                <RoomInfo initOptValue={1} optTitle="반려동물" type="counter" dataName="test" getCapacityformData={getCapacityformData}/>
               </div>
             </Stguestbox>
           ) : (
