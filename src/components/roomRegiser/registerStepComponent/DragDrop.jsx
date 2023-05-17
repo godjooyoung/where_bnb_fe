@@ -7,7 +7,7 @@ function DragDrop(props) {
     const inputRef = useRef();
 
     const [isDone, setIsDone] = useState(false)
-    const [preview, setPriview] = useState(null)
+    const [previews, setPreviews] = useState([])
 
     const handleFile = (files) => {
         if(files.length > 0){
@@ -46,26 +46,31 @@ function DragDrop(props) {
         e.preventDefault()
         
         //////////////
-        const reader = new FileReader();
-        const file = e.target.files[0];
-        if (e.target.files) { 
-            reader.onloadend = () => {
-                setPriview(reader.result)
-            };   
-            reader.readAsDataURL(file)
-            
-        } else {
-            console.log("##미리보기없음",reader.result);
-            setPriview(null)
+        
+        const files = e.target.files
+        if (files) {
+            Array.from(files).forEach((file) => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setPreviews((previews) => [...previews, reader.result]);
+                };  
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        else {
+            setPreviews([])
         }
         //////////////
-
 
         if (e.target.files && e.target.files[0]) {
             handleFile(e.target.files);
         }
     }
 
+    useEffect(()=>{
+        console.log("previews,,," , previews)
+    },[previews])
     const onButtonClick = () => {
         inputRef.current.click();
     };
@@ -93,7 +98,15 @@ function DragDrop(props) {
             </FormWrapDiv>
             </UploadDiv>
             </DragWrap>
-            <img src={preview}></img>
+            <PreviewDiv>
+            {
+            previews.map((preview)=>{
+                return <img width="200px" height="200px" objectFit="cover" src={preview} ></img>
+            })
+            }
+            </PreviewDiv>
+            
+            
         </DragPositonDiv>
         </>
     );
@@ -200,5 +213,19 @@ export const SubDescDiv = styled.div`
     padding-right: 24px;
     color: rgb(34, 34, 34);
     text-align: center;
+`
+
+export const PreviewDiv = styled.div`
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 200px); /* 각 열의 크기를 200px로 고정 */
+    grid-auto-rows: 200px;/* 각 행의 크기를 200px로 고정 */
+    grid-auto-flow: row;
+	column-gap: 10px;
+	row-gap: 10px;
+    height: 430px;
+    max-height: 430px;
+    justify-content : center;
+    align-content: flex-start; /* 그리드 아이템을 위쪽 정렬 */
+    overflow: auto; /* 그리드 영역이 넘칠 경우 스크롤 표시 */
 `
 export default DragDrop;
