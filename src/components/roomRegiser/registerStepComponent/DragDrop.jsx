@@ -141,6 +141,7 @@ export const DropDiv = styled.div`
     left: 0px;
 `
 export const DragWrap = styled.div`
+    
     position: relative;
     display: flex;
     top: 0px;
@@ -216,6 +217,7 @@ export const SubDescDiv = styled.div`
 `
 
 export const PreviewDiv = styled.div`
+    margin-top: 5px;
     display: grid;
     grid-template-columns: repeat(auto-fill, 200px); /* 각 열의 크기를 200px로 고정 */
     grid-auto-rows: 200px;/* 각 행의 크기를 200px로 고정 */
