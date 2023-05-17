@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled, keyframes } from "styled-components";
 import { FaSearch } from "react-icons/fa";
 // 6-8번 ,98-107번 복사해서 가져가시면 됩니다!
@@ -12,6 +12,10 @@ import Monthbox from "./Monthbox";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import ko from "date-fns/locale/ko";
 import { format } from "date-fns";
+import UrlContext from '../../src/components/UrlContext';
+import { useContext } from "react";
+import axios from "axios";
+import { getCookie } from "../cookie/Cookie";
 
 function SearchButton({ onClose }) {
   const [checkin, setCheckin] = useState(false);
@@ -23,12 +27,41 @@ function SearchButton({ onClose }) {
   const [week, setWeek] = useState(false);
   const [month, setMonth] = useState(false);
   const [filterdata, setFilterdata] = useState({
-    guestNum: "",
-    infantExist: false,
-    petExist: false,
     checkInDate: "",
     checkOutDate: "",
+    adultsNum: 1,
+    childrenNum: 1,
+    infantExist: false,
+    petExist: false,
+    flexibleTripLengths: "not_flexible",
+    month: [],
   });
+
+  const objectToQueryString = (obj) => {
+    let queryString = '';
+  
+    Object.entries(obj).forEach(([key, value], index) => {
+      if (key === 'month' && Array.isArray(value)) {
+        queryString += `${key}=${value.join(',')}`;
+      } else if (Array.isArray(value)) {
+        queryString += value.map((element) => `${key}=${element}`).join('&');
+      } else {
+        queryString += `${key}=${value}`;
+      }
+  
+      if (index < Object.entries(obj).length - 1) {
+        queryString += '&';
+      }
+    });
+  
+    return queryString;
+  };
+    const token = getCookie('token')
+  const queryString = objectToQueryString(filterdata);
+  const baseUrl = token?`${process.env.REACT_APP_SERVER_URL}/user/main/condition`:`${process.env.REACT_APP_SERVER_URL}/main/condition`;
+  const url = `${baseUrl}?${queryString}`;
+  console.log(url)
+
   const [selectedMonths, setSelectedMonths] = useState({});
   const [state, setState] = useState([
     {
@@ -43,16 +76,25 @@ function SearchButton({ onClose }) {
     const endDate = format(date.selection.endDate, "yyyy-MM-dd");
     setState([date.selection]);
 
-    setFilterdata([
-      {
+    setFilterdata(
+      { ...filterdata,
         checkInDate: startDate,
         checkOutDate: endDate,
-        key: "selection",
+        // key: "selection",
       },
-    ]);
+    );
   };
 
-  console.log(filterdata);
+  const notflexibleHandler = () => {
+    setClickdate(true);
+    setClickrange(false);
+    setFilterdata(
+      { ...filterdata,
+        flexibleTripLengths: "not_flexible",
+      },
+    );
+  }
+
   const outside = useRef();
 
   const boxListRef = useRef();
@@ -93,35 +135,90 @@ function SearchButton({ onClose }) {
     setCheckin(false);
     setCheckout(false);
   };
-
+  const flexiblehandler = () => {
+    setClickdate(false);
+    setClickrange(true);
+    setFilterdata(
+      { ...filterdata,
+        flexibleTripLengths: "one_month",
+      },
+    );
+  }
   const weekbuttonhandler = () => {
     setWeek(true);
     setMonth(false);
+    setFilterdata(
+      { ...filterdata,
+        flexibleTripLengths: "one_week",
+      },
+    );
   };
   const monthbuttonhandler = () => {
     setMonth(true);
     setWeek(false);
+    setFilterdata(
+      { ...filterdata,
+        flexibleTripLengths: "one_month",
+      },
+    );
   };
 
   const onMonthClick = (month) => {
-    setSelectedMonths((prevState) => ({
-      ...prevState,
-      [month]: !prevState[month],
-    }));
+    setSelectedMonths((prevState) => {
+      const newState = {
+        ...prevState,
+        [month]: !prevState[month],
+      };
+  
+      const selectedMonths = Object.keys(newState).filter(
+        (selectedMonth) => newState[selectedMonth]
+      ).map((selectedMonth) => {
+        const selectedMonthNumber = parseInt(selectedMonth, 10);
+        return selectedMonthNumber >= 13 ? selectedMonthNumber - 12 : selectedMonthNumber;
+      });
+  
+      setFilterdata({
+        ...filterdata,
+        month: selectedMonths,
+      });
+  
+      return newState;
+    });
   };
+  
+  
 
   const getCapacityformData = (x) => {
-    console.log(typeof x.adult)
+    // console.log(typeof x.adult, x.kids)
     setFilterdata({
       ...filterdata,
-      guestNum: x.adult + x.kids,
-      infantExist: x.baby,
-      petExist: x.dog,
+      ...x,
+
     })
   };
 
-  const SearchbuttonHandler = () => {
+  const SearchbuttonHandler = async () => {
+
+
+    const response = await axios.get(`${url}`, {
+      headers: {
+        'Authorization': token,
+        'Content-Type': 'application/json',
+        // 다른 헤더 필드도 추가할 수 있습니다.
+      }
+    }
+
+    );
+    const getfilter = response.data
+    console.log(getfilter)
+    // const { setgetfilter } = useContext(UrlContext);
+    
+
     onClose(false);
+    
+    // useEffect(() => {
+    //   setgetfilter(getfilter); 
+    // }, [getfilter]);
   };
 
   return (
@@ -187,8 +284,7 @@ function SearchButton({ onClose }) {
                 <Daycheckboxinner
                   clickdate={clickdate}
                   onClick={() => {
-                    setClickdate(true);
-                    setClickrange(false);
+                    notflexibleHandler()
                   }}
                 >
                   날짜 지정
@@ -196,8 +292,7 @@ function SearchButton({ onClose }) {
                 <Daycheckboxinner
                   clickrange={clickrange}
                   onClick={() => {
-                    setClickdate(false);
-                    setClickrange(true);
+                    flexiblehandler()
                   }}
                 >
                   유연한 일정
@@ -280,8 +375,7 @@ function SearchButton({ onClose }) {
                 <Daycheckboxinner
                   clickdate={clickdate}
                   onClick={() => {
-                    setClickdate(true);
-                    setClickrange(false);
+                    notflexibleHandler()
                   }}
                 >
                   날짜 지정
@@ -289,8 +383,8 @@ function SearchButton({ onClose }) {
                 <Daycheckboxinner
                   clickrange={clickrange}
                   onClick={() => {
-                    setClickdate(false);
-                    setClickrange(true);
+                    flexiblehandler()
+                    
                   }}
                 >
                   유연한 일정
@@ -374,28 +468,28 @@ function SearchButton({ onClose }) {
                   initOptValue={1}
                   optTitle="성인"
                   type="counter"
-                  dataName="adult"
+                  dataName="adultsNum"
                   getCapacityformData={getCapacityformData}
                 />
                 <RoomInfo
                   initOptValue={1}
                   optTitle="어린이"
                   type="counter"
-                  dataName="kids"
+                  dataName="childrenNum"
                   getCapacityformData={getCapacityformData}
                 />
                 <RoomInfo
-                  initOptValue={1}
+                  initOptValue={false}
                   optTitle="유아"
                   type="switch"
-                  dataName="baby"
+                  dataName="infantExist"
                   getCapacityformData={getCapacityformData}
                 />
                 <RoomInfo
-                  initOptValue={1}
+                  initOptValue={false}
                   optTitle="반려동물"
                   type="switch"
-                  dataName="dog"
+                  dataName="petExist"
                   getCapacityformData={getCapacityformData}
                 />
               </div>
