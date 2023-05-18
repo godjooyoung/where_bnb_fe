@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import kakaoLogin from "../api/user";
-import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
@@ -24,7 +22,7 @@ const OAuth2RedirectHandler = (props) => {
         const token = res.headers.authorization;
         setCookie("token", token);       
         setCookie("userName", res.data.data);        
- 
+
         window.localStorage.setItem("token", token);
         navigate("/");
       } catch (e) {

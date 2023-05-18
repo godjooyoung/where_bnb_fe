@@ -237,7 +237,6 @@ function Main() {
 
     if(getCookie("token")){
         if(!chk){        
-        console.log("제발 들어와라.....");
         let eventSource = new EventSource(subscribeUrl + "?token=" + getCookie("token").split(" ")[1]);
         eventSource.addEventListener("notifyLike", function(event) {
         let message = event.data;
@@ -320,7 +319,10 @@ function Main() {
                                 <GridItemImgWrap>
                                     <GridItemImgCanvars>
                                         <GridItemImgPresentation>
+                                            {
+                                            !isLogIn?<></>:
                                             <HeartIcon clickheart={clickheart[item.roomId]} onClick={() => {alarmTestBtnOnClickHandler(item.roomId)}}/>
+                                            }          
                                             <GridItemImg src={item.imageFile[0].imageUrl} alt="메인숙소이미지" />
                                         </GridItemImgPresentation>
                                     </GridItemImgCanvars>
