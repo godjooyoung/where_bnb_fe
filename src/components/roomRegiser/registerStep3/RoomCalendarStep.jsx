@@ -20,8 +20,8 @@ function RoomCalendarStep(props) {
 
     // 선택된 일자를 받아오는 함수
     const dateSeletedHandler = (date) => {
-        console.log("넘기는값", format(date.selection.startDate, 'yyyy-MM-dd'))
-        console.log("넘기는값", format(date.selection.endDate, 'yyyy-MM-dd'))
+        // console.log("넘기는값", format(date.selection.startDate, 'yyyy-MM-dd'))
+        // console.log("넘기는값", format(date.selection.endDate, 'yyyy-MM-dd'))
         setState([date.selection])
     }
 

@@ -62,7 +62,7 @@ function SearchButton({ onClose }) {
   const queryString = objectToQueryString(filterdata);
   const baseUrl = token?`${process.env.REACT_APP_SERVER_URL}/user/main/condition`:`${process.env.REACT_APP_SERVER_URL}/main/condition`;
   const url = `${baseUrl}?${queryString}`;
-  console.log(url)
+  // console.log(url)
 
   const [selectedMonths, setSelectedMonths] = useState({});
   const [state, setState] = useState([
@@ -210,7 +210,7 @@ function SearchButton({ onClose }) {
       }});
     onClose(false);
     const getfilter = response.data
-    console.log(getfilter)
+    // console.log(getfilter)
     
     /** 전역 */
     updateSearchResults(getfilter.data)

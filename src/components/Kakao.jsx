@@ -18,7 +18,7 @@ const OAuth2RedirectHandler = (props) => {
         const res = await axios.get(
           `${process.env.REACT_APP_SERVER_URL}/login?code=${code}`
         );
-        console.log(res.data)
+        // console.log(res.data)
         const token = res.headers.authorization;
         setCookie("token", token);       
         setCookie("userName", res.data.data);        

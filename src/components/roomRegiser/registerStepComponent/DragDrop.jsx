@@ -69,7 +69,7 @@ function DragDrop(props) {
     }
 
     useEffect(()=>{
-        console.log("previews,,," , previews)
+        // console.log("previews,,," , previews)
     },[previews])
     const onButtonClick = () => {
         inputRef.current.click();
