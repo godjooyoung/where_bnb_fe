@@ -7,6 +7,7 @@ import { getNotice } from "../api/notice";
 import instance from '../api/apiConfig';
 import { getCookie } from '../cookie/Cookie';
 import { useDataStore } from "../context/DataStore";
+import { Container } from "@mui/material";
 
 function Alarm({ onAlarm }) {
   const divRef = useRef();
@@ -25,21 +26,24 @@ function Alarm({ onAlarm }) {
     };
 }, []);
 const data = useDataStore()
+
+  
 useEffect(() => {
       setAlarms([...alarms,data])
 
   },[data])
-  console.log(alarms)
+
   return (
+    <Containerbox>
     <StAlarm ref={divRef}>
       <Sttitle>알림</Sttitle>
       <StAlarmboxB>
-      {!alarms ? (
-        alarms.map((item) => {
+      {alarms[0]?.data?.userName ? (
+        alarms.map((item,index) => {
           return (
-              <Stlikebox>
+              <Stlikebox key={index}>
                 <Stlikeboxtext>
-                  {item.data.userName} 님이 내 '{item.data.roomName}'
+                  {item.data.userName} 님이 내 {item.data.roomName}
                 </Stlikeboxtext>
                 <Stlikeboxtext>게시글에 즐겨찾기 하셨습니다.</Stlikeboxtext>
                 <Stlikeboxtime>{item.data.createdAt}</Stlikeboxtime>
@@ -60,20 +64,31 @@ useEffect(() => {
       )}
       </StAlarmboxB>
     </StAlarm>
+    </Containerbox>
   );
 }
 
 export default Alarm;
 
+const Containerbox = styled.div`
+    /* background-color: blue; */
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    z-index: 9999;
+    justify-content: end;
+    padding-right: 30px;
+    padding-top: 100px;
+
+`
 const StAlarm = styled.div`
   background-color: white;
   height: 600px;
   width: 300px;
-  position: fixed;
   z-index: 9999;
   border-radius: 20px;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
-  transform: translate3d(1130px, 100px, 0);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -120,6 +135,9 @@ const Stlikeboxtext = styled.div`
   font-weight: 500;
 `;
 const Stlikeboxtime = styled.div`
-  margin-left: 180px;
+  /* margin-left: 180px; */
   color: gray;
+  width: 230px;
+    display: flex;
+    justify-content: end;
 `;
