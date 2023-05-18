@@ -51,7 +51,7 @@ function Register() {
 
     const getRegiDataForm = (files) => {
         const fileList = Array.from(files)
-        console.log(">>>>>>>>>>>>>>>>>",fileList)
+        // console.log(">>>>>>>>>>>>>>>>>",fileList)
         setRegiData({...regiData, imageFile:fileList})
     }
 
@@ -91,7 +91,7 @@ function Register() {
     // 서버에 요청
     const roomReigisterMutate = useMutation(roomRegister, {
         onSuccess: (response) => {
-            console.log("성공,", response)
+            // console.log("성공,", response)
             if(response.status === 'OK'){
                 alert(response.message)
                 navigate("/")
@@ -115,7 +115,7 @@ function Register() {
         })
         
         for (const [key, value] of formData.entries()) {
-            console.log("데이터 테스트!!",key, value);
+            // console.log("데이터 테스트!!",key, value);
         }
         roomReigisterMutate.mutate(formData);
     };

@@ -138,15 +138,15 @@ function Main() {
 
     // 로그인 유무, 키워드 검색 유무에 따라 대치되는 데이터가 달라진다.
     useEffect(()=>{
-        console.log("로그인유무",isLogIn)
-        console.log("키워드 여부",isKeyword)
-        console.log("선택 키워드", searchKeyword)
-        console.log("dataMainUser",dataMainUser)
-        console.log("dataMain",dataMain)
-        console.log("dataMainKeyword",dataMainKeyword)
-        console.log("dataMainKeywordUser",dataMainKeywordUser)
-        console.log("dataMainLikeListUser",dataMainLikeListUser)
-        console.log("searchResults", searchResults)
+        // console.log("로그인유무",isLogIn)
+        // console.log("키워드 여부",isKeyword)
+        // console.log("선택 키워드", searchKeyword)
+        // console.log("dataMainUser",dataMainUser)
+        // console.log("dataMain",dataMain)
+        // console.log("dataMainKeyword",dataMainKeyword)
+        // console.log("dataMainKeywordUser",dataMainKeywordUser)
+        // console.log("dataMainLikeListUser",dataMainLikeListUser)
+        // console.log("searchResults", searchResults)
         if(isLogIn){
             if(isKeyword){
                 if(searchKeyword === '위시 리스트'){
@@ -188,7 +188,7 @@ function Main() {
         if(keyword === keywords[0].desc){
             setSearchKeyword(keyword)
         }else{
-            console.log("키워드 변경,", keyword)
+            // console.log("키워드 변경,", keyword)
             setSearchKeyword(keyword)
         }
     }
@@ -218,31 +218,64 @@ function Main() {
         return splitDates[0]+'년 '+splitDates[1]+'월 '+splitDates[2]+'일'
     }
 
-
-    const alarmTestBtnOnClickHandler = async(id) =>{
-        await instance.put(`/room/like/${id}`, {},
+    const saveClickHeart = (newClickHeart) => {
+        localStorage.setItem('clickedHeart', JSON.stringify(newClickHeart));
+      };
+      
+      
+    const alarmTestBtnOnClickHandler = async (id) => {
+        // 클릭된 하트 상태를 서버에 전달하고 새로운 상태를 받아옵니다
+        const response = await instance.put(`/room/like/${id}`, {},
             {
-                headers : {
-                    Authorization : `${getCookie("token")}`
-                },},)
-
+                headers: {
+                    Authorization: `${getCookie("token")}`,
+                },
+            },
+        );
+    
+        // 서버에서 받아온 새로운 클릭 상태
+        const newHeartState = response.data;
+        saveClickHeart({...clickheart, [id]: !clickheart[id]});
         setClickheart((prevState) => ({
             ...prevState,
-            [id]: !prevState[id],
+            [id]: newHeartState,
         }));
     }
+    
+    const initializeClickHeart = () => {
+        const storedClickHeart = JSON.parse(localStorage.getItem('clickedHeart'));
+      
+        if (storedClickHeart) {
+          return storedClickHeart;
+        }
+      
+        if (!Array.isArray(dataMainUser)) return {};
+      
+        const newClickheart = {};
+        dataMainUser.forEach((item) => {
+          newClickheart[item.roomId] = item.clickedHeart;
+        });
+      
+        return newClickheart;
+      };
+      
+      
+      
+      useEffect(() => {
+        setClickheart(initializeClickHeart());
+      }, []);
+      
 
     let subscribeUrl = `${process.env.REACT_APP_SERVER_URL}/sub`;
     const {setData} = useDataStore()
 
     if(getCookie("token")){
         if(!chk){        
-        console.log("제발 들어와라.....");
         let eventSource = new EventSource(subscribeUrl + "?token=" + getCookie("token").split(" ")[1]);
         eventSource.addEventListener("notifyLike", function(event) {
         let message = event.data;
         let eventData = JSON.parse(message)
-        console.log(eventData)
+
         alert(message);
         setData(eventData)
         })
@@ -320,7 +353,10 @@ function Main() {
                                 <GridItemImgWrap>
                                     <GridItemImgCanvars>
                                         <GridItemImgPresentation>
+                                            {
+                                            !isLogIn?<></>:
                                             <HeartIcon clickheart={clickheart[item.roomId]} onClick={() => {alarmTestBtnOnClickHandler(item.roomId)}}/>
+                                            }          
                                             <GridItemImg src={item.imageFile[0].imageUrl} alt="메인숙소이미지" />
                                         </GridItemImgPresentation>
                                     </GridItemImgCanvars>
