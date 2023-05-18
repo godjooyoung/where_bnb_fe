@@ -215,14 +215,8 @@ function SearchButton({ onClose }) {
     /** 전역 */
     updateSearchResults(getfilter.data)
     
-    // const { setgetfilter } = useContext(UrlContext);
+    // onClose(false);
     
-
-    onClose(false);
-    
-    // useEffect(() => {
-    //   setgetfilter(getfilter); 
-    // }, [getfilter]);
   };
   
   //  /////////////// 검색 이벤트 끝 
@@ -231,14 +225,14 @@ function SearchButton({ onClose }) {
   return (
     <>
     
-
+    <Containerbox>
     <ModalBG
-      ref={outside}
+     
+    >
+      <Container ref={outside}
       onClick={(event) => {
         if (event.target === outside.current) onClose(false);
-      }}
-    >
-      <Container>
+      }}>
         <StcontentBtn>
           <div>숙소</div>
           <div>체험</div>
@@ -510,29 +504,40 @@ function SearchButton({ onClose }) {
         </div>
       </Container>
     </ModalBG>
+    </Containerbox>
     </>
   );
 }
 
 export default SearchButton;
+
+const Containerbox = styled.div`
+  width: 100%;
+  height: 100%;
+  /* position: relative; */
+  z-index: 999;
+`
+
 const ModalBG = styled.div`
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: linear-gradient(to bottom, rgba(255, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 50%);
   height: 100%;
   width: 100%;
-  position: fixed;
-  z-index: 999;
-  transform: translateY(145px);
+  position: absolute;
+  z-index: 9999;
+  /* transform: translateY(145px); */
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const Container = styled.div`
+/* background-color: blue; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  transform: translateY(-145px);
-  width: 100px;
+  /* transform: translateY(-145px); */
+  width: 100%;
+  height: 100%;
 `;
 
 const StcontentBtn = styled.div`
