@@ -5,7 +5,16 @@
 - Airbnb 클론 프로젝트 
 
 # 기술스택
-리액트
+<div align=left> 
+<img src="https://img.shields.io/badge/REACT-00D8FF?style=flat-square&logo=REACT&logoColor=white"/>
+<img src="https://img.shields.io/badge/AXIOS-5A29E4?style=flat-square&logo=Axios&logoColor=white"/>
+<img src="https://img.shields.io/badge/JAVASCRIPT-F7DF1E?style=flat-square&logo=JAVASCRIPT&logoColor=white"/>
+<img src="https://img.shields.io/badge/REACT ROUTER-CC3D3D?style=flat-square&logo=REACT ROUTER&logoColor=white"/>
+<img src="https://img.shields.io/badge/STYLED-COMPONENTS-DB7093?style=flat-square&logo=STYLED-COMPONENTS&logoColor=white"/>
+<img src="https://img.shields.io/badge/yarn-2C8EBB?style=flat-square&logo=yarn&logoColor=white"/>
+<img src="https://img.shields.io/badge/REACT QUERY-FF4154?style=flat-square&logo=REACT QUERY&logoColor=white"/>
+<img src="https://img.shields.io/badge/HTML5-F68D2E?style=flat-square&logo=&logoColor=white"/>
+</div>
 
 📆 프로젝트 기간
 ---------------------------------------
