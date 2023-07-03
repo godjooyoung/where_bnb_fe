@@ -20,6 +20,23 @@
 ---------------------------------------
 - 2023년 5월 12일 ~ 2023년 5월 18일
 - [서비스 바로가기](http://wherebnbclone.s3-website.ap-northeast-2.amazonaws.com/)
+<details>
+  <summary>메인 페이지</summary>
+  <br>
+  
+![mainpage](https://github.com/godjooyoung/where_bnb_fe/assets/57202643/9c1dc5c0-950f-45cd-8f27-deac5e3e65e7)
+</details>
+<details>
+  <summary>게시글 작성 페이지</summary>
+  <br>
+  
+![1](https://github.com/godjooyoung/where_bnb_fe/assets/57202643/1a06f983-0a98-492a-9e01-3971408e8227)
+![2](https://github.com/godjooyoung/where_bnb_fe/assets/57202643/fdfe15dd-9ee2-43c5-9afc-58b790621c1e)
+![3](https://github.com/godjooyoung/where_bnb_fe/assets/57202643/22a1c18e-f2b6-408f-a93e-d9637822b9af)
+![4](https://github.com/godjooyoung/where_bnb_fe/assets/57202643/3325393f-82ab-43d1-b9f0-1d0960582654)
+![5](https://github.com/godjooyoung/where_bnb_fe/assets/57202643/80853c16-ec8b-412a-b056-41ac76890b67)
+
+</details>
 
 💪 도전 키워드
 ---------------------------------------
